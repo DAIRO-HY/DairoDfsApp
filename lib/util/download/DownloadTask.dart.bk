@@ -1,0 +1,102 @@
+import 'package:dairo_dfs_app/extension/String++.dart';
+import 'DownloadBridge.dart';
+
+///文件上传任务
+class DownloadTask {
+  ///持久化文件名称
+  static const _DOWNLOAD_LOCAL_KEY = "DOWNLOAD_LOCAL_KEY";
+
+  ///当前上传列表的静态实例
+  static List<DownloadBridge>? _list;
+
+  ///当前正在下载的列表
+  static final downloadingList = <DownloadBridge>[];
+
+  ///同时下载数
+  static var syncCount = 3;
+
+  ///下载文件列表
+  static List<DownloadBridge> get list {
+    if (DownloadTask._list != null) {
+      return DownloadTask._list!;
+    }
+    final list = DownloadTask._DOWNLOAD_LOCAL_KEY.localObj(DownloadBridge.fromJsonList);
+    if (list != null) {
+      DownloadTask._list = list;
+    } else {
+      DownloadTask._list = [];
+    }
+    return DownloadTask._list!;
+  }
+
+  ///添加要下载的文件
+  ///[downloadList] 要上传到的文件夹
+  static add(List<DownloadBridge> downloadList) async {
+    final list = DownloadTask.list;
+    for (DownloadBridge it in downloadList) {
+      list.add(it);
+    }
+    DownloadTask.save();
+    start();
+  }
+
+  ///开始下载
+  static void start() {
+    final list = DownloadTask.list;
+    for (final it in list) {
+      if (DownloadTask.downloadingList.length >= DownloadTask.syncCount) {
+        //同时下载数量达到了上线
+        break;
+      }
+      if (DownloadTask.downloadingList.contains(it)) {
+        //该文件已经在正在下载列表中
+        continue;
+      }
+
+      //当前对象状态为等待下载中或者正在下载中，视为下载对象
+      //正在下载中的对象有可能是APP刚打开，这个状态值是上次APP保存的结果
+      if (it.state == 0 || it.state == 1) {
+        DownloadTask.downloadingList.add(it);
+      }
+    }
+    for (var it in DownloadTask.downloadingList) {
+      it.download();
+    }
+    DownloadTask.save();
+  }
+
+  ///移除一个正在下载任务
+  static void removeDownloading(DownloadBridge bridge) {
+    DownloadTask.downloadingList.remove(bridge);
+  }
+
+  ///暂停所有正在下载的任务
+  static void pauseAll() {
+    for (var it in DownloadTask.downloadingList) {
+      it.pause();
+    }
+    for (var it in DownloadTask.list) {
+      if(it.state == 0){//将等待下载的数据标记为暂停
+        it.state = 2;
+      }
+    }
+    DownloadTask.save();
+  }
+
+  ///开始所有下载任务
+  static void downloadAll() {
+    for (var it in DownloadTask.list) {
+      if(it.state == 2 || it.state == 3){//将暂停的数据和出错的数据标记为等待下载
+        it.state = 0;
+      }
+    }
+    DownloadTask.start();
+    DownloadTask.save();
+  }
+
+  ///保存上传列表
+  ///@TODO: 当文件数量较多时,这里可能存在性能问题,需要改进成每一个文件存放一个单独的文件
+  static void save() {
+    DownloadTask._DOWNLOAD_LOCAL_KEY.toLocalObj(list);
+  }
+}

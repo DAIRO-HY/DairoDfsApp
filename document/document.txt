@@ -1,0 +1,2 @@
+插件video_player_win需要使用微软的一个exe依赖nuget.exe
+一般是启动自动下载，若无法下载的情况下，需要手动将nuget.exe放到build/windows/x64目录下
