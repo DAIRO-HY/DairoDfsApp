@@ -34,7 +34,7 @@ class UCAddOption {
                       onUploadClick(context, FileType.any);
                     }),
                     UCAddOptionButton("上传文件夹", Icons.drive_folder_upload_rounded, onPressed: () {
-                      onCreateFolderClick(context);
+                      //onCreateFolderClick(context);
                     })
                   ]),
                   Row(children: [
