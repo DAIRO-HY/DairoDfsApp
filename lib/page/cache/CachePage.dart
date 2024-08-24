@@ -99,28 +99,6 @@ class _CachePageState extends State<CachePage> {
                       ]),
                       Gap(20),
                       ItemGroup(children: [
-                        ItemButton("添加HashSet", onPressed: () {
-                          final now1 = DateTime.now().millisecondsSinceEpoch;
-                          for (var i = 0; i < 1000000; i++) {
-                            this.set.add(i);
-                          }
-                          final time1 = (DateTime.now().millisecondsSinceEpoch - now1).toString();
-
-                          final now2 = DateTime.now().millisecondsSinceEpoch;
-                          for (final en in this.set) {
-                            final value = en;
-                          }
-                          final time2 = (DateTime.now().millisecondsSinceEpoch - now2).toString();
-                          context.toast("添加耗时" + time1 + ":" + list.length.toString() + "      遍历" + time2 + ":" + list.length.toString());
-                        }),
-                        ItemButton("设置List", onPressed: () {
-                          final now = DateTime.now().millisecondsSinceEpoch;
-                          for (var i = 0; i < 10; i++) {
-                            // list = DownloadDao.selectIds();
-                          }
-                          final time = (DateTime.now().millisecondsSinceEpoch - now).toString();
-                          context.toast(time + ":" + list.length.toString());
-                        }),
                         ItemButton("当前使用内存", onPressed: () {
                           context.toast(ProcessInfo.currentRss.dataSize);
                         })
