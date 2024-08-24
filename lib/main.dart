@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
       }
       return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: "DairoDFS",
         // theme: ThemeData.dark(),
         theme: this.light,
         darkTheme: this.dart,
