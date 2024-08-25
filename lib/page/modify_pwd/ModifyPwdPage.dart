@@ -47,7 +47,7 @@ class _ModifyPwdPageState extends State<ModifyPwdPage> {
             child: Center(
                 child: Column(children: [
               Spacer(),
-              ClipRRect(borderRadius: BorderRadius.circular(18), child: Image.asset("assets/images/logo_rect_128.png", width: 80, height: 80)),
+              ClipRRect(borderRadius: BorderRadius.circular(18), child: Image.asset("assets/images/logo_rect_256.png", width: 80, height: 80)),
               Gap(20),
               Container(
                   width: 320,
