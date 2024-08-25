@@ -54,16 +54,21 @@ class _LoginPageState extends State<LoginPage> {
               end: Alignment.bottomRight,
             )),
             child: Center(
-                child: Container(
-                    width: 320,
-                    decoration: BoxDecoration(
-                      color: context.color.primaryContainer, // 内层背景色
-                      borderRadius: BorderRadius.circular(Const.RADIUS), // 内层圆角
-                    ),
-                    padding: const EdgeInsets.all(18),
-                    // 外层内边距
-                    child:
-                        IntrinsicHeight(child: this.accountSelectVisibleVN.build((value) => value ? this.selectLoginView : this.inputLoginView))))));
+                child: Column(children: [
+              Spacer(),
+              ClipRRect(borderRadius: BorderRadius.circular(18), child: Image.asset("assets/images/logo_rect_128.png", width: 80, height: 80)),
+              Gap(20),
+              Container(
+                  width: 320,
+                  decoration: BoxDecoration(
+                    color: context.color.primaryContainer, // 内层背景色
+                    borderRadius: BorderRadius.circular(Const.RADIUS), // 内层圆角
+                  ),
+                  padding: const EdgeInsets.all(18),
+                  // 外层内边距
+                  child: IntrinsicHeight(child: this.accountSelectVisibleVN.build((value) => value ? this.selectLoginView : this.inputLoginView))),
+              Spacer()
+            ]))));
   }
 
   ///从登录列表中选择登录
