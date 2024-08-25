@@ -33,6 +33,7 @@ class UCInput extends StatelessWidget {
         child: TextField(
           obscureText: password,
           controller: controller,
+          cursorColor: context.color.onSurface,//光标颜色
           style: const TextStyle(fontSize: Const.TEXT),
           decoration: InputDecoration(
             labelText: hint,
