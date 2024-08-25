@@ -60,9 +60,9 @@ class _MinePageState extends State<MinePage> {
                       child: Column(
                         children: [
                           ItemGroup(children: [
-                            ItemButton("我的分享", tip: "我分享的文件", icon: Icons.share, onPressed: () {
-                              context.toPage(ListViewPage());
-                            }),
+                            // ItemButton("我的分享", tip: "我分享的文件", icon: Icons.share, onPressed: () {
+                            //   context.toPage(ListViewPage());
+                            // }),
                             ItemButton(
                               "回收站",
                               tip: "删除的文件",
