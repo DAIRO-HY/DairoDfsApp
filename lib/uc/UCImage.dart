@@ -39,7 +39,6 @@ class _UCImageState extends State<UCImage> {
       this.downloadVN.value = ClipRRect(
           borderRadius: BorderRadius.circular(this.widget.radius),
           child: Image.file(file, width: this.widget.width, height: this.widget.width, fit: BoxFit.fill));
-      ;
     });
   }
 
