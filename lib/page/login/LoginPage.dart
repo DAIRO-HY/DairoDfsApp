@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(children: [
               Spacer(),
               ClipRRect(borderRadius: BorderRadius.circular(18), child: Image.asset("assets/images/logo_rect_256.png", width: 80, height: 80)),
-              Gap(20),
+              Gap(30),
               Container(
                   width: 320,
                   decoration: BoxDecoration(
@@ -67,7 +67,8 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.all(18),
                   // 外层内边距
                   child: IntrinsicHeight(child: this.accountSelectVisibleVN.build((value) => value ? this.selectLoginView : this.inputLoginView))),
-              Spacer()
+              Spacer(),
+              Spacer(),
             ]))));
   }
 

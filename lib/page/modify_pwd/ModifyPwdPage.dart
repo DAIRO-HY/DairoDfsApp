@@ -48,7 +48,7 @@ class _ModifyPwdPageState extends State<ModifyPwdPage> {
                 child: Column(children: [
               Spacer(),
               ClipRRect(borderRadius: BorderRadius.circular(18), child: Image.asset("assets/images/logo_rect_256.png", width: 80, height: 80)),
-              Gap(20),
+              Gap(30),
               Container(
                   width: 320,
                   decoration: BoxDecoration(
@@ -77,6 +77,7 @@ class _ModifyPwdPageState extends State<ModifyPwdPage> {
                           UCButton("修改", onPressed: onLoginClick),
                         ],
                       )))),
+              Spacer(),
               Spacer()
             ]))));
   }
