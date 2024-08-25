@@ -34,7 +34,7 @@ class UCAddOption {
                       onUploadClick(context, FileType.any);
                     }),
                     UCAddOptionButton("上传文件夹", Icons.drive_folder_upload_rounded, onPressed: () {
-                      //onCreateFolderClick(context);
+                      onUploadFolderClick(context);
                     })
                   ]),
                   Row(children: [
@@ -76,13 +76,13 @@ class UCAddOption {
     if (result != null) {
       //获取最后一次打开的文件夹
       final lastOpenFolder = SettingShared.lastOpenFolder;
-      final downloadDtoList = result.paths.map((it) {
+      final uploadDtoList = result.paths.map((it) {
         final dto = UploadDto(name: it!.fileName, size: File(it).lengthSync(), path: it, dfsFolder: lastOpenFolder);
         return dto;
       }).toList();
 
       //添加到数据库
-      UploadDao.insert(downloadDtoList);
+      UploadDao.insert(uploadDtoList);
       UploadTask.start();
 
       context.toPage(TransferPage(pageTag: TransferPage.PAGE_UPLOAD));
@@ -99,9 +99,59 @@ class UCAddOption {
       //获取最后一次打开的文件夹
       final lastOpenFolder = SettingShared.lastOpenFolder;
       final folder = lastOpenFolder + "/" + value;
-      FilesApi.createFolder(folder: folder).post(() async{
+      FilesApi.createFolder(folder: folder).post(() async {
         EventUtil.post(EventCode.FILE_PAGE_RELOAD);
       }, context);
+    });
+  }
+
+  ///上传文件夹点击点击事件
+  static void onUploadFolderClick(BuildContext context) async {
+    Navigator.of(context).pop();
+    WaitDialog.show(context);
+    final path =
+        await FilePicker.platform.getDirectoryPath(dialogTitle: "请选择文件夹", lockParentWindow: true);
+    if (path == null) {
+      WaitDialog.hide(context);
+      return;
+    }
+    final fileList = <String>[];
+    _loopUploadFile(fileList, path);
+    if(fileList.isEmpty){
+      WaitDialog.hide(context);
+      context.toast("这是一个空文件夹");
+      return;
+    }
+    final selectBaseFolder = path.fileParent;
+
+    //获取最后一次打开的文件夹
+    final lastOpenFolder = SettingShared.lastOpenFolder;
+    final dtoList = fileList.map((it){
+      final file = File(it);
+      final dfsFolder = lastOpenFolder + it.substring(selectBaseFolder.length).replaceAll("\\", "/");
+      final dto = UploadDto(name: it.fileName, size: file.lengthSync(), path: it, dfsFolder: dfsFolder.fileParent);
+      return dto;
+    }).toList();
+    WaitDialog.hide(context);
+
+    //添加到数据库
+    UploadDao.insert(dtoList);
+    UploadTask.start();
+
+    context.toPage(TransferPage(pageTag: TransferPage.PAGE_UPLOAD));
+
+    //通知文件页面的同步标识按钮显示
+    EventUtil.post(EventCode.UPLOAD_PAGE_RELOAD);
+  }
+
+  ///遍历文件夹下所有的文件
+  static void _loopUploadFile(List<String> fileList, String path) {
+    Directory(path).listSync().forEach((it) {
+      if (FileSystemEntity.isFileSync(it.path)) {
+        fileList.add(it.path);
+      } else {
+        _loopUploadFile(fileList, it.path);
+      }
     });
   }
 }
