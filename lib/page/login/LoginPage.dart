@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Container(
                     width: 320,
                     decoration: BoxDecoration(
-                      color: context.color.surface, // 内层背景色
+                      color: context.color.primaryContainer, // 内层背景色
                       borderRadius: BorderRadius.circular(Const.RADIUS), // 内层圆角
                     ),
                     padding: const EdgeInsets.all(18),
