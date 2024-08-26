@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:dairo_dfs_app/Const.dart';
 import 'package:dairo_dfs_app/extension/BuildContext++.dart';
 import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
-
 import '../bean/TrashBean.dart';
 
 ///文件列表栏
@@ -17,6 +15,9 @@ class UCTrashItem extends StatelessWidget {
   ///选择状态发生改变事件
   final void Function(bool flag) onCheckChange;
 
+  ///缩略图高度
+  static const THUMB_SIZE = 40.0;
+
   UCTrashItem(this.dfsFile, {super.key, required this.onCheckChange}) {
     this.checkedVN = ValueNotifier(this.dfsFile.isSelected);
   }
@@ -27,7 +28,7 @@ class UCTrashItem extends StatelessWidget {
         style: TextButton.styleFrom(
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           // 选填：紧凑的点击目标尺寸
-          padding: EdgeInsets.only(left: 8),
+          padding: EdgeInsets.only(left: 8, right: 8),
           //backgroundColor: context.color.primary,
           // 设置背景颜色
           //foregroundColor: Colors.white,
@@ -39,7 +40,7 @@ class UCTrashItem extends StatelessWidget {
         onPressed: this.onCheckedChangeClick,
         child: Row(
           children: [
-            this.thumnView, //缩略图
+            this.thumbView(context), //缩略图
             const Gap(10),
             Expanded(
                 child: Container(
@@ -54,25 +55,60 @@ class UCTrashItem extends StatelessWidget {
                         ],
                       ),
                       Spacer(),
-                      this.checkIconView,
+                      this.checkIconView(context),
                     ])))
           ],
         ));
   }
 
-  ///缩略图
-  Widget get thumnView {
-    if (this.dfsFile.fileFlag!) {
-      //这是一个文件的时候
-      return Icon(Icons.file_copy_sharp);
+  ///文件图标
+  Widget thumbView(BuildContext context) {
+    // if (this.dfsFile.fileFlag) {
+    //   //如果是文件
+    //   if (this.dfsFile.thumbId != null) {
+    //     return UCImage(this.dfsFile.thumb!, width: THUMB_SIZE, height: THUMB_SIZE, radius: Const.RADIUS, checkedDownload: false);
+    //   } else {
+    //     return Container(
+    //         decoration: BoxDecoration(
+    //           boxShadow: [
+    //             BoxShadow(
+    //               color: context.color.onSurface.withOpacity(0.1),
+    //               spreadRadius: 1,
+    //               blurRadius: 10,
+    //               // offset: Offset(2, 2),
+    //             ),
+    //           ],
+    //         ),
+    //         child: Icon(Icons.insert_drive_file, size: THUMB_SIZE, color: Colors.white));
+    //   }
+    // } else {
+    //   //如果是文件夹
+    //   return Icon(Icons.folder, size: THUMB_SIZE, color: Color(0xFF6FBEEA));
+    // }
+    if (this.dfsFile.fileFlag) {
+      //如果是文件
+      return Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: context.color.onSurface.withOpacity(0.1),
+                spreadRadius: 1,
+                blurRadius: 10,
+                // offset: Offset(2, 2),
+              ),
+            ],
+          ),
+          child: Icon(Icons.insert_drive_file, size: THUMB_SIZE, color: Colors.white));
     } else {
-      //文件夹的情况
-      return Icon(Icons.folder);
+      //如果是文件夹
+      return Icon(Icons.folder, size: THUMB_SIZE, color: Color(0xFF6FBEEA));
     }
   }
 
   ///选择图标
-  Widget get checkIconView => this.checkedVN.build((value) => Icon(this.dfsFile.isSelected ? Icons.check_circle : Icons.circle_outlined));
+  Widget checkIconView(BuildContext context) => this
+      .checkedVN
+      .build((value) => Icon(this.dfsFile.isSelected ? Icons.check_circle : Icons.circle_outlined, size: 24, color: context.color.onSurface));
 
   ///点击选中改变事件
   void onCheckedChangeClick() {

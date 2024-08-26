@@ -1,3 +1,4 @@
+import 'package:dairo_dfs_app/extension/BuildContext++.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dairo_dfs_app/page/trash/uc/UCTrashList.dart';
@@ -38,12 +39,16 @@ class TrashPageState extends State<TrashPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text("回收站")),
-        body: Column(
-          children: [
-            this.ucTrashList, //文件列表
-            this.ucOptionMenu, //操作功能菜单
-          ],
-        ));
+        body: Container(
+            color: context.color.primaryContainer,
+            child: SafeArea(
+                top: false,
+                child: Column(
+                  children: [
+                    this.ucTrashList, //文件列表
+                    this.ucOptionMenu, //操作功能菜单
+                  ],
+                ))));
   }
 
   ///选择改变事件

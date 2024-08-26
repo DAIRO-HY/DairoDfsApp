@@ -26,10 +26,7 @@ class UCTrashList extends StatelessWidget {
   Widget build(BuildContext context) {
     this._context = context;
     return Expanded(
-        child: Container(
-            margin: const EdgeInsets.all(10),
-            decoration: BoxDecoration(color: context.color.primaryContainer, borderRadius: BorderRadius.circular(Const.RADIUS)),
-            child: this.fileListFlagVN.build((value) => ListView.builder(
+        child: this.fileListFlagVN.build((value) => ListView.builder(
                 itemCount: this.dfsFileList.length,
                 itemBuilder: (context, index) {
                   final dfsFile = this.dfsFileList[index];
@@ -39,7 +36,7 @@ class UCTrashList extends StatelessWidget {
                     dfsFile,
                     onCheckChange: this.trashPageState.onCheckChange,
                   );
-                }))));
+                })));
   }
 
   ///当前选中的路径列表

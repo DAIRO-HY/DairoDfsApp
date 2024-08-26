@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dairo_dfs_app/api/TrashApi.dart';
 import 'package:dairo_dfs_app/extension/BuildContext++.dart';
 import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
+import '../../../uc/UCOptionMenuButton.dart';
 import '../../../uc/dialog/UCAlertDialog.dart';
 import '../../../util/Toast.dart';
 import '../TrashPage.dart';
@@ -12,7 +13,7 @@ class UCTrashOptionMenu extends StatelessWidget {
   ///重新绘制操作菜单标记
   final redrawVN = ValueNotifier(0);
 
-  var menus = <UCTrashOptionMenuButton>[];
+  var menus = <UCOptionMenuButton>[];
 
   ///文件页面状态对象
   final TrashPageState trashPageState;
@@ -33,10 +34,10 @@ class UCTrashOptionMenu extends StatelessWidget {
     //当前被选中的文件数量
     int selectedCount = this.trashPageState.selectedCount;
     this.menus = [
-      UCTrashOptionMenuButton("全选", icon: Icons.library_add_check_outlined, onPressed: this.onCheckAllClick),
-      UCTrashOptionMenuButton("全取消", icon: Icons.indeterminate_check_box_outlined, disabled: selectedCount == 0, onPressed: this.onUncheckAllClick),
-      UCTrashOptionMenuButton("还原", icon: Icons.settings_backup_restore_outlined, disabled: selectedCount == 0, onPressed: this.onRecoverClick),
-      UCTrashOptionMenuButton("彻底删除", icon: Icons.delete_forever_outlined, disabled: selectedCount == 0, onPressed: this.onDeleteClick),
+      UCOptionMenuButton("全选", icon: Icons.library_add_check_outlined, onPressed: this.onCheckAllClick),
+      UCOptionMenuButton("全取消", icon: Icons.indeterminate_check_box_outlined, disabled: selectedCount == 0, onPressed: this.onUncheckAllClick),
+      UCOptionMenuButton("还原", icon: Icons.settings_backup_restore_outlined, disabled: selectedCount == 0, onPressed: this.onRecoverClick),
+      UCOptionMenuButton("彻底删除", icon: Icons.delete_forever_outlined, disabled: selectedCount == 0, onPressed: this.onDeleteClick),
       //UCOptionMenuButton("清空回收站", icon: Icons.paste_outlined, disabled: UCOptionMenu.clipboardType == null, onPressed: this.onClipboardClick),
     ];
     this.redrawVN.value++;
