@@ -76,11 +76,11 @@ class _AccountPageState extends State<AccountPage> {
           break;
         }
       }
-      if(account.isLogining){
+      SettingShared.logined = logined;
+      if (account.isLogining) {
         SettingShared.logout();
         super.context.relaunch(LoginPage());
-      }else{
-        SettingShared.logined = logined;
+      } else {
         super.context.toast("删除成功");
         setState(() {});
       }
