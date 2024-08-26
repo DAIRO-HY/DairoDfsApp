@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Center(
                 child: Column(children: [
               Spacer(),
-              ClipRRect(borderRadius: BorderRadius.circular(18), child: Image.asset("assets/images/logo_rect_256.png", width: 80, height: 80)),
+              ClipRRect(borderRadius: BorderRadius.circular(10), child: Image.asset("assets/images/logo_rect_256.png", width: 80, height: 80)),
               Gap(30),
               Container(
                   width: 320,
