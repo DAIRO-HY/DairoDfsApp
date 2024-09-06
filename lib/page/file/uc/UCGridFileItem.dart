@@ -66,7 +66,7 @@ class UCGridFileItem extends StatelessWidget {
   Widget thumbView(BuildContext context) {
     if (this.dfsFile.fileFlag) {
       //如果是文件
-      if (this.dfsFile.thumbId != null) {
+      if (this.dfsFile.thumb != null) {
         return Container(
             padding: EdgeInsets.all(8),
             width: UCGridFileItem.THUMB_SIZE,

@@ -117,7 +117,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     this.http?.cancel();
     final http = FilesApi.getExtraKeys(id: dfs.id);
     http.post((value) async {
-      final keys = value.map((it) => int.parse(it)).toList();
+      final keys = value.where((it)=>it != "thumb").map((it) => int.parse(it)).toList();
       keys.sort((p1, p2) {
         if (p1 == p1) {
           return 0;

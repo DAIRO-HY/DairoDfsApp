@@ -72,7 +72,7 @@ class UCListFileItem extends StatelessWidget {
   Widget thumbView(BuildContext context) {
     if (this.dfsFile.fileFlag) {
       //如果是文件
-      if (this.dfsFile.thumbId != null) {
+      if (this.dfsFile.thumb != null) {
         return UCImage(this.dfsFile.thumb!, width: THUMB_SIZE, height: THUMB_SIZE, radius: Const.RADIUS, checkedDownload: false);
       } else {
         return Container(
