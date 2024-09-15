@@ -49,9 +49,11 @@ class FilePageState extends State<FilePage> {
 
     //加载文件列表
     this.ucFileList.loadSubFile(folder);
-    EventUtil.regist(this, EventCode.FILE_PAGE_RELOAD, (data) {
-      if (data != null && data != this.currentFolderVN.value) {
-        //如果指定了更新某个文件夹
+    EventUtil.regist(this, EventCode.FILE_PAGE_RELOAD, (_) {
+      this.ucFileList.reload();
+    });
+    EventUtil.regist(this, EventCode.UPLOAD_PAGE_RELOAD, (data) {
+      if (data != this.currentFolderVN.value) {//当前显示的文件夹和上传的文件夹不是同一个时,无需刷新
         return;
       }
       this.ucFileList.reload();

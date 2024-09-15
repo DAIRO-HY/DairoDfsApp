@@ -86,9 +86,6 @@ class UCAddOption {
       UploadTask.start();
 
       context.toPage(TransferPage(pageTag: TransferPage.PAGE_UPLOAD));
-
-      //通知文件页面的同步标识按钮显示
-      EventUtil.post(EventCode.UPLOAD_PAGE_RELOAD);
     }
   }
 
@@ -139,9 +136,6 @@ class UCAddOption {
     UploadTask.start();
 
     context.toPage(TransferPage(pageTag: TransferPage.PAGE_UPLOAD));
-
-    //通知文件页面的同步标识按钮显示
-    EventUtil.post(EventCode.UPLOAD_PAGE_RELOAD);
   }
 
   ///遍历文件夹下所有的文件

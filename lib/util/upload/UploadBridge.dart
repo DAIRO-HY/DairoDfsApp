@@ -67,7 +67,7 @@ class UploadBridge {
     UploadTask.start();
 
     //通知刷新页面
-    EventUtil.post(EventCode.UPLOAD_PAGE_RELOAD);
+    EventUtil.post(EventCode.UPLOAD_PAGE_RELOAD, this.dto.dfsFolder);
   }
 
   ///下载完成回调函数
