@@ -21,12 +21,15 @@ bool fileFlag;
 
 /// 创建日期
 String date;
-FileModel({required this.date,required this.fileFlag,required this.id,required this.name,required this.size});
+
+/// 缩率图
+String? thumb;
+FileModel({required this.date,required this.fileFlag,required this.id,required this.name,required this.size,required this.thumb});
 static FileModel fromJson(String json){
     Map<String,dynamic> map = jsonDecode(json);
     return FileModel.fromMap(map);
 }static FileModel fromMap(Map<String, dynamic> map){
-    return FileModel(date: map["date"],fileFlag: map["fileFlag"],id: map["id"],name: map["name"],size: map["size"]);
+    return FileModel(date: map["date"],fileFlag: map["fileFlag"],id: map["id"],name: map["name"],size: map["size"],thumb: map["thumb"]);
 }static List<FileModel> fromJsonList(String json){
     List<dynamic> list = jsonDecode(json);
     return FileModel.fromMapList(list);
@@ -39,4 +42,5 @@ static FileModel fromJson(String json){
 "id" : this.id,
 "name" : this.name,
 "size" : this.size,
+"thumb" : this.thumb,
                 };}

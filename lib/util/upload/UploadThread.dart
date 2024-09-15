@@ -145,7 +145,7 @@ class UploadIsolateBlock {
 
   ///获取文件已经上传大小
   Future<int> _getUploadedSize([int times = 0]) async {
-    final uri = Uri.parse("${this.domain}${Api.FILE_UPLOAD_GET_UPLOADED_SIZE}?md5=${this.info.md5}");
+    final uri = Uri.parse("${this.domain}${Api.FILE_UPLOAD_GET_UPLOADED_SIZE}?md5=${this.info.md5}&_token=${this.info.token}");
     final client = HttpClient();
     this._client = client;
     try {
@@ -174,7 +174,7 @@ class UploadIsolateBlock {
     //文件输入流
     final raf = file.openSync();
 
-    final uri = Uri.parse("${this.domain}/app/file_upload/by_stream/${this.info.token}/${this.info.md5}");
+    final uri = Uri.parse("${this.domain}/app/file_upload/by_stream/${this.info.md5}?_token=${this.info.token}");
     final client = HttpClient();
     this._client = client;
     try {
@@ -237,7 +237,7 @@ class UploadIsolateBlock {
 
   ///通过md5上传,实际不上传文件,服务器端会验证md5的文件是否已经存在
   Future<bool> _uploadByMd5() async {
-    final uri = Uri.parse(this.domain + Api.FILE_UPLOAD_BY_MD5);
+    final uri = Uri.parse(this.domain + Api.FILE_UPLOAD_BY_MD5 + "?_token=${this.info.token}");
     final client = HttpClient();
     this._client = client;
     try {

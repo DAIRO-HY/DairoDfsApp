@@ -1,8 +1,6 @@
 import 'API.dart';
-import '../util/http/NullApiHttp.dart';
 import '../util/http/VoidApiHttp.dart';
 import '../util/http/NotNullApiHttp.dart';
-import 'model/UserInfoModel.dart';
 class LoginApi{
 
 ///用户登录
@@ -21,21 +19,6 @@ static NotNullApiHttp<String> forget(){
 ///null
 static VoidApiHttp logout(){
  return VoidApiHttp(Api.LOGIN_LOGOUT);
-}
-
-///null
-static NotNullApiHttp<int> returnInt(){
- return NotNullApiHttp<int>(Api.LOGIN_RETURNINT);
-}
-
-///null
-static NullApiHttp<UserInfoModel?> returnNull(){
- return NullApiHttp<UserInfoModel?>(Api.LOGIN_RETURNNULL,UserInfoModel.fromJson);
-}
-
-///null
-static VoidApiHttp returnVoid(){
- return VoidApiHttp(Api.LOGIN_RETURNVOID);
 }
 
 }

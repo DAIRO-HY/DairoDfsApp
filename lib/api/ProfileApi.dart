@@ -10,11 +10,19 @@ static NotNullApiHttp<ProfileModel> init(){
 }
 
 ///null
+static VoidApiHttp makeToken(){
+ return VoidApiHttp(Api.PROFILE_MAKE_TOKEN);
+}
+
+///null
+/// [openSqlLog] null
+/// [hasReadOnly] null
 /// [uploadMaxSize] null
 /// [folders] null
 /// [syncDomains] null
-static VoidApiHttp update({required String uploadMaxSize, required String folders, String? syncDomains}){
- return VoidApiHttp(Api.PROFILE_UPDATE).add("uploadMaxSize",uploadMaxSize).add("folders",folders).add("syncDomains",syncDomains);
+/// [token] null
+static VoidApiHttp update({bool? openSqlLog, bool? hasReadOnly, required String uploadMaxSize, required String folders, String? syncDomains, String? token}){
+ return VoidApiHttp(Api.PROFILE_UPDATE).add("openSqlLog",openSqlLog).add("hasReadOnly",hasReadOnly).add("uploadMaxSize",uploadMaxSize).add("folders",folders).add("syncDomains",syncDomains).add("token",token);
 }
 
 }
