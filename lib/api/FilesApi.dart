@@ -67,13 +67,12 @@ static VoidApiHttp setContentType({required String path, required String content
 }
 
 ///分享文件
-/// [shareDays] null
-/// [shareEndDate] null
-/// [pwd] null
-/// [folder] null
-/// [names] null
-static NotNullApiHttp<int> share({int? shareDays, String? shareEndDate, String? pwd, String? folder, List<String>? names}){
- return NotNullApiHttp<int>(Api.FILES_SHARE).add("shareDays",shareDays).add("shareEndDate",shareEndDate).add("pwd",pwd).add("folder",folder).add("names",names);
+/// [endDateTime] 分享结束时间戳,0代表永久有效
+/// [pwd] 分享密码
+/// [folder] 分享的文件夹
+/// [names] 要分享的文件名或文件夹名列表
+static NotNullApiHttp<int> share({required int endDateTime, String? pwd, required String folder, required List<String> names}){
+ return NotNullApiHttp<int>(Api.FILES_SHARE).add("endDateTime",endDateTime).add("pwd",pwd).add("folder",folder).add("names",names);
 }
 
 }

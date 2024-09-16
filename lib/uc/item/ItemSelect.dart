@@ -78,7 +78,7 @@ class ItemSelect extends ItemBase {
   }
 
   onItemClick(BuildContext context) {
-    Picker picker = Picker(
+    final picker = Picker(
         adapter: PickerDataAdapter<String>(pickerData: options.map((it) => it.text).toList()),
         //changeToFirst: false,
         hideHeader: false,
