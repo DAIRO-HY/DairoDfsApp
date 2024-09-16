@@ -11,19 +11,22 @@ class ShareModel extends JsonSerialize{
 String? name;
 
 /// 大小
-String? size;
+int? size;
 
 /// 是否文件
 bool? fileFlag;
 
 /// 创建日期
 String? date;
-ShareModel({required this.date,required this.fileFlag,required this.name,required this.size});
+
+/// 缩率图
+String? thumb;
+ShareModel({required this.date,required this.fileFlag,required this.name,required this.size,required this.thumb});
 static ShareModel fromJson(String json){
     Map<String,dynamic> map = jsonDecode(json);
     return ShareModel.fromMap(map);
 }static ShareModel fromMap(Map<String, dynamic> map){
-    return ShareModel(date: map["date"],fileFlag: map["fileFlag"],name: map["name"],size: map["size"]);
+    return ShareModel(date: map["date"],fileFlag: map["fileFlag"],name: map["name"],size: map["size"],thumb: map["thumb"]);
 }static List<ShareModel> fromJsonList(String json){
     List<dynamic> list = jsonDecode(json);
     return ShareModel.fromMapList(list);
@@ -35,4 +38,5 @@ static ShareModel fromJson(String json){
 "fileFlag" : this.fileFlag,
 "name" : this.name,
 "size" : this.size,
+"thumb" : this.thumb,
                 };}

@@ -14,19 +14,22 @@ int? id;
 String? name;
 
 /// 大小
-String? size;
+int? size;
 
 /// 是否文件
 bool? fileFlag;
 
 /// 删除日期
 String? date;
-TrashModel({required this.date,required this.fileFlag,required this.id,required this.name,required this.size});
+
+/// 缩率图
+String? thumb;
+TrashModel({required this.date,required this.fileFlag,required this.id,required this.name,required this.size,required this.thumb});
 static TrashModel fromJson(String json){
     Map<String,dynamic> map = jsonDecode(json);
     return TrashModel.fromMap(map);
 }static TrashModel fromMap(Map<String, dynamic> map){
-    return TrashModel(date: map["date"],fileFlag: map["fileFlag"],id: map["id"],name: map["name"],size: map["size"]);
+    return TrashModel(date: map["date"],fileFlag: map["fileFlag"],id: map["id"],name: map["name"],size: map["size"],thumb: map["thumb"]);
 }static List<TrashModel> fromJsonList(String json){
     List<dynamic> list = jsonDecode(json);
     return TrashModel.fromMapList(list);
@@ -39,4 +42,5 @@ static TrashModel fromJson(String json){
 "id" : this.id,
 "name" : this.name,
 "size" : this.size,
+"thumb" : this.thumb,
                 };}

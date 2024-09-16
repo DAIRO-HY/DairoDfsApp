@@ -5,22 +5,21 @@ import 'model/ShareModel.dart';
 class ShareApi{
 
 ///null
-/// [id] null
-static NotNullApiHttp<List<ShareModel>> getList({required String id}){
- return NotNullApiHttp<List<ShareModel>>(Api.SHARE_GET_LIST,ShareModel.fromJsonList).add("id",id);
+static NotNullApiHttp<List<ShareModel>> getList(){
+ return NotNullApiHttp<List<ShareModel>>(Api.SHARE_{ID}_GET_LIST,ShareModel.fromJsonList);
 }
 
 ///null
-/// [id] null
 /// [folder] null
+/// [names] null
 /// [target] null
-static VoidApiHttp saveTo({required String id, required String folder, required String target}){
- return VoidApiHttp(Api.SHARE_SAVE_TO).add("id",id).add("folder",folder).add("target",target);
+static VoidApiHttp saveTo({required String folder, required Array<String> names, required String target}){
+ return VoidApiHttp(Api.SHARE_{ID}_SAVE_TO).add("folder",folder).add("names",names).add("target",target);
 }
 
 ///null
 static VoidApiHttp validPwd(){
- return VoidApiHttp(Api.SHARE_VALID_PWD);
+ return VoidApiHttp(Api.SHARE_{ID}_VALID_PWD);
 }
 
 }

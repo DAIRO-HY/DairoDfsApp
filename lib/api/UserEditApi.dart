@@ -10,8 +10,9 @@ class UserEditApi{
 /// [email] null
 /// [state] null
 /// [date] null
-static VoidApiHttp edit({int? id, String? name, required String email, int? state, String? date}){
- return VoidApiHttp(Api.USER_EDIT_EDIT).add("id",id).add("name",name).add("email",email).add("state",state).add("date",date);
+/// [pwd] null
+static VoidApiHttp edit({int? id, required String name, String? email, int? state, String? date, String? pwd}){
+ return VoidApiHttp(Api.USER_EDIT_EDIT).add("id",id).add("name",name).add("email",email).add("state",state).add("date",date).add("pwd",pwd);
 }
 
 ///null

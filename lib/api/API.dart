@@ -112,10 +112,4 @@ static const LOGIN_FORGET = "/app/login/forget";
 
 static const LOGIN_LOGOUT = "/app/login/logout";
 
-static const SHARE_GET_LIST = "/app/share/get_list";
-
-static const SHARE_SAVE_TO = "/app/share/save_to";
-
-static const SHARE_VALID_PWD = "/app/share/valid_pwd";
-
 }

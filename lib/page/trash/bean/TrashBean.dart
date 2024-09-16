@@ -1,5 +1,7 @@
 /*工具自动生成代码,请勿手动修改*/
 
+import 'package:dairo_dfs_app/extension/Number++.dart';
+
 import '../../../api/model/TrashModel.dart';
 
 ///文件信息Bean
@@ -26,7 +28,7 @@ class TrashBean {
   TrashBean(TrashModel fileModel) {
     this.id = fileModel.id!;
     this.name = fileModel.name!;
-    this.size = fileModel.size!;
+    this.size = fileModel.size.dataSize;
     this.fileFlag = fileModel.fileFlag!;
     this.date = fileModel.date!;
   }
