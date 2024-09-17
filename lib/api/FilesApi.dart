@@ -71,7 +71,7 @@ static VoidApiHttp setContentType({required String path, required String content
 /// [pwd] 分享密码
 /// [folder] 分享的文件夹
 /// [names] 要分享的文件名或文件夹名列表
-static NotNullApiHttp<int> share({required int endDateTime, String? pwd, required String folder, required List<String> names}){
+static NotNullApiHttp<int> share({required int endDateTime, String? pwd, String? folder, required List<String> names}){
  return NotNullApiHttp<int>(Api.FILES_SHARE).add("endDateTime",endDateTime).add("pwd",pwd).add("folder",folder).add("names",names);
 }
 

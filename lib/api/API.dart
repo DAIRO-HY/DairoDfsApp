@@ -60,10 +60,13 @@ static const PROFILE_MAKE_TOKEN = "/app/profile/make_token";
 
 static const PROFILE_UPDATE = "/app/profile/update";
 
+///取消所选分享
 static const MY_SHARE_DELETE = "/app/my_share/delete";
 
+///获取分享详细
 static const MY_SHARE_GET_DETAIL = "/app/my_share/get_detail";
 
+///获取所有的分享
 static const MY_SHARE_GET_LIST = "/app/my_share/get_list";
 
 ///文件复制
