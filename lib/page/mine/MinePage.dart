@@ -15,12 +15,11 @@ import 'package:dairo_dfs_app/util/even_bus/EventUtil.dart';
 import '../../main.dart';
 import '../../uc/item/ItemButton.dart';
 import '../../uc/item/ItemGroup.dart';
-import '../../util/SyncVariable.dart';
 import '../../util/shared_preferences/SettingShared.dart';
-import '../ListViewPage.dart';
 import '../cache/CachePage.dart';
 import '../login/LoginPage.dart';
 import '../modify_pwd/ModifyPwdPage.dart';
+import '../my_share/MySharePage.dart';
 import '../trash/TrashPage.dart';
 
 /// 我的页面
@@ -60,9 +59,9 @@ class _MinePageState extends State<MinePage> {
                       child: Column(
                         children: [
                           ItemGroup(children: [
-                            // ItemButton("我的分享", tip: "我分享的文件", icon: Icons.share, onPressed: () {
-                            //   context.toPage(ListViewPage());
-                            // }),
+                            ItemButton("我的分享", icon: Icons.share, onPressed: () {
+                              context.toPage(MySharePage());
+                            }),
                             ItemButton(
                               "回收站",
                               tip: "删除的文件",

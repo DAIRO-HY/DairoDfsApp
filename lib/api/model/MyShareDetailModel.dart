@@ -11,6 +11,9 @@ class MyShareDetailModel extends JsonSerialize{
 /// id
 int? id;
 
+/// 链接
+String? url;
+
 /// 加密分享
 String? pwd;
 
@@ -25,12 +28,12 @@ String? endDate;
 
 /// 创建日期
 String? date;
-MyShareDetailModel({required this.date,required this.endDate,required this.folder,required this.id,required this.names,required this.pwd});
+MyShareDetailModel({required this.date,required this.endDate,required this.folder,required this.id,required this.names,required this.pwd,required this.url});
 static MyShareDetailModel fromJson(String json){
     Map<String,dynamic> map = jsonDecode(json);
     return MyShareDetailModel.fromMap(map);
 }static MyShareDetailModel fromMap(Map<String, dynamic> map){
-    return MyShareDetailModel(date: map["date"],endDate: map["endDate"],folder: map["folder"],id: map["id"],names: map["names"],pwd: map["pwd"]);
+    return MyShareDetailModel(date: map["date"],endDate: map["endDate"],folder: map["folder"],id: map["id"],names: map["names"],pwd: map["pwd"],url: map["url"]);
 }static List<MyShareDetailModel> fromJsonList(String json){
     List<dynamic> list = jsonDecode(json);
     return MyShareDetailModel.fromMapList(list);
@@ -44,4 +47,5 @@ static MyShareDetailModel fromJson(String json){
 "id" : this.id,
 "names" : this.names,
 "pwd" : this.pwd,
+"url" : this.url,
                 };}

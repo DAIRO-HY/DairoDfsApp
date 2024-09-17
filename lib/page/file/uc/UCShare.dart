@@ -16,7 +16,7 @@ import 'package:gap/gap.dart';
 import '../../../Const.dart';
 import '../../../uc/dialog/UCDatePickerDialog.dart';
 import '../../../uc/item/ItemInput.dart';
-import 'UCShareInfo.dart';
+import '../../my_share/uc/UCShareDetailDialog.dart';
 
 ///分享设置
 class UCShare {
@@ -123,7 +123,7 @@ class UCShare {
                       final names = paths.map((it) => it.fileName).toList();
                       FilesApi.share(endDateTime: endDateTime, pwd: pwd, folder: folder, names: names).post((shareId) async {
                         Navigator.of(context).pop();
-                        UCShareInfo.show(context, shareId);
+                        UCShareDetailDialog.show(context, shareId);
                       }, context);
                       // Navigator.of(context).pop();
                       // okFun();

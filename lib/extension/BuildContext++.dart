@@ -48,7 +48,7 @@ extension BuildContextExtension on BuildContext {
   void toast(String msg) => Toast.show(this, msg);
 
   ///文字按钮
-  Widget textButton(String text, {VoidCallback? onPressed}) =>
+Widget textButton(String text, {VoidCallback? onPressed}) =>
       TextButton(
           onPressed: onPressed,
           style: TextButton.styleFrom(
