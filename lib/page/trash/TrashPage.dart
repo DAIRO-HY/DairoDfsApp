@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:dairo_dfs_app/page/trash/uc/UCTrashList.dart';
 import 'package:dairo_dfs_app/page/trash/uc/UCTrashOptionMenu.dart';
 
-import '../../uc/StateBase.dart';
-
 /// 文件列表页面
 class TrashPage extends StatefulWidget {
   const TrashPage({super.key});

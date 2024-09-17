@@ -22,14 +22,18 @@ class TrashBean {
   /// 删除日期
   late String date;
 
+  /// 缩略图
+  late String? thumb;
+
   /// 是否选中
   var isSelected = false;
 
-  TrashBean(TrashModel fileModel) {
-    this.id = fileModel.id!;
-    this.name = fileModel.name!;
-    this.size = fileModel.size.dataSize;
-    this.fileFlag = fileModel.fileFlag!;
-    this.date = fileModel.date!;
+  TrashBean(TrashModel model) {
+    this.id = model.id!;
+    this.name = model.name!;
+    this.size = model.size.dataSize;
+    this.fileFlag = model.fileFlag!;
+    this.date = model.date!;
+    this.thumb = model.thumb;
   }
 }
