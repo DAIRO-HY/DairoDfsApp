@@ -9,7 +9,6 @@ import 'UCShareDetailDialog.dart';
 
 ///文件列表栏
 class UCMyShareItem extends StatelessWidget {
-
   ///DFS文件信息
   final MyShareBean trashFile;
 
@@ -41,7 +40,7 @@ class UCMyShareItem extends StatelessWidget {
           ),
           minimumSize: Size(0, 0), // 设置宽度和高度
         ),
-        onPressed: (){
+        onPressed: () {
           this.onItemClick(context);
         },
         child: Row(
@@ -74,47 +73,41 @@ class UCMyShareItem extends StatelessWidget {
     if (this.trashFile.thumb != null) {
       return UCImage(this.trashFile.thumb!, width: THUMB_SIZE, height: THUMB_SIZE, radius: Const.RADIUS, checkedDownload: false);
     }
-    if (this.trashFile.multipleFlag) {
-      //如果是文件
-      return Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: context.color.onSurface.withOpacity(0.1),
-                spreadRadius: 1,
-                blurRadius: 10,
-                // offset: Offset(2, 2),
-              ),
-            ],
-          ),
-          child: Icon(Icons.insert_drive_file, size: THUMB_SIZE, color: Colors.white));
-    } else {
-      //如果是文件夹
-      return Icon(Icons.folder, size: THUMB_SIZE, color: Color(0xFF6FBEEA));
-    }
+
+    //如果是文件
+    return Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: context.color.onSurface.withOpacity(0.1),
+              spreadRadius: 1,
+              blurRadius: 10,
+              // offset: Offset(2, 2),
+            ),
+          ],
+        ),
+        child: Icon(this.trashFile.multipleFlag ? Icons.file_copy_sharp : Icons.insert_drive_file, size: THUMB_SIZE, color: Colors.white));
   }
 
   ///选择图标
-  Widget checkIconView(BuildContext context) =>
-      TextButton(
-          onPressed: this.onCheckedChangeClick,
-          style: TextButton.styleFrom(
-            overlayColor: Colors.transparent,
-            minimumSize: const Size(50, 60),
-            // 选填：设置最小尺寸
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            // 选填：紧凑的点击目标尺寸
-            padding: EdgeInsets.zero,
-            //设置没有内边距
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(0), // 设置圆角
-            ),
-            backgroundColor: Colors.transparent,
-          ),
-          child: this
-              .checkedVN
-              .build((value) => Icon(this.trashFile.isSelected ? Icons.check_circle : Icons.circle_outlined, size: 24, color: context.color.onSurface)));
-
+  Widget checkIconView(BuildContext context) => TextButton(
+      onPressed: this.onCheckedChangeClick,
+      style: TextButton.styleFrom(
+        overlayColor: Colors.transparent,
+        minimumSize: const Size(50, 60),
+        // 选填：设置最小尺寸
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        // 选填：紧凑的点击目标尺寸
+        padding: EdgeInsets.zero,
+        //设置没有内边距
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(0), // 设置圆角
+        ),
+        backgroundColor: Colors.transparent,
+      ),
+      child: this
+          .checkedVN
+          .build((value) => Icon(this.trashFile.isSelected ? Icons.check_circle : Icons.circle_outlined, size: 24, color: context.color.onSurface)));
 
   ///分享点击事件
   void onItemClick(BuildContext context) {
