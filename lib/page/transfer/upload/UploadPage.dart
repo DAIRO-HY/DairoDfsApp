@@ -96,7 +96,7 @@ class UploadPageState extends State<UploadPage> {
                         Gap(5),
                         context.textBody("进行中(${this.notUploadIds.length})"),
                         Spacer(),
-                        context.textButton(UploadTask.uploadingId2Bridge.isEmpty ? "全部开始" : "全部暂停", onPressed: this.onAllUploadOptionClick),
+                        context.textButton(text: UploadTask.uploadingId2Bridge.isEmpty ? "全部开始" : "全部暂停", onPressed: this.onAllUploadOptionClick),
                         Gap(10)
                       ]),
                       UCUploadItem(bridge, selectedIds: this.selectedIds, onSelectChange: this.onSelectChange)
@@ -109,7 +109,7 @@ class UploadPageState extends State<UploadPage> {
                         Gap(10),
                         context.textBody("已完成(${this.finishIds.length})"),
                         Spacer(),
-                        context.textButton("清空", onPressed: this.onClearFinishClick),
+                        context.textButton(text: "清空", onPressed: this.onClearFinishClick),
                         Gap(10)
                       ]),
                       UCUploadItem(bridge, selectedIds: this.selectedIds, onSelectChange: this.onSelectChange)

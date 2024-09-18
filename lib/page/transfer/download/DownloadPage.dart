@@ -97,7 +97,8 @@ class DownloadPageState extends State<DownloadPage> {
                         Gap(5),
                         context.textBody("进行中(${this.notDownloadIds.length})"),
                         Spacer(),
-                        context.textButton(DownloadTask.downloadingId2Bridge.isEmpty ? "全部开始" : "全部暂停", onPressed: this.onAllDownloadOptionClick),
+                        context.textButton(
+                            text: DownloadTask.downloadingId2Bridge.isEmpty ? "全部开始" : "全部暂停", onPressed: this.onAllDownloadOptionClick),
                         Gap(10)
                       ]),
                       UCDownloadItem(bridge, selectedIds: this.selectedIds, onSelectChange: this.onSelectChange)
@@ -110,7 +111,7 @@ class DownloadPageState extends State<DownloadPage> {
                         Gap(10),
                         context.textBody("已完成(${this.finishIds.length})"),
                         Spacer(),
-                        context.textButton("清空", onPressed: this.onClearFinishClick),
+                        context.textButton(text: "清空", onPressed: this.onClearFinishClick),
                         Gap(10)
                       ]),
                       UCDownloadItem(bridge, selectedIds: this.selectedIds, onSelectChange: this.onSelectChange)
