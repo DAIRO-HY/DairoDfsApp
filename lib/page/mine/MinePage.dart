@@ -64,13 +64,12 @@ class _MinePageState extends State<MinePage> {
                             }),
                             ItemButton(
                               "回收站",
-                              tip: "删除的文件",
                               icon: Icons.auto_delete_outlined,
                               onPressed: () {
                                 context.toPage(TrashPage());
                               },
                             ),
-                            ItemButton("传输列表", tip: "上传/下载列表", icon: Icons.sync, onPressed: () {
+                            ItemButton("传输列表", tip: "上传/下载", icon: Icons.sync, onPressed: () {
                               if (DownloadDao.selectDownloadCount() > 0) {
                                 context.toPage(TransferPage(pageTag: TransferPage.PAGE_DOWNLOAD));
                               } else if (UploadDao.selectUploadCount() > 0) {
@@ -85,7 +84,7 @@ class _MinePageState extends State<MinePage> {
                             ItemButton("缓存管理", icon: Icons.save, onPressed: () {
                               context.toPage(CachePage());
                             }),
-                            ItemButton("修改密码", tip: "重置密码", icon: Icons.lock_reset_outlined, onPressed: () {
+                            ItemButton("修改密码", icon: Icons.lock_reset_outlined, onPressed: () {
                               context.toPage(ModifyPwdPage());
                             })
                           ]),
