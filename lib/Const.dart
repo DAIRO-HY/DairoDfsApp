@@ -7,6 +7,9 @@ import 'package:dairo_dfs_app/util/SyncVariable.dart';
 
 ///静态变量配置
 class Const {
+  ///标题字体
+  static const TITLE = 22.0;
+
   ///普通字体大小
   static const TEXT = 16.0;
 

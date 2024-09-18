@@ -4,18 +4,24 @@ import '../util/Toast.dart';
 
 extension BuildContextExtension on BuildContext {
   ///主题颜色
-  ColorScheme get color =>
-      Theme
-          .of(this)
-          .colorScheme;
+  ColorScheme get color => Theme.of(this).colorScheme;
 
-  ///普通文字文字
+  ///标题文字
+  Widget textTitle(String? txt, {Color? color}) {
+    if (txt == null) {
+      return SizedBox();
+    }
+    color ??= this.color.onSurface;
+    return Text(txt, style: TextStyle(color: color, fontSize: Const.TITLE));
+  }
+
+  ///普通文字
   Widget textBody(String? txt, {Color? color}) {
     if (txt == null) {
       return SizedBox();
     }
     color ??= this.color.onSurface;
-    return Text(txt, style: TextStyle(color:color, fontSize: Const.TEXT));
+    return Text(txt, style: TextStyle(color: color, fontSize: Const.TEXT));
   }
 
   ///小文字文字文字
@@ -24,7 +30,7 @@ extension BuildContextExtension on BuildContext {
       return SizedBox();
     }
     color ??= this.color.onSurface;
-    return Text(txt, style: TextStyle(color:color, fontSize: Const.TEXT_SMALL));
+    return Text(txt, style: TextStyle(color: color, fontSize: Const.TEXT_SMALL));
   }
 
   ///次要小文字
@@ -48,21 +54,25 @@ extension BuildContextExtension on BuildContext {
   void toast(String msg) => Toast.show(this, msg);
 
   ///文字按钮
-Widget textButton(String text, {VoidCallback? onPressed}) =>
-      TextButton(
-          onPressed: onPressed,
-          style: TextButton.styleFrom(
-            overlayColor: Colors.transparent,
-            minimumSize: const Size(0, 0),
-            // 选填：设置最小尺寸
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            // 选填：紧凑的点击目标尺寸
-            padding: EdgeInsets.zero,
-            //设置没有内边距
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(0), // 设置圆角
-            ),
-            backgroundColor: Colors.transparent,
+  Widget textButton({String? text, Widget? child, VoidCallback? onPressed}) {
+    if (text != null) {
+      child = this.textBody(text);
+    }
+    return TextButton(
+        onPressed: onPressed,
+        style: TextButton.styleFrom(
+          overlayColor: Colors.transparent,
+          minimumSize: const Size(0, 0),
+          // 选填：设置最小尺寸
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          // 选填：紧凑的点击目标尺寸
+          padding: EdgeInsets.zero,
+          //设置没有内边距
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(0), // 设置圆角
           ),
-          child: this.textBody(text));
+          backgroundColor: Colors.transparent,
+        ),
+        child: child!);
+  }
 }
