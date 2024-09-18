@@ -14,13 +14,13 @@ class UCMyShareList extends StatelessWidget {
   final fileListFlagVN = ValueNotifier(0);
 
   ///文件页面状态对象
-  final MySharePageState trashPageState;
+  final MySharePageState mySharePageState;
 
   List<MyShareBean> dfsFileList = [];
 
   late BuildContext _context;
 
-  UCMyShareList(this.trashPageState, {super.key});
+  UCMyShareList(this.mySharePageState, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class UCMyShareList extends StatelessWidget {
                   //文件列表条目
                   return UCMyShareItem(
                     dfsFile,
-                    onCheckChange: this.trashPageState.onCheckChange,
+                    onCheckChange: this.mySharePageState.onCheckChange,
                   );
                 })));
   }
@@ -45,12 +45,12 @@ class UCMyShareList extends StatelessWidget {
   ///获取文件列表
   void loadData() {
     MyShareApi.getList().post((data) async{
-      this.trashPageState.selectedCount = 0;
+      this.mySharePageState.selectedCount = 0;
       this.dfsFileList = data.map((it) => MyShareBean(it)).toList();
 
       //重回文件页面
       this.redraw();
-      this.trashPageState.ucOptionMenu.redraw();
+      this.mySharePageState.ucOptionMenu.redraw();
     }, this._context);
   }
 

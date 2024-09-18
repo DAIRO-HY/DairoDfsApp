@@ -33,7 +33,23 @@ class UCShareDetailDialog {
               content: IntrinsicHeight(
                   child: Column(children: [
                 Gap(10),
-                Text("分享明细"),
+                Stack(children: [
+                  Align(alignment: Alignment.center, child: context.textTitle("分享明细")),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: context.textButton(
+                        child: SizedBox(
+                            width: 44,
+                            height: 34,
+                            child: Icon(
+                              Icons.close,
+                              color: context.color.secondary,
+                            )),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        }),
+                  )
+                ]),
                 Gap(10),
                 ItemLabel(
                   "创建日期",
@@ -61,14 +77,18 @@ class UCShareDetailDialog {
                         child: Row(children: [
                           context.textBody("链接"),
                           Spacer(),
-                          context.textButton("打开", onPressed: () {
-                            openShareLink(context, model);
-                          }),
+                          context.textButton(
+                              text: "打开",
+                              onPressed: () {
+                                openShareLink(context, model);
+                              }),
                           Gap(10),
-                          context.textButton("复制", onPressed: () {
-                            copyShareLink(model);
-                            Toast.show(context, "复制成功");
-                          })
+                          context.textButton(
+                              text: "复制",
+                              onPressed: () {
+                                copyShareLink(model);
+                                Toast.show(context, "复制成功");
+                              })
                         ])))
               ])));
         });

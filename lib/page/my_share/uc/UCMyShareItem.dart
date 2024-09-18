@@ -10,7 +10,7 @@ import 'UCShareDetailDialog.dart';
 ///文件列表栏
 class UCMyShareItem extends StatelessWidget {
   ///DFS文件信息
-  final MyShareBean trashFile;
+  final MyShareBean myShareFile;
 
   ///是否被选中图标更新
   late final ValueNotifier checkedVN;
@@ -21,8 +21,8 @@ class UCMyShareItem extends StatelessWidget {
   ///缩略图高度
   static const THUMB_SIZE = 40.0;
 
-  UCMyShareItem(this.trashFile, {super.key, required this.onCheckChange}) {
-    this.checkedVN = ValueNotifier(this.trashFile.isSelected);
+  UCMyShareItem(this.myShareFile, {super.key, required this.onCheckChange}) {
+    this.checkedVN = ValueNotifier(this.myShareFile.isSelected);
   }
 
   @override
@@ -56,8 +56,8 @@ class UCMyShareItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Gap(8),
-                          context.textBody(this.trashFile.name),
-                          context.textSecondarySmall("${this.trashFile.date}  ${this.trashFile.endDate}"),
+                          context.textBody(this.myShareFile.name),
+                          context.textSecondarySmall("${this.myShareFile.date}  ${this.myShareFile.endDate}"),
                           Gap(8),
                         ],
                       ),
@@ -70,8 +70,8 @@ class UCMyShareItem extends StatelessWidget {
 
   ///文件图标
   Widget thumbView(BuildContext context) {
-    if (this.trashFile.thumb != null) {
-      return UCImage(this.trashFile.thumb!, width: THUMB_SIZE, height: THUMB_SIZE, radius: Const.RADIUS, checkedDownload: false);
+    if (this.myShareFile.thumb != null) {
+      return UCImage(this.myShareFile.thumb!, width: THUMB_SIZE, height: THUMB_SIZE, radius: Const.RADIUS, checkedDownload: false);
     }
 
     //如果是文件
@@ -86,7 +86,7 @@ class UCMyShareItem extends StatelessWidget {
             ),
           ],
         ),
-        child: Icon(this.trashFile.multipleFlag ? Icons.file_copy_sharp : Icons.insert_drive_file, size: THUMB_SIZE, color: Colors.white));
+        child: Icon(this.myShareFile.multipleFlag ? Icons.file_copy_sharp : Icons.insert_drive_file, size: THUMB_SIZE, color: Colors.white));
   }
 
   ///选择图标
@@ -107,23 +107,23 @@ class UCMyShareItem extends StatelessWidget {
       ),
       child: this
           .checkedVN
-          .build((value) => Icon(this.trashFile.isSelected ? Icons.check_circle : Icons.circle_outlined, size: 24, color: context.color.onSurface)));
+          .build((value) => Icon(this.myShareFile.isSelected ? Icons.check_circle : Icons.circle_outlined, size: 24, color: context.color.onSurface)));
 
   ///分享点击事件
   void onItemClick(BuildContext context) {
-    UCShareDetailDialog.show(context, this.trashFile.id);
+    UCShareDetailDialog.show(context, this.myShareFile.id);
   }
 
   ///点击选中改变事件
   void onCheckedChangeClick() {
-    this.trashFile.isSelected = !this.trashFile.isSelected;
-    this.checkedVN.value = this.trashFile.isSelected;
-    this.onCheckChange(this.trashFile.isSelected);
+    this.myShareFile.isSelected = !this.myShareFile.isSelected;
+    this.checkedVN.value = this.myShareFile.isSelected;
+    this.onCheckChange(this.myShareFile.isSelected);
   }
 
   ///选择文件点击事件
   void onCheckedClick() {
-    this.trashFile.isSelected = true;
+    this.myShareFile.isSelected = true;
     this.onCheckChange(true);
   }
 }

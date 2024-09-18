@@ -13,7 +13,7 @@ class MySharePage extends StatefulWidget {
 
 class MySharePageState extends State<MySharePage> {
   ///文件列表组件
-  late var ucTrashList = UCMyShareList(this);
+  late var ucMyShareList = UCMyShareList(this);
 
   ///操作菜单组件
   late var ucOptionMenu = UCMyShareOptionMenu(this);
@@ -28,21 +28,21 @@ class MySharePageState extends State<MySharePage> {
     //页面加载完成之后回调事件
     WidgetsBinding.instance.addPostFrameCallback((_) {
       //加载文件列表
-      this.ucTrashList.loadData();
+      this.ucMyShareList.loadData();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("回收站")),
+        appBar: AppBar(title: Text("我的分享")),
         body: Container(
             color: context.color.primaryContainer,
             child: SafeArea(
                 top: false,
                 child: Column(
                   children: [
-                    this.ucTrashList, //文件列表
+                    this.ucMyShareList, //文件列表
                     this.ucOptionMenu, //操作功能菜单
                   ],
                 ))));
@@ -52,7 +52,7 @@ class MySharePageState extends State<MySharePage> {
   void onCheckChange(bool flag) {
     flag ? this.selectedCount++ : this.selectedCount--;
     this.ucOptionMenu.redraw();
-    this.ucTrashList.redraw();
+    this.ucMyShareList.redraw();
   }
 
   ///页面被销毁时
