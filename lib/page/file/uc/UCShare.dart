@@ -20,9 +20,9 @@ import '../../my_share/uc/UCShareDetailDialog.dart';
 
 ///分享设置
 class UCShare {
-  static void show(BuildContext context, List<String> paths) {
+  static void show(BuildContext pageContext, List<String> paths) {
     showDialog(
-        context: context,
+        context: pageContext,
         builder: (BuildContext context) {
           //密码输入
           final pwdCtl = TextEditingController(text: _makePwd());
@@ -91,7 +91,7 @@ class UCShare {
                   ),
                   TextButton(
                     child: context.textBody("确认"),
-                    onPressed: () {
+                    onPressed: (){
                       //结束时间戳
                       var endDateTime = 0;
                       if (shareDaysVN.value == -1) {
@@ -121,10 +121,12 @@ class UCShare {
 
                       final folder = paths[0].fileParent;
                       final names = paths.map((it) => it.fileName).toList();
+
+                      //先关闭当前dialog
+                      Navigator.of(context).pop();
                       FilesApi.share(endDateTime: endDateTime, pwd: pwd, folder: folder, names: names).post((shareId) async {
-                        Navigator.of(context).pop();
-                        UCShareDetailDialog.show(context, shareId);
-                      }, context);
+                        UCShareDetailDialog.show(pageContext, shareId);
+                      }, pageContext);
                       // Navigator.of(context).pop();
                       // okFun();
                     },
