@@ -8,7 +8,6 @@ import '../bean/TrashBean.dart';
 
 ///文件列表栏
 class UCTrashItem extends StatelessWidget {
-
   ///DFS文件信息
   final TrashBean trashFile;
 
@@ -50,14 +49,14 @@ class UCTrashItem extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 8, bottom: 8),
                     decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0x11000000), width: 1))),
                     child: Row(children: [
-                      Column(
+                      Expanded(
+                          child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           context.textBody(this.trashFile.name),
                           context.textSecondarySmall("${this.trashFile.date}  ${this.trashFile.size}"),
                         ],
-                      ),
-                      Spacer(),
+                      )),
                       this.checkIconView(context),
                     ])))
           ],

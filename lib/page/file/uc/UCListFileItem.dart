@@ -37,14 +37,14 @@ class UCListFileItem extends StatelessWidget {
                 padding: EdgeInsets.only(top: 8, bottom: 8),
                 decoration: BoxDecoration(border: Border(bottom: BorderSide(color: context.color.outline, width: 1))),
                 child: Row(children: [
-                  Column(
+                  Expanded(
+                      child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       context.textBody(this.dfsFile.name),
                       context.textSecondarySmall("${this.dfsFile.date}  ${this.dfsFile.size.dataSize}")
                     ],
-                  ),
-                  Spacer(),
+                  )),
                   this.checkIconView(context),
                   Gap(5),
                 ])))
@@ -55,12 +55,10 @@ class UCListFileItem extends StatelessWidget {
   ///选择图标
   Widget checkIconView(BuildContext context) => this.fi.selectedVN.build((value) {
         if (this.fi.isSelectMode) {
-
           //选择模式
           return Icon(this.dfsFile.isSelected ? Icons.check_circle : Icons.circle_outlined, color: context.color.onSurface);
         }
         if (!this.dfsFile.fileFlag) {
-
           //这是一个文件夹的时候
           return Icon(Icons.chevron_right, color: context.color.onSurface, size: 30);
         }

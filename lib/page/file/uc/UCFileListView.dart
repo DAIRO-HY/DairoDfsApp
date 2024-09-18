@@ -11,7 +11,6 @@ import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
 import 'package:dairo_dfs_app/page/image_viewer/ImageViewerPage.dart';
 import 'package:dairo_dfs_app/page/video_player/VideoPlayerPage.dart';
 
-import '../../../Const.dart';
 import '../../../api/model/FileModel.dart';
 import '../../../util/shared_preferences/SettingShared.dart';
 import '../bean/DfsFileBean.dart';
@@ -20,7 +19,7 @@ import '../FilePage.dart';
 import 'UCFileItem.dart';
 
 ///文件列表组件
-class UCFileList extends StatelessWidget {
+class UCFileListView extends StatelessWidget {
   ///文件列表改变监听器
   final fileListFlagVN = ValueNotifier(0);
 
@@ -31,7 +30,7 @@ class UCFileList extends StatelessWidget {
 
   late BuildContext _context;
 
-  UCFileList(this.filePageState, {super.key});
+  UCFileListView(this.filePageState, {super.key});
 
   @override
   Widget build(BuildContext context) {

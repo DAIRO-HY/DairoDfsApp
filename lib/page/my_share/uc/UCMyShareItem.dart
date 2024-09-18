@@ -52,7 +52,8 @@ class UCMyShareItem extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 0, bottom: 0),
                     decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0x11000000), width: 1))),
                     child: Row(children: [
-                      Column(
+                      Expanded(
+                          child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Gap(8),
@@ -60,9 +61,8 @@ class UCMyShareItem extends StatelessWidget {
                           context.textSecondarySmall("${this.myShareFile.date}  ${this.myShareFile.endDate}"),
                           Gap(8),
                         ],
-                      ),
-                      Spacer(),
-                      this.checkIconView(context),
+                      )),
+                      this.checkIconView(context)
                     ])))
           ],
         ));
@@ -105,9 +105,8 @@ class UCMyShareItem extends StatelessWidget {
         ),
         backgroundColor: Colors.transparent,
       ),
-      child: this
-          .checkedVN
-          .build((value) => Icon(this.myShareFile.isSelected ? Icons.check_circle : Icons.circle_outlined, size: 24, color: context.color.onSurface)));
+      child: this.checkedVN.build(
+          (value) => Icon(this.myShareFile.isSelected ? Icons.check_circle : Icons.circle_outlined, size: 24, color: context.color.onSurface)));
 
   ///分享点击事件
   void onItemClick(BuildContext context) {

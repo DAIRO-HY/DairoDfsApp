@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:dairo_dfs_app/page/file/uc/UCFileOptionMenu.dart';
 import 'package:dairo_dfs_app/page/home/uc/UCAddOption.dart';
-import 'package:dairo_dfs_app/page/file/uc/UCFileList.dart';
+import 'package:dairo_dfs_app/page/file/uc/UCFileListView.dart';
 import 'package:dairo_dfs_app/page/file/uc/UCFileToolBar.dart';
 import 'package:dairo_dfs_app/util/even_bus/EventCode.dart';
 import 'package:dairo_dfs_app/util/even_bus/EventUtil.dart';
@@ -29,7 +29,7 @@ class FilePageState extends State<FilePage> {
   late var ucToolBar = UCFileToolBar(this);
 
   ///文件列表组件
-  late var ucFileList = UCFileList(this);
+  late var ucFileList = UCFileListView(this);
 
   ///操作菜单组件
   late var ucOptionMenu = UCFileOptionMenu(this);
