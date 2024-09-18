@@ -40,7 +40,7 @@ class UCDownloadOptionMenu extends StatelessWidget {
     //当前被选中的文件数量
     int selectedCount = this.state.selectedCount;
     this.menus = [
-      UCOptionMenuButton("分享", icon: Icons.share, disabled: selectedCount == 0, onPressed: this.onShareClick),
+      UCOptionMenuButton("共有", icon: Icons.ios_share, disabled: selectedCount == 0, onPressed: this.onShareClick),
       UCOptionMenuButton("全选", icon: Icons.library_add_check_outlined, onPressed: this.onCheckAllClick),
       UCOptionMenuButton("全取消", icon: Icons.indeterminate_check_box_outlined, disabled: selectedCount == 0, onPressed: this.onUncheckAllClick),
       UCOptionMenuButton("移除", icon: Icons.cleaning_services_rounded, disabled: selectedCount == 0, onPressed: this.onRemoveClick),

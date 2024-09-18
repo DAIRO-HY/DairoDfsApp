@@ -39,7 +39,7 @@ class UCImageOptionMenu extends StatelessWidget {
               UCOptionMenuButton("下载", icon: Icons.download_for_offline_outlined, onPressed: () async {
                 await this.onDownloadClick(context);
               }),
-              UCOptionMenuButton("分享", icon: Icons.share, onPressed: () async {
+              UCOptionMenuButton("共有", icon: Icons.ios_share, onPressed: () async {
                 await this.onShareClick(context);
               }),
             ]))));

@@ -337,7 +337,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                               await this.onQualityClick(context);
                             });
                           }),
-                          // UCOptionMenuButton("分享", icon: Icons.share, color: Colors.white, onPressed: () async {
+                          // UCOptionMenuButton("共有", icon: Icons.ios_share, color: Colors.white, onPressed: () async {
                           //   await this.onShareClick(context);
                           // })
                         ])
