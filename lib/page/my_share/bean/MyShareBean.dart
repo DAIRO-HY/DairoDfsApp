@@ -8,11 +8,14 @@ class MyShareBean {
   /// 文件id
   late int id;
 
-  /// 名称
+  /// 分享的标题（文件名）
   late String name;
 
-  /// 是否多文件
-  late bool multipleFlag;
+  ///文件数量
+  late int fileCount;
+
+  ///是否分享的仅仅是一个文件夹
+  late bool folderFlag;
 
   /// 结束时间
   late String endDate;
@@ -28,10 +31,11 @@ class MyShareBean {
 
   MyShareBean(MyShareModel model) {
     this.id = model.id!;
-    this.name = model.name!;
-    this.multipleFlag = model.multipleFlag!;
+    this.name = model.title!;
+    this.fileCount = model.fileCount!;
+    this.folderFlag = model.folderFlag!;
     this.endDate = model.endDate!;
     this.date = model.date!;
-    this.thumb = null;
+    this.thumb = model.thumb;
   }
 }

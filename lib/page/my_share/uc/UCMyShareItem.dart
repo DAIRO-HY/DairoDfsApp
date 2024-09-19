@@ -71,7 +71,20 @@ class UCMyShareItem extends StatelessWidget {
   ///文件图标
   Widget thumbView(BuildContext context) {
     if (this.myShareFile.thumb != null) {
+      //如果有缩略图
       return UCImage(this.myShareFile.thumb!, width: THUMB_SIZE, height: THUMB_SIZE, radius: Const.RADIUS, checkedDownload: false);
+    }
+
+    Icon icon;
+    if (this.myShareFile.folderFlag) {
+      //仅仅时一个文件夹的话
+      icon = Icon(Icons.folder, size: THUMB_SIZE, color: Color(0xFF6FBEEA));
+    } else if (this.myShareFile.fileCount > 1) {
+      //有多个文件
+      icon = Icon(Icons.file_copy_sharp, size: THUMB_SIZE, color: Colors.white);
+    } else {
+      //只有一个文件
+      icon = Icon(Icons.insert_drive_file, size: THUMB_SIZE, color: Color(0xFF6FBEEA));
     }
 
     //如果是文件
@@ -86,7 +99,7 @@ class UCMyShareItem extends StatelessWidget {
             ),
           ],
         ),
-        child: Icon(this.myShareFile.multipleFlag ? Icons.file_copy_sharp : Icons.insert_drive_file, size: THUMB_SIZE, color: Colors.white));
+        child: icon);
   }
 
   ///选择图标
