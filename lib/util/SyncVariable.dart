@@ -40,13 +40,13 @@ class SyncVariable {
       //获取缓存目录
       getApplicationCacheDirectory().then((dic) {
         SyncVariable.cachePath = dic.path;
-        if (!Directory(AppCacheManager.cacheFolder).existsSync()) {
-          Directory(AppCacheManager.cacheFolder).create(recursive: true);
-        }
 
         //获取数据存储目录
         getApplicationSupportDirectory().then((dic) {
           SyncVariable.supportPath = dic.path;
+          if (!Directory(AppCacheManager.cacheFolder).existsSync()) {
+            Directory(AppCacheManager.cacheFolder).create(recursive: true);
+          }
 
           //获取数据存储目录
           getDownloadsDirectory().then((dic) {

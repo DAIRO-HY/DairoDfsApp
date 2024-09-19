@@ -15,7 +15,7 @@ class DfsFileShared {
   static const CACHE_FOLDER = "dfs_file_list";
 
   ///存储文件夹目录路径
-  static String get cacheFolderPath => "${SyncVariable.cachePath}/$CACHE_FOLDER";
+  static String get cacheFolderPath => "${SyncVariable.supportPath}/$CACHE_FOLDER";
 
   ///请求文件列表的http请求
   static ApiHttp? _apiHttp;

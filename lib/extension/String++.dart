@@ -20,7 +20,7 @@ extension StringExtension on String {
   /// return 是否有写入文件,若写入前后内容一样,则不重复写入文件
   bool toLocalObj(Object? obj) {
     //保存目录
-    final file = File(SyncVariable.cachePath + "/$this.json");
+    final file = File(SyncVariable.supportPath + "/obj-data/$this.json");
     if (obj == null) {
       if (file.existsSync()) {
         //先判断文件是否存在,否则可能会报错
@@ -48,7 +48,7 @@ extension StringExtension on String {
   /// 从本地序列化文件读取到实列
   T? localObj<T>(T Function(String) fromJson) {
     //保存目录
-    final file = File(SyncVariable.cachePath + "/$this.json");
+    final file = File(SyncVariable.supportPath + "/obj-data/$this.json");
     if (!file.existsSync()) {
       return null;
     }

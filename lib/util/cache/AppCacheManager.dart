@@ -77,7 +77,7 @@ class AppCacheManager {
   }
 
   ///缓存目录
-  static String get cacheFolder => "${SyncVariable.cachePath}/cache";
+  static String get cacheFolder => "${SyncVariable.supportPath}/cache";
 
   ///启动下载
   static void _download() {

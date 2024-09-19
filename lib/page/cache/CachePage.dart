@@ -3,8 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:dairo_dfs_app/db/DBUtil.dart';
-import 'package:dairo_dfs_app/db/dao/DownloadDao.dart';
 import 'package:dairo_dfs_app/extension/BuildContext++.dart';
 import 'package:dairo_dfs_app/extension/Number++.dart';
 import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
