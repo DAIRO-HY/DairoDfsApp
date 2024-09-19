@@ -84,7 +84,7 @@ class UCMyShareItem extends StatelessWidget {
       icon = Icon(Icons.file_copy_sharp, size: THUMB_SIZE, color: Colors.white);
     } else {
       //只有一个文件
-      icon = Icon(Icons.insert_drive_file, size: THUMB_SIZE, color: Color(0xFF6FBEEA));
+      icon = Icon(Icons.insert_drive_file, size: THUMB_SIZE, color: Colors.white);
     }
 
     //如果是文件

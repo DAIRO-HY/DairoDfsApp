@@ -242,7 +242,7 @@ class ImageViewerPageState extends State<ImageViewerPage> {
 
   ///图片放大缩小进度条
   Positioned get scaleSlider => Positioned(
-      bottom: 0,
+      bottom: 50,
       right: 0,
       child: SizedBox(
           height: 200,

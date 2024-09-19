@@ -63,10 +63,25 @@ class UCShareDetailDialog {
                   "所属文件夹",
                   tip: model.folder!,
                 ),
-                ItemLabel(
-                  "提取码",
-                  tip: model.pwd!,
-                ),
+                Container(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Container(
+                        height: ItemBase.HEIGHT,
+                        padding: const EdgeInsets.only(right: 8),
+                        decoration: const BoxDecoration(
+                            border: Border(bottom: BorderSide(color: Color(ItemBase.BORDER_LINE_COLOR), width: ItemBase.BORDER_LINE_WIDTH))),
+                        child: Row(children: [
+                          context.textBody("提取码"),
+                          Spacer(),
+                          context.textBody(model.pwd!, color: context.color.secondary),
+                          Gap(10),
+                          context.textButton(
+                              child: Icon(Icons.copy, color: context.color.secondary,size: 20),
+                              onPressed: () {
+                                Clipboard.setData(ClipboardData(text: model.pwd!));
+                                Toast.show(context, "复制成功");
+                              })
+                        ]))),
                 Container(
                     padding: const EdgeInsets.only(left: 8),
                     child: Container(
