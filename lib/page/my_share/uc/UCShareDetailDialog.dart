@@ -74,13 +74,13 @@ class UCShareDetailDialog {
                           context.textBody("提取码"),
                           Spacer(),
                           context.textBody(model.pwd!, color: context.color.secondary),
-                          Gap(10),
-                          context.textButton(
+                          Visibility(visible: model.pwd != "无",child: Gap(10)),
+                          Visibility(visible: model.pwd != "无",child: context.textButton(
                               child: Icon(Icons.copy, color: context.color.secondary,size: 20),
                               onPressed: () {
                                 Clipboard.setData(ClipboardData(text: model.pwd!));
                                 Toast.show(context, "复制成功");
-                              })
+                              }))
                         ]))),
                 Container(
                     padding: const EdgeInsets.only(left: 8),
