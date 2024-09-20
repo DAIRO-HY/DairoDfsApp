@@ -117,7 +117,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     this.http?.cancel();
     final http = FilesApi.getExtraKeys(id: dfs.id);
     http.post((value) async {
-      final keys = value.where((it)=>it != "thumb").map((it) => int.parse(it)).toList();
+      final keys = value.where((it) => it != "thumb").map((it) => int.parse(it)).toList();
       keys.sort((p1, p2) {
         if (p1 == p1) {
           return 0;
@@ -148,9 +148,9 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     final downloadDto = DownloadDao.selectOneByUrlAndFinish(this._previewUrl);
 
     //先看这个文件有没有被下载
-    if(downloadDto != null){
+    if (downloadDto != null) {
       final file = File(downloadDto.path);
-      if(file.existsSync()){
+      if (file.existsSync()) {
         url = downloadDto.path;
       }
     }
@@ -455,8 +455,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   }
 
   ///得到视频最佳播放质量
-  int get _bestQuality{
-
+  int get _bestQuality {
     //当前设置的视频质量
     var videoQuality = SettingShared.videoQuality;
     var quality = VideoQualityCode.NORMAL;
@@ -473,8 +472,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   }
 
   ///得到视频预览URL
-  String get _previewUrl{
-
+  String get _previewUrl {
     //当前设置的视频质量
     var quality = this._bestQuality;
     var url = this.currentDfs.preview;
@@ -531,10 +529,11 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: actions,
-        );
+        return SafeArea(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: actions,
+            ));
       },
     );
     return;
@@ -545,7 +544,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     final dfsFile = this.currentDfs;
     final int? saveToImageGallery;
     if (Platform.isIOS || Platform.isAndroid) {
-      saveToImageGallery = await showModalActionSheet(context: context, cancelLabel: "取消", style: AdaptiveStyle.macOS, actions: [
+      saveToImageGallery = await showModalActionSheet(context: context, cancelLabel: "取消", style: AdaptiveStyle.iOS, actions: [
         SheetAction(label: "添加到下载列表", key: 0, textStyle: TextStyle(color: context.color.onSurface)),
         SheetAction(label: "保存到手机相册", key: 1, textStyle: TextStyle(color: context.color.onSurface))
       ]);
@@ -561,18 +560,14 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
     //得到视频最佳播放质量
     var quality = this._bestQuality;
-    if(quality != VideoQualityCode.NORMAL){
-      name = name.substring(0,name.lastIndexOf("."));
+    if (quality != VideoQualityCode.NORMAL) {
+      name = name.substring(0, name.lastIndexOf("."));
       name = "${name}_${VideoQualityCode.codeLabel(quality)}.mp4";
     }
 
     //添加到下载列表
     final dto = DownloadDto(
-        name: name,
-        path: "${SettingShared.downloadPath}/$name",
-        url: this._previewUrl,
-        thumb: dfsFile.thumb,
-        saveToImageGallery: saveToImageGallery);
+        name: name, path: "${SettingShared.downloadPath}/$name", url: this._previewUrl, thumb: dfsFile.thumb, saveToImageGallery: saveToImageGallery);
     DownloadDao.insert([dto]);
     DownloadTask.start();
     context.toast("已添加到下载列表");
