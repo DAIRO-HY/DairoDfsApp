@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = dairo_dfs_app
+PRODUCT_NAME = DairoDFS
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = cn.dairo.dfs.app.glDfsApp
+PRODUCT_BUNDLE_IDENTIFIER = cn.dairo.dfs
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2024 cn.dairo.dfs.app. All rights reserved.

@@ -1,4 +1,4 @@
-package cn.dairo.dfs.app
+package cn.dairo.dfs
 
 import io.flutter.embedding.android.FlutterActivity
 
