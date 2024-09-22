@@ -44,18 +44,18 @@ android {
         versionName = flutterVersionName
     }
     signingConfigs {
-        create("releaseConfig") {
-            storeFile file("/Users/zhoulq/dev/java/idea/DairoDfsApp/android/app/dairo-dfs.jks")
-            storePassword = "Q_UBJ4gb"
-            keyAlias = "dairo"
-            // keyPassword = System.getenv("KEY_PASSWORD")
-            keyPassword = "Q_UBJ4gb"
+        release {
+            storeFile file(System.getenv("APK_SIGNING_STORE_FILE"))
+            keyPassword System.getenv("APK_SIGNING_KEY_PASSWORD")
+            keyAlias System.getenv("APK_SIGNING_KEY_ALIAS")
+            storePassword System.getenv("APK_SIGNING_STORE_PASSWORD")
         }
     }
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("releaseConfig")
+//            signingConfig = signingConfigs.debug
+            signingConfig = signingConfigs.release
         }
     }
 }
