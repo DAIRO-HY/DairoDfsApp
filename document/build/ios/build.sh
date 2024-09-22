@@ -57,6 +57,6 @@ xcodebuild -exportArchive \
 
 #     3.生成密码：
 #     点击该选项，按照提示生成一个新的应用专用密码。生成后，您可以在 xcrun altool 或其他需要访问您 Apple ID 的服务中使用该密码。
-#xcrun altool --upload-app -f $1/build/ios/iphoneos/DairoDFS.ipa -t ios -u $IOS_APPID -p $IOS_APPID_APP_PWD
+xcrun altool --upload-app -f $1/build/ios/iphoneos/DairoDFS.ipa -t ios -u $IOS_APPID -p $IOS_APPID_APP_PWD
 
 #到此变异的ipa文件就被上传了Appstore,可在Connect应用查看状态,可能会有几分钟延迟
