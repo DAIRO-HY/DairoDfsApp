@@ -24,19 +24,36 @@ xcodebuild -workspace $1/ios/Runner.xcworkspace \
 
 #生成exportOptions.plist文件
 cat <<EOF > $1/build/ios/iphoneos/exportOptions.plist
-<?xml version="1.0" encoding="UTF-8"?>
+ <?xml version="1.0" encoding="UTF-8"?>
  <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
  <plist version="1.0">
-   <dict>
-       <key>method</key>
-       <string>app-store</string><!-- 或 ad-hoc, enterprise, development -->
-       <key>teamID</key>
-       <string>$IOS_TEAM_ID</string>
-       <key>uploadSymbols</key>
-       <true/>
-       <key>compileBitcode</key>
-       <true/>
-   </dict>
+ <dict>
+ 	<key>destination</key>
+ 	<string>export</string>
+ 	<key>generateAppStoreInformation</key>
+ 	<false/>
+ 	<key>manageAppVersionAndBuildNumber</key>
+ 	<true/>
+ 	<key>method</key>
+ 	<string>app-store-connect</string>
+ 	<key>provisioningProfiles</key>
+ 	<dict>
+ 		<key>cn.dairo.dfs</key>
+ 		<string>DairoDFS</string>
+ 	</dict>
+ 	<key>signingCertificate</key>
+ 	<string>iPhone Distribution</string>
+ 	<key>signingStyle</key>
+ 	<string>manual</string>
+ 	<key>stripSwiftSymbols</key>
+ 	<true/>
+ 	<key>teamID</key>
+ 	<string>$IOS_TEAM_ID</string>
+ 	<key>testFlightInternalTestingOnly</key>
+ 	<false/>
+ 	<key>uploadSymbols</key>
+ 	<true/>
+ </dict>
  </plist>
 EOF
 
