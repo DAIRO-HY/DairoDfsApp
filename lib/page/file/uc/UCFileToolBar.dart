@@ -56,7 +56,7 @@ class _UCFileToolBarState extends State<UCFileToolBar> {
     return Container(
         color: context.color.primary,
         // color: Colors.red,
-        padding: EdgeInsets.only(bottom: 5,top: 5),
+        padding: EdgeInsets.only(bottom: 5, top: 5),
         child: SafeArea(
             bottom: false,
             child: Row(children: [
@@ -152,15 +152,13 @@ class _UCFileToolBarState extends State<UCFileToolBar> {
     this.widget.filePageState.selectModeVN.value = !this.widget.filePageState.selectModeVN.value;
     if (!this.widget.filePageState.selectModeVN.value) {
       //选择模式关闭的情况
-      for (var it in this.widget.filePageState.ucFileList.dfsFileList) {
-        it.isSelected = false;
-      }
-      this.widget.filePageState.selectedCount = 0;
       this.widget.filePageState.ucOptionMenu.hide();
     } else {
       this.widget.filePageState.ucOptionMenu.redraw();
+
+      //文件列表重绘
+      this.widget.filePageState.ucFileList.redraw();
     }
-    this.widget.filePageState.ucFileList.redraw();
   }
 
   @override

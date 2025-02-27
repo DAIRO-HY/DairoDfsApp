@@ -1,17 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dairo_dfs_app/api/UserApi.dart';
-import 'package:dairo_dfs_app/extension/String++.dart';
-import 'package:dairo_dfs_app/page/home/HomePage.dart';
-import 'package:dairo_dfs_app/page/login/LoginPage.dart';
-import 'package:dairo_dfs_app/util/shared_preferences/SettingShared.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../api/LoginApi.dart';
-import '../../api/model/UserInfoModel.dart';
-import '../../uc/StateBase.dart';
-import '../../uc/UCButton.dart';
-import '../../uc/UCInput.dart';
-import '../../util/Toast.dart';
 
 /// 登录页面
 class WelcomePage extends StatefulWidget {

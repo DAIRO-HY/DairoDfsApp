@@ -51,6 +51,8 @@ class DownloadTask {
         http.connectTimeout = 5000;
         await http.head();
         final contextLength = http.responseHeader?["content-length"];
+
+        //这里并非文件真正的MD5，而是双重加密的MD5
         final contextMd5 = http.responseHeader?["content-md5"];
         if (contextLength == null || contextMd5 == null) {
           DownloadDao.setState(dto.id, 3, "获取文件信息失败");

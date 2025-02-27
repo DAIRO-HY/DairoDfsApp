@@ -12,6 +12,9 @@ class HttpUtil {
   ///请求URL
   final String url;
 
+  /// 表单参数
+  String _formBody = "";
+
   /// 下载任务
   Client? client;
 
@@ -46,7 +49,7 @@ class HttpUtil {
   final _requestHeader = HashMap<String, String>();
 
   /// 请求参数
-  final _param = HashMap<String, String>();
+  // final _param = HashMap<String, String>();
 
   /// 获取数据长度
   int get contentLength => () {
@@ -56,6 +59,12 @@ class HttpUtil {
         }
         return int.parse(length);
       }();
+
+  /// 设置表单参数
+  HttpUtil setFormBody(String body){
+    this._formBody = body;
+    return this;
+  }
 
   /// 设置头部信息
   HttpUtil addHeader(String key, String value) {
@@ -69,17 +78,17 @@ class HttpUtil {
     return this;
   }
 
-  /// 添加请求数据参数
-  HttpUtil addParam(String key, String value) {
-    this._param[key] = value;
-    return this;
-  }
-
-  /// 添加请求数据参数
-  HttpUtil addParamAll(Map<String, String> param) {
-    this._param.addAll(param);
-    return this;
-  }
+  // /// 添加请求数据参数
+  // HttpUtil addParam(String key, String value) {
+  //   this._param[key] = value;
+  //   return this;
+  // }
+  //
+  // /// 添加请求数据参数
+  // HttpUtil addParamAll(Map<String, String> param) {
+  //   this._param.addAll(param);
+  //   return this;
+  // }
 
   /// 设置读取数据前的回调函数
   HttpUtil before(Future<bool> Function(int statusCode) block) {
@@ -124,8 +133,9 @@ class HttpUtil {
 
       try {
         if (this._method == "POST") {
+
           //POST请求
-          response = await client.post(uri, body: this._param, headers: this._requestHeader).timeout(Duration(milliseconds: this.connectTimeout));
+          response = await client.post(uri, body: this._formBody, headers: this._requestHeader).timeout(Duration(milliseconds: this.connectTimeout));
         } else if (this._method == "GET") {
           //get请求
           response = await client.get(uri, headers: this._requestHeader).timeout(Duration(milliseconds: this.connectTimeout));

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dairo_dfs_app/api/model/MineModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:dairo_dfs_app/bean/AccountInfo.dart';
 import 'package:dairo_dfs_app/code/FileSortType.dart';
@@ -9,8 +10,7 @@ import 'package:dairo_dfs_app/util/even_bus/EventCode.dart';
 import 'package:dairo_dfs_app/util/even_bus/EventUtil.dart';
 import '../../Const.dart';
 import '../../api/LoginApi.dart';
-import '../../api/UserApi.dart';
-import '../../api/model/UserInfoModel.dart';
+import '../../api/MineApi.dart';
 import '../../code/FileOrderBy.dart';
 import '../../code/FileViewType.dart';
 import '../../code/VideoQualityCode.dart';
@@ -27,7 +27,7 @@ class SettingShared {
   /// <summary>
   /// 会员信息
   /// </summary>
-  static UserInfoModel? get user => SettingShared._KEY_USER.localObj(UserInfoModel.fromJson);
+  static MineModel? get user => SettingShared._KEY_USER.localObj(MineModel.fromJson);
 
   static set user(value) {
     SettingShared._KEY_USER.toLocalObj(value);
@@ -39,7 +39,7 @@ class SettingShared {
     // if (!force && SettingShared.user != null){//非强制刷新的情况下,如果已经加载过,就不需要再加载数据
     //     return;
     // }
-    UserApi.getUserInfo().post((user) async{
+    MineApi.init().post((user) async{
       SettingShared.user = user;
     });
   }
@@ -181,9 +181,9 @@ class SettingShared {
 
   /// 文件下载目录
   static String get downloadPath {
-    final path = SyncVariable.sPrefs.getString("DOWNLOAD_PATH");
-    if (path != null) {
-      return path;
+    final downloadPath = SyncVariable.sPrefs.getString("DOWNLOAD_PATH");
+    if (downloadPath != null) {
+      return downloadPath;
     }
     if (Platform.isIOS) {
       return SyncVariable.documentPath + "/download";
@@ -194,7 +194,7 @@ class SettingShared {
     } else if (Platform.isLinux) {
       return SyncVariable.downloadPath;
     } else if (Platform.isWindows) {
-      return SyncVariable.supportPath + "/download";
+      return SyncVariable.supportPath + "\\download";
     } else
       return "";
   }
@@ -229,30 +229,30 @@ class SettingShared {
 
   /// 登录
   static Future<void> login(
-      AccountInfo loginInfo, BuildContext context, VoidCallback success, bool Function(int code, String msg, Object? data) fail) async {
+      AccountInfo accountInfo, BuildContext context, VoidCallback success, bool Function(int code, String msg, Object? data) fail) async {
     //先记录登录之前的服务器，如果登录失败，则还原之前的服务器
     var oldDomain = SettingShared.domain;
-    SettingShared.domain = loginInfo.domain;
-    LoginApi.doLogin(name: loginInfo.name, pwd: loginInfo.pwd, deviceId: await Const.deviceId).fail((code, msg, data) async{
+    SettingShared.domain = accountInfo.domain;
+    LoginApi.doLogin(name: accountInfo.name, pwd: accountInfo.pwd, deviceId: await Const.deviceId).fail((code, msg, data) async{
       //登录失败，将服务器还原
       SettingShared.domain = oldDomain;
       return fail(code, msg, data);
-    }).post((token) async{
+    }).post((loginInfo) async{
       //登录成功
       final logined = SettingShared.logined;
       for (final it in logined) {
         it.isLogining = false;
       }
-      final curentInfo = logined.find((it) => it.domain == loginInfo.domain && it.name == loginInfo.name);
+      final curentInfo = logined.find((it) => it.domain == accountInfo.domain && it.name == accountInfo.name);
       if (curentInfo == null) {
-        loginInfo.isLogining = true;
-        logined.add(loginInfo);
+        accountInfo.isLogining = true;
+        logined.add(accountInfo);
       } else {
         //将其标记为登录状态
         curentInfo.isLogining = true;
       }
       SettingShared.logined = logined;
-      SettingShared.token = token;
+      SettingShared.token = loginInfo.token;
 
       //后台加载用户信息
       SettingShared.loadInBackground();

@@ -109,7 +109,7 @@ class UCShare {
                       }
 
                       //设置的密码
-                      String? pwd;
+                      String pwd = "";
                       if (pwdShareVN.value) {
                         //密码分享
                         pwd = pwdCtl.text;

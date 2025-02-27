@@ -38,7 +38,7 @@ class DfsFileBean {
   }
 
   ///得到文件预览url
-  String get preview => "/app/files/preview/${this.id}";
+  String get preview => "/app/files/preview/${this.id}/${this.name}";
 
   ///文件缩略图地址
   // String? get thumb {

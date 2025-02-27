@@ -1,11 +1,17 @@
 import 'API.dart';
-import '../util/http/NotNullApiHttp.dart';
-import 'model/UserListModel.dart';
-class UserListApi{
+import '../util/http/VoidApiHttp.dart';
+import 'model/UserListOutModel.dart';
+import '../util/http/ReturnApiHttp.dart';
 
-///null
-static NotNullApiHttp<List<UserListModel>> init(){
- return NotNullApiHttp<List<UserListModel>>(Api.USER_LIST,UserListModel.fromJsonList);
-}
-
+class UserListApi {
+  //用户列表
+  //@Group:/app/user_list
+  //@Html:.html
+  static VoidApiHttp listHtml(){
+    return VoidApiHttp(Api.APP_USER_LIST_HTML);
+  }
+  //@Post:/init
+  static ReturnApiHttp<List<UserListOutModel>> listInit(){
+    return ReturnApiHttp<List<UserListOutModel>>(Api.APP_USER_LIST_INIT, UserListOutModel.fromJsonList);
+  }
 }

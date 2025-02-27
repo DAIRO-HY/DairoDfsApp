@@ -5,7 +5,7 @@ import 'dart:convert';
 import '../../util/JsonSerialize.dart';
 
 
-class LibrawInstallProgressModel extends JsonSerialize {
+class LibInstallProgressModel extends JsonSerialize {
 
   /** 是否正在下载 **/
   bool isRuning;
@@ -28,7 +28,7 @@ class LibrawInstallProgressModel extends JsonSerialize {
   /** 安装信息 **/
   String info;
 
-  LibrawInstallProgressModel({required this.isRuning, required this.isInstalled, required this.total, required this.downloadedSize, required this.speed, required this.progress, required this.info});
+  LibInstallProgressModel({required this.isRuning, required this.isInstalled, required this.total, required this.downloadedSize, required this.speed, required this.progress, required this.info});
 
   /// 将model转Json
   @override
@@ -42,15 +42,15 @@ class LibrawInstallProgressModel extends JsonSerialize {
         "info": this.info,
       };
 
-  /// 将json字符串转LibrawInstallProgressModel对象
-  static LibrawInstallProgressModel fromJson(String json) {
+  /// 将json字符串转LibInstallProgressModel对象
+  static LibInstallProgressModel fromJson(String json) {
     Map<String, dynamic> map = jsonDecode(json);
-    return LibrawInstallProgressModel.fromMap(map);
+    return LibInstallProgressModel.fromMap(map);
   }
 
-  /// 将Map对象转LibrawInstallProgressModel对象
-  static LibrawInstallProgressModel fromMap(Map<String, dynamic> map) {
-    return LibrawInstallProgressModel(
+  /// 将Map对象转LibInstallProgressModel对象
+  static LibInstallProgressModel fromMap(Map<String, dynamic> map) {
+    return LibInstallProgressModel(
         isRuning: map["isRuning"],
         isInstalled: map["isInstalled"],
         total: map["total"],
@@ -60,14 +60,14 @@ class LibrawInstallProgressModel extends JsonSerialize {
         info: map["info"]);
   }
 
-  /// 将Json字符串转LibrawInstallProgressModel对象列表
-  static List<LibrawInstallProgressModel> fromJsonList(String json) {
+  /// 将Json字符串转LibInstallProgressModel对象列表
+  static List<LibInstallProgressModel> fromJsonList(String json) {
     List<dynamic> list = jsonDecode(json);
-    return LibrawInstallProgressModel.fromMapList(list);
+    return LibInstallProgressModel.fromMapList(list);
   }
 
-  /// 将List<Map>对象转LibrawInstallProgressModel对象列表
-  static List<LibrawInstallProgressModel> fromMapList(List<dynamic> list) {
-    return list.map((map) => LibrawInstallProgressModel.fromMap(map)).toList();
+  /// 将List<Map>对象转LibInstallProgressModel对象列表
+  static List<LibInstallProgressModel> fromMapList(List<dynamic> list) {
+    return list.map((map) => LibInstallProgressModel.fromMap(map)).toList();
   }
 }

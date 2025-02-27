@@ -117,25 +117,26 @@ class _LoginPageState extends State<LoginPage> {
   void onLoginClick() {
     //清空错误消息
     this.fieldErrorValueNotify.value = null;
-
-    final domain = domainController.text;
+    var domain = domainController.text;
     if (domain.isEmpty) {
       final error = Map<String, dynamic>();
       error["domain"] = ["服务器必填"];
       this.fieldErrorValueNotify.value = error;
       return;
     }
-    if (!domain.startsWith("http://") && !domain.startsWith("https://")) {
-      final error = Map<String, dynamic>();
-      error["domain"] = ["服务器必须是http://或者https://开头；如 http://192.168.1.100、https://www.example.com等"];
-      this.fieldErrorValueNotify.value = error;
-      return;
+    if (!domain.startsWith("http://") && !domain.startsWith("https://")) {//不全url
+      domain = "http://" + domain;
+      // final error = Map<String, dynamic>();
+      // error["domain"] = ["服务器必须是http://或者https://开头；如 http://192.168.1.100、https://www.example.com等"];
+      // this.fieldErrorValueNotify.value = error;
+      // return;
     }
-    if (domain.endsWith("/")) {
-      final error = Map<String, dynamic>();
-      error["domain"] = ["服务器不能以/结尾；如 http://192.168.1.100:8030、https://www.example.com等"];
-      this.fieldErrorValueNotify.value = error;
-      return;
+    if (domain.endsWith("/")) {//去掉最后一个/
+      domain = domain.substring(0,domain.length - 1);
+      // final error = Map<String, dynamic>();
+      // error["domain"] = ["服务器不能以/结尾；如 http://192.168.1.100:8030、https://www.example.com等"];
+      // this.fieldErrorValueNotify.value = error;
+      // return;
     }
 
     //登录名

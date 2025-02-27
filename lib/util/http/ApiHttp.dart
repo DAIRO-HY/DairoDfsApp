@@ -11,13 +11,13 @@ import 'HttpUtil.dart';
 
 /// API请求
 class ApiHttp<T, B> {
-  final T Function(String)? fromJson;
+
+  /// 将map转Model函数
+  final T Function(String json)? fromJson;
   final String url;
 
-  /**
-   * 如果返回值是List类型,该值为list泛型类型
-   */
-  // private var listType: Class<out Any>? = null
+  /// 表单参数
+  String _formBody = "";
 
   /// 是否显示加载中的遮罩层
   /// 不显示遮罩层的说明是后台提交，不需要热河提示
@@ -32,11 +32,8 @@ class ApiHttp<T, B> {
   /// 最终回调
   Future<void> Function()? _finishFunc;
 
-  /// 不允许返回null的回调函数
-  Future<void> Function(T)? notNullSuccessFunc;
-
-  /// 允许返回null的回调函数
-  Future<void> Function(T?)? nullSuccessFunc;
+  /// 有返回值的成功回调函数
+  Future<void> Function(T)? returnSuccessFunc;
 
   /// 没有返回值的成功回调函数
   Future<void> Function()? voidSuccessFunc;
@@ -57,6 +54,13 @@ class ApiHttp<T, B> {
 
     // 设置请求的Content-Type为application/x-www-form-urlencoded
     this.httpUtil.addHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    final token = SettingShared.token;
+    if (token != null) {
+
+      // 将登录Token设置到Cookie
+      this.httpUtil.addHeader("Cookie", "token=$token");
+    }
 
     // val packageManager = ThisApplication.app.packageManager
     // val info = packageManager.getPackageInfo(ThisApplication.app.packageName, 0)
@@ -80,23 +84,7 @@ class ApiHttp<T, B> {
     }
 
     //添加公共参数
-    this.httpUtil.addParam("_clientFlag", clientFlag.toString());
-    // this.httpUtil.addParam("model", Build.MODEL)
-    // this.httpUtil.addParam("_osName", Build.VERSION.RELEASE)
-    // this.httpUtil.addParam("_osCode", Build.VERSION.SDK_INT)
-    // this.httpUtil.addParam("_versionName", info.versionName)
-    this.httpUtil.addParam("_version", "1");
-    // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-    //     this.httpUtil.addParam("_versionCode", info.longVersionCode)
-    // } else {
-    //     this.httpUtil.addParam("_versionCode", info.versionCode)
-    // }
-
-    final token = SettingShared.token;
-    if (token != null) {
-      //添加登录状态
-      this.httpUtil.addParam("_token", token);
-    }
+    this._formBody = "_clientFlag=$clientFlag&_version=1&";
   }
 
   /// 添加参数
@@ -111,10 +99,11 @@ class ApiHttp<T, B> {
       }
     }
     if (value is List) {
-      final listValue = value.join(",");
-      this.httpUtil.addParam(key, listValue);
+      value.forEach((it){
+        this._formBody += "$key=${Uri.encodeComponent(it.toString())}&";
+      });
     } else {
-      this.httpUtil.addParam(key, value.toString());
+      this._formBody += "$key=${Uri.encodeComponent(value.toString())}&";
     }
     return this as B;
   }
@@ -185,26 +174,16 @@ class ApiHttp<T, B> {
       //不需要返回值的成功函数
       await this.voidSuccessFunc!();
     } else {
-      T? model;
-      if (this.fromJson != null) {
-        //将JSON转换成对象
-        if (body.isEmpty) {
-          model = null;
-        } else {
-          model = this.fromJson!(body);
-        }
-      } else {
-        //返回值是哟i个基本数据类型
-        model = this.toT(body);
-      }
-      if (this.nullSuccessFunc != null) {
-        //允许返回值为NULL的成功回调函数
-        await this.nullSuccessFunc!(model);
-      } else if (notNullSuccessFunc != null) {
-        await this.notNullSuccessFunc!(model as T);
-      } else {
-        ;
-      }
+      T? tValue = this.toT(body);
+      await this.returnSuccessFunc!(tValue as T);
+      // if (this.nullSuccessFunc != null) {
+      //   //允许返回值为NULL的成功回调函数
+      //   await this.nullSuccessFunc!(model);
+      // } else if (notNullSuccessFunc != null) {
+      //   await this.notNullSuccessFunc!(model as T);
+      // } else {
+      //   ;
+      // }
     }
   }
 
@@ -227,6 +206,7 @@ class ApiHttp<T, B> {
   Future<void> request(BuildContext? context) async {
     this.context = context;
     WaitDialog.show(context);
+    this.httpUtil.setFormBody(this._formBody);
     await this.httpUtil.success((body) async {
       WaitDialog.hide(context);
       await this.callSuccess(body);
@@ -239,17 +219,27 @@ class ApiHttp<T, B> {
   }
 
   ///转换成正确的泛型类型
-  T? toT(String body) {
+  T toT(String body) {
     if (this.type == String) {
+      //返回字符串
+      return body as T;
+    } else if (this.type == int) {
+      //返回整型
+      return int.parse(body) as T;
+    } else if (this.type == List<String>) {
+      //返回一个字符串数组
+      return List<String>.from(jsonDecode(body)) as T;
+    } else if (this.type == List<int>) {
+      //返回一个整型数组
+      return List<int>.from(jsonDecode(body)) as T;
+    } else if (this.fromJson != null) {
+      //返回一个Model数据
+      return this.fromJson!(body);
+    }else{
+
+      //理论上，不会执行该代码
       return body as T;
     }
-    if (body.isEmpty) {
-      return null;
-    }
-    if (this.type == int) {
-      return int.parse(body) as T;
-    }
-    return null;
   }
 
   /// 取消请求

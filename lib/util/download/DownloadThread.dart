@@ -95,15 +95,6 @@ class DownloadThread {
     if(!url.startsWith("http")){
       url = this.domain + this.info.url;
     }
-    if(this.info.token.isNotEmpty){
-
-      //添加认证信息
-      if(url.contains("?")){
-        url = url + "&_token=" + this.info.token;
-      }else{
-        url = url + "?_token=" + this.info.token;
-      }
-    }
     final uri = Uri.parse(url);
     final client = HttpClient();
     this._client = client;
@@ -111,7 +102,13 @@ class DownloadThread {
     IOSink? sink;
     try {
       final request = await client.openUrl("GET", uri);
+
+      //禁止重定向
+      request.followRedirects = false;
       request.headers.set(HttpHeaders.rangeHeader, "bytes=${downloadedSize}-");
+      if(this.info.token.isNotEmpty){//添加认证Token
+        request.headers.set(HttpHeaders.cookieHeader, "token=${this.info.token}");
+      }
       final response = await request.close();
       if (response.statusCode == 416) { //文件应该是已经下载完成
         //文件已经下载完成

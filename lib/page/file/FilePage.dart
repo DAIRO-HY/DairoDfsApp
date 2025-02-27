@@ -86,12 +86,12 @@ class FilePageState extends State<FilePage> {
       this.selectModeVN.value = true;
       this.ucOptionMenu.redraw();
     } else if (this.selectedCount == 0) {
-      this.selectModeVN.value = false;
+
+      //隐藏底部操作菜单
       this.ucOptionMenu.hide();
     } else {
       ;
     }
-    this.ucFileList.redraw();
   }
 
   void showAddDialog() {

@@ -203,12 +203,17 @@ class UCFileOptionMenu extends StatelessWidget {
     }
     UCFileOptionMenu.clipboardType = clipboardType;
     UCFileOptionMenu.clipboardPaths = clipboardPaths;
-    this.filePageState.ucFileList.redraw();
+
+    //隐藏底部操作菜单
+    this.hide();
     this._context.toast("选择的文件已放到剪切板,请选择一个文件夹然后粘贴。");
   }
 
   ///粘贴
   void onClipboardClick() {
+    if(UCFileOptionMenu.clipboardPaths == null){
+      return;
+    }
     final clipboardPaths = <String>[];
     clipboardPaths.addAll(UCFileOptionMenu.clipboardPaths as Iterable<String>);
 
@@ -241,12 +246,12 @@ class UCFileOptionMenu extends StatelessWidget {
     // }
     //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
-    final successFun = () async {
+    successFun() async {
       //清空剪切板
       UCFileOptionMenu.clipboardType = null;
       UCFileOptionMenu.clipboardPaths = null;
-      this.filePageState.ucFileList.reload();
-    };
+      this.hide();
+    }
     if (UCFileOptionMenu.clipboardType == 1) {
       FilesApi.move(sourcePaths: clipboardPaths, targetFolder: folder, isOverWrite: false).post(successFun, this._context);
     } else {
@@ -264,8 +269,22 @@ class UCFileOptionMenu extends StatelessWidget {
     UCShare.show(this._context, this.filePageState.ucFileList.selectedPaths);
   }
 
-  ///设置显示位置
+  ///隐藏底部操作菜单
   void hide() {
+
+    //将所有已选择取消
+    for (var it in this.filePageState.ucFileList.dfsFileList) {
+      it.isSelected = false;
+    }
+    this.filePageState.selectedCount = 0;
+
+    //取消选择模式
+    this.filePageState.selectModeVN.value = false;
+
+    //0代表隐藏菜单工具
     this.redrawVN.value = 0;
+
+    //页面重新绘制
+    this.filePageState.ucFileList.redraw();
   }
 }
