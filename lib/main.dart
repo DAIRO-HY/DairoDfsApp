@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:dairo_dfs_app/page/album/AlbumPage.dart';
 import 'package:flutter/material.dart';
 import 'package:dairo_dfs_app/Const.dart';
 import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
@@ -57,8 +58,7 @@ class MyApp extends StatelessWidget {
         darkTheme: this.dart,
         themeMode: themeMode,
         scrollBehavior: const MaterialScrollBehavior().copyWith(scrollbars: true, dragDevices: _kTouchLikeDeviceTypes),
-        // home: const Text("12345"),
-        home: const HomePage(),
+        home: SettingShared.functionView,
       );
     });
   }

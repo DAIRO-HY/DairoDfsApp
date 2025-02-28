@@ -47,7 +47,7 @@ extension BuildContextExtension on BuildContext {
   }
 
   ///页面跳转
-  void relaunch(StatefulWidget page) =>
+  void relaunch(Widget page) =>
       Navigator.pushAndRemoveUntil(this, MaterialPageRoute(builder: (context) => page), (Route<dynamic> route) => false);
 
   ///气泡提示消息

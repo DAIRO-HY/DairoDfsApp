@@ -12,6 +12,7 @@ import 'package:dairo_dfs_app/uc/item/ItemSelect.dart';
 import 'package:dairo_dfs_app/util/even_bus/EventCode.dart';
 import 'package:dairo_dfs_app/util/even_bus/EventUtil.dart';
 
+import '../../code/FunctionModel.dart';
 import '../../main.dart';
 import '../../uc/item/ItemButton.dart';
 import '../../uc/item/ItemGroup.dart';
@@ -94,9 +95,18 @@ class _MinePageState extends State<MinePage> {
                                 value: SettingShared.theme,
                                 icon: Icons.color_lens,
                                 options: [ItemSelectOption("跟随系统", 0), ItemSelectOption("明亮模式", 1), ItemSelectOption("黑暗模式", 2)], onChange: (value) {
-                              SettingShared.theme = value;
-                              MyApp.themeVn.value = value as int;
-                            })
+                                  SettingShared.theme = value;
+                                  MyApp.themeVn.value = value as int;
+                                }),
+                            ItemSelect("功能模式",
+                                value: SettingShared.functionModel,
+                                icon: Icons.apps,
+                                options: [ItemSelectOption("文件模式", FunctionModel.FILE), ItemSelectOption("相册模式", FunctionModel.ALBUM)], onChange: (value) {
+                                  SettingShared.functionModel = value;
+
+                                  //重新进入app
+                                  this.context.relaunch(SettingShared.functionView);
+                                })
                           ]),
                           Gap(30),
                           UCButton("退出登录", onPressed: () {

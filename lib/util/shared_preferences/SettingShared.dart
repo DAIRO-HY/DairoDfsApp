@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:dairo_dfs_app/api/model/MineModel.dart';
+import 'package:dairo_dfs_app/page/album/AlbumPage.dart';
+import 'package:dairo_dfs_app/page/home/HomePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:dairo_dfs_app/bean/AccountInfo.dart';
 import 'package:dairo_dfs_app/code/FileSortType.dart';
@@ -13,6 +15,7 @@ import '../../api/LoginApi.dart';
 import '../../api/MineApi.dart';
 import '../../code/FileOrderBy.dart';
 import '../../code/FileViewType.dart';
+import '../../code/FunctionModel.dart';
 import '../../code/VideoQualityCode.dart';
 import '../SyncVariable.dart';
 import 'DfsFileShared.dart';
@@ -78,6 +81,33 @@ class SettingShared {
 
   static set theme(value) {
     SyncVariable.sPrefs.setInt(SettingShared._THEME, value);
+  }
+
+/*----------------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------------*/
+
+  /// 功能模式
+  static const _FUNCTION_MODEL = "FUNCTION_MODEL";
+
+  static int get functionModel {
+    return SyncVariable.sPrefs.getInt(SettingShared._FUNCTION_MODEL) ?? FunctionModel.FILE;
+  }
+
+  static set functionModel(value) {
+    SyncVariable.sPrefs.setInt(SettingShared._FUNCTION_MODEL, value);
+  }
+
+  ///获取功能试图
+  static Widget get functionView {
+    switch (SettingShared.functionModel) {
+      case FunctionModel.FILE:
+        return HomePage();
+      case FunctionModel.ALBUM:
+        return AlbumPage();
+      default:
+        return SizedBox();
+    }
   }
 
 /*----------------------------------------------------------------------------------*/

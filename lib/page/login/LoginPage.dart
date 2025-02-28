@@ -193,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
         //重新保存列表，替换当前编辑的那一条数据
         SettingShared.loggedUserList = loggedUserList;
       }
-      this.context.relaunch(HomePage());
+      this.context.relaunch(SettingShared.functionView);
     }, (code, _, data) {
       if (code == 2) {
         //表单验证失败
