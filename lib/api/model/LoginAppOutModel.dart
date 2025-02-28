@@ -13,7 +13,9 @@ class LoginAppOutModel extends JsonSerialize {
   /** 是否管理员 **/
   bool isAdmin;
 
-  LoginAppOutModel({required this.token, required this.isAdmin});
+  LoginAppOutModel(
+      {      required this.token,
+      required this.isAdmin});
 
   /// 将model转Json
   @override

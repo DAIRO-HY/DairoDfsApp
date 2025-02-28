@@ -25,7 +25,13 @@ class UserEditInoutModel extends JsonSerialize {
   /** 密码 **/
   String pwd;
 
-  UserEditInoutModel({required this.id, required this.name, required this.email, required this.state, required this.date, required this.pwd});
+  UserEditInoutModel(
+      {      required this.id,
+      required this.name,
+      required this.email,
+      required this.state,
+      required this.date,
+      required this.pwd});
 
   /// 将model转Json
   @override

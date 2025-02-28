@@ -28,7 +28,14 @@ class MineModel extends JsonSerialize {
   /** 端对端加密密钥 **/
   String encryptionKey;
 
-  MineModel({required this.id, required this.name, required this.email, required this.date, required this.urlPath, required this.apiToken, required this.encryptionKey});
+  MineModel(
+      {      required this.id,
+      required this.name,
+      required this.email,
+      required this.date,
+      required this.urlPath,
+      required this.apiToken,
+      required this.encryptionKey});
 
   /// 将model转Json
   @override

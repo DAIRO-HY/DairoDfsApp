@@ -31,7 +31,15 @@ class ProfileModel extends JsonSerialize {
   // 删除没有被使用的文件超时设置(单位：天)
   int deleteStorageTimeout;
 
-  ProfileModel({required this.openSqlLog, required this.hasReadOnly, required this.uploadMaxSize, required this.folders, required this.syncDomains, required this.token, required this.trashTimeout, required this.deleteStorageTimeout});
+  ProfileModel(
+      {      required this.openSqlLog,
+      required this.hasReadOnly,
+      required this.uploadMaxSize,
+      required this.folders,
+      required this.syncDomains,
+      required this.token,
+      required this.trashTimeout,
+      required this.deleteStorageTimeout});
 
   /// 将model转Json
   @override

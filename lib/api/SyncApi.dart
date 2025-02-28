@@ -4,29 +4,28 @@ import 'model/SyncServerModel.dart';
 import '../util/http/ReturnApiHttp.dart';
 
 class SyncApi {
-  // 数据同步状态
-  //@Group: /app/sync
-  // @Html:.html
+
+  //数据同步状态
   static VoidApiHttp html(){
     return VoidApiHttp(Api.APP_SYNC_HTML);
   }
-  // 页面数据初始化
-  // @Post:/info_list
+
+  //页面数据初始化
   static ReturnApiHttp<List<SyncServerModel>> infoList(){
     return ReturnApiHttp<List<SyncServerModel>>(Api.APP_SYNC_INFO_LIST, SyncServerModel.fromJsonList);
   }
-  // 日志同步
-  // @Post:/by_log
+
+  //日志同步
   static VoidApiHttp bySync(){
     return VoidApiHttp(Api.APP_SYNC_BY_LOG);
   }
-  // 全量同步
-  // @Post:/by_table
+
+  //全量同步
   static VoidApiHttp byTable(){
     return VoidApiHttp(Api.APP_SYNC_BY_TABLE);
   }
-  // 当前同步状态
-  // @Request:/info
+
+  //当前同步状态
   static VoidApiHttp info(){
     return VoidApiHttp(Api.APP_SYNC_INFO);
   }

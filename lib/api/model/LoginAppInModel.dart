@@ -16,7 +16,10 @@ class LoginAppInModel extends JsonSerialize {
   /** 设备唯一标识 **/
   String deviceId;
 
-  LoginAppInModel({required this.name, required this.pwd, required this.deviceId});
+  LoginAppInModel(
+      {      required this.name,
+      required this.pwd,
+      required this.deviceId});
 
   /// 将model转Json
   @override

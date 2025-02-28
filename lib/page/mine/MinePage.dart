@@ -5,7 +5,7 @@ import 'package:dairo_dfs_app/db/dao/UploadDao.dart';
 import 'package:dairo_dfs_app/extension/BuildContext++.dart';
 import 'package:dairo_dfs_app/extension/List++.dart';
 import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
-import 'package:dairo_dfs_app/page/account/AccountPage.dart';
+import 'package:dairo_dfs_app/page/logged_user/LoggedUserPage.dart';
 import 'package:dairo_dfs_app/page/transfer/TransferPage.dart';
 import 'package:dairo_dfs_app/uc/UCButton.dart';
 import 'package:dairo_dfs_app/uc/item/ItemSelect.dart';
@@ -125,7 +125,7 @@ class _MinePageState extends State<MinePage> {
             borderRadius: BorderRadius.circular(0), // 设置圆角
           )),
       onPressed: () {
-        context.toPage(AccountPage());
+        context.toPage(LoggedUserPage());
       },
       child: Container(
         color: context.color.primary,
@@ -147,7 +147,7 @@ class _MinePageState extends State<MinePage> {
               ),
               Gap(10),
               accountVn.build((_) {
-                final account = SettingShared.logined.find((it) => it.isLogining);
+                final account = SettingShared.loggedUserList.find((it) => it.isLogining);
                 if (account == null) {
                   return SizedBox();
                 }

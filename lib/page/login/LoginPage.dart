@@ -12,15 +12,22 @@ import '../../uc/UCInput.dart';
 import '../../uc/dialog/UCAlertDialog.dart';
 import '../../util/Toast.dart';
 import '../../util/shared_preferences/SettingShared.dart';
-import 'uc/UCAccountItem.dart';
-import 'uc/UCAcountInfoGroup.dart';
+import '../logged_user/uc/UCLoggedUserGroup.dart';
+import '../logged_user/uc/UCLoggedUserItem.dart';
+import 'LoginType.dart';
 
 /// 登录页面
 class LoginPage extends StatefulWidget {
-  ///是否添加账号模式
-  final bool isAdd;
+  ///模式
+  final LoginType type;
 
-  LoginPage({super.key, this.isAdd = false});
+  ///要编辑的账号
+  late final AccountInfo account;
+
+  LoginPage({super.key, this.type = LoginType.LOGIN, AccountInfo? acc}) {
+    acc ??= AccountInfo();
+    this.account = acc;
+  }
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -31,21 +38,33 @@ class _LoginPageState extends State<LoginPage> {
   final fieldErrorValueNotify = ValueNotifier<Map<String, dynamic>?>(null);
 
   ///账号密码选择是否显示
-  late final accountSelectVisibleVN = ValueNotifier(!this.widget.isAdd && SettingShared.logined.isNotEmpty);
+  late final accountSelectVisibleVN = ValueNotifier(this.widget.type == LoginType.LOGIN && SettingShared.loggedUserList.isNotEmpty);
 
   ///服务器输入控制器
-  var domainController = TextEditingController(text: "");
+  late var domainController = TextEditingController(text: this.widget.account.domain);
 
   ///用户名输入控制器
-  var nameController = TextEditingController(text: "");
+  late var nameController = TextEditingController(text: this.widget.account.name);
 
   ///密码输入控制器
-  var pwdController = TextEditingController(text: "");
+  late var pwdController = TextEditingController(text: this.widget.account.pwd);
+
+  //页面标题
+  String get pageTitle {
+    switch (this.widget.type) {
+      case LoginType.LOGIN:
+        return "用户登录";
+      case LoginType.ADD:
+        return "添加用户";
+      case LoginType.EDIT:
+        return "编辑用户";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(this.widget.isAdd ? "添加账户" : "用户登录")),
+        appBar: AppBar(title: Text(this.pageTitle)),
         body: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -75,10 +94,11 @@ class _LoginPageState extends State<LoginPage> {
   ///从登录列表中选择登录
   Widget get selectLoginView => Column(children: [
         context.textBody("选择登录账号"),
+        //context.textSecondarySmall("长按可编辑、删除"),
         Gap(10),
         Expanded(
-            child: UCAcountInfoGroup(
-                children: SettingShared.logined.map((it) => UCAccountItem(it, onSelect: this.onSelect, onDelete: this.onDelete)).toList())),
+            child: UCLoggedUserGroup(
+                children: SettingShared.loggedUserList.map((it) => UCLoggedUserItem(it, onSelect: this.onSelect, onDelete: this.onDelete)).toList())),
         Gap(30),
         UCButton("添加账号", onPressed: () {
           this.accountSelectVisibleVN.value = false;
@@ -96,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
         UCButton("登录", onPressed: onLoginClick),
         Row(children: [
           Visibility(
-              visible: !this.widget.isAdd && SettingShared.logined.isNotEmpty,
+              visible: this.widget.type == LoginType.LOGIN && SettingShared.loggedUserList.isNotEmpty,
               child: TextButton(
                   style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: const Size(0, 50)),
                   child: context.textSecondarySmall("选择已登录账户"),
@@ -124,19 +144,13 @@ class _LoginPageState extends State<LoginPage> {
       this.fieldErrorValueNotify.value = error;
       return;
     }
-    if (!domain.startsWith("http://") && !domain.startsWith("https://")) {//不全url
+    if (!domain.startsWith("http://") && !domain.startsWith("https://")) {
+      //不全url
       domain = "http://" + domain;
-      // final error = Map<String, dynamic>();
-      // error["domain"] = ["服务器必须是http://或者https://开头；如 http://192.168.1.100、https://www.example.com等"];
-      // this.fieldErrorValueNotify.value = error;
-      // return;
     }
-    if (domain.endsWith("/")) {//去掉最后一个/
-      domain = domain.substring(0,domain.length - 1);
-      // final error = Map<String, dynamic>();
-      // error["domain"] = ["服务器不能以/结尾；如 http://192.168.1.100:8030、https://www.example.com等"];
-      // this.fieldErrorValueNotify.value = error;
-      // return;
+    if (domain.endsWith("/")) {
+      //去掉最后一个/
+      domain = domain.substring(0, domain.length - 1);
     }
 
     //登录名
@@ -150,11 +164,35 @@ class _LoginPageState extends State<LoginPage> {
       this.fieldErrorValueNotify.value = error;
       return;
     }
-    pwd = pwd.md5;
+    if (pwd.length != 32) {
+      pwd = pwd.md5;
+    }
+
+    //
+    final loggedUserList = SettingShared.loggedUserList;
 
     //登录信息
     final loginInfo = AccountInfo(domain: domain, name: name, pwd: pwd);
     SettingShared.login(loginInfo, context, () {
+      if (this.widget.type == LoginType.EDIT) {
+        //如果当前时编辑操作
+        for (var it in loggedUserList) {
+          //先取消内部所有登录状态
+          it.isLogining = false;
+        }
+
+        //取出当前要编辑的用户
+        var editUser = loggedUserList.firstWhere((it) {
+          return it.name == this.widget.account.name && it.domain == this.widget.account.domain;
+        });
+        editUser.domain = loginInfo.domain;
+        editUser.name = loginInfo.name;
+        editUser.pwd = loginInfo.pwd;
+        editUser.isLogining = true;
+
+        //重新保存列表，替换当前编辑的那一条数据
+        SettingShared.loggedUserList = loggedUserList;
+      }
       this.context.relaunch(HomePage());
     }, (code, _, data) {
       if (code == 2) {
@@ -179,7 +217,7 @@ class _LoginPageState extends State<LoginPage> {
   ///删除带安吉事件
   void onDelete(AccountInfo account) {
     UCAlertDialog.show(context, msg: "确定删除该账号？", okFun: () {
-      final logined = SettingShared.logined;
+      final logined = SettingShared.loggedUserList;
       for (var i = 0; i < logined.length; i++) {
         final it = logined[i];
         if (it.domain == account.domain && it.name == account.name) {
@@ -187,7 +225,7 @@ class _LoginPageState extends State<LoginPage> {
           break;
         }
       }
-      SettingShared.logined = logined;
+      SettingShared.loggedUserList = logined;
       if (logined.isEmpty) {
         //已经全部删除
         this.accountSelectVisibleVN.value = false;

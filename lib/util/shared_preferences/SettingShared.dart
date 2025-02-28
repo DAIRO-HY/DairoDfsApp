@@ -39,7 +39,7 @@ class SettingShared {
     // if (!force && SettingShared.user != null){//非强制刷新的情况下,如果已经加载过,就不需要再加载数据
     //     return;
     // }
-    MineApi.init().post((user) async{
+    MineApi.init().post((user) async {
       SettingShared.user = user;
     });
   }
@@ -105,10 +105,10 @@ class SettingShared {
 /*----------------------------------------------------------------------------------*/
 
   /// 登录过的用户列表
-  static List<AccountInfo> get logined => "logined".localObj(AccountInfo.fromJsonList) ?? [];
+  static List<AccountInfo> get loggedUserList => "loggedUserList".localObj(AccountInfo.fromJsonList) ?? [];
 
-  static set logined(value) {
-    "logined".toLocalObj(value);
+  static set loggedUserList(value) {
+    "loggedUserList".toLocalObj(value);
     SettingShared._token = null;
   }
 
@@ -221,9 +221,9 @@ class SettingShared {
 
   /// 退出登录
   static logout() {
-    final logined = SettingShared.logined;
+    final logined = SettingShared.loggedUserList;
     logined.forEach((it) => it.isLogining = false);
-    SettingShared.logined = logined;
+    SettingShared.loggedUserList = logined;
     SettingShared.token = null;
   }
 
@@ -233,25 +233,25 @@ class SettingShared {
     //先记录登录之前的服务器，如果登录失败，则还原之前的服务器
     var oldDomain = SettingShared.domain;
     SettingShared.domain = accountInfo.domain;
-    LoginApi.doLogin(name: accountInfo.name, pwd: accountInfo.pwd, deviceId: await Const.deviceId).fail((code, msg, data) async{
+    LoginApi.doLogin(name: accountInfo.name, pwd: accountInfo.pwd, deviceId: await Const.deviceId).fail((code, msg, data) async {
       //登录失败，将服务器还原
       SettingShared.domain = oldDomain;
       return fail(code, msg, data);
-    }).post((loginInfo) async{
+    }).post((loginInfo) async {
       //登录成功
-      final logined = SettingShared.logined;
-      for (final it in logined) {
+      final loggedUserList = SettingShared.loggedUserList;
+      for (final it in loggedUserList) {
         it.isLogining = false;
       }
-      final curentInfo = logined.find((it) => it.domain == accountInfo.domain && it.name == accountInfo.name);
-      if (curentInfo == null) {
+      final currentInfo = loggedUserList.find((it) => it.domain == accountInfo.domain && it.name == accountInfo.name);
+      if (currentInfo == null) {
         accountInfo.isLogining = true;
-        logined.add(accountInfo);
+        loggedUserList.add(accountInfo);
       } else {
         //将其标记为登录状态
-        curentInfo.isLogining = true;
+        currentInfo.isLogining = true;
       }
-      SettingShared.logined = logined;
+      SettingShared.loggedUserList = loggedUserList;
       SettingShared.token = loginInfo.token;
 
       //后台加载用户信息

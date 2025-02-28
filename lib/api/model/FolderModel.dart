@@ -19,7 +19,11 @@ class FolderModel extends JsonSerialize {
   /** 创建日期 **/
   String date;
 
-  FolderModel({required this.name, required this.size, required this.fileFlag, required this.date});
+  FolderModel(
+      {      required this.name,
+      required this.size,
+      required this.fileFlag,
+      required this.date});
 
   /// 将model转Json
   @override

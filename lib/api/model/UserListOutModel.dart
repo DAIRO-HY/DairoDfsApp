@@ -22,7 +22,12 @@ class UserListOutModel extends JsonSerialize {
   /** 创建日期 **/
   String date;
 
-  UserListOutModel({required this.id, required this.name, required this.email, required this.state, required this.date});
+  UserListOutModel(
+      {      required this.id,
+      required this.name,
+      required this.email,
+      required this.state,
+      required this.date});
 
   /// 将model转Json
   @override

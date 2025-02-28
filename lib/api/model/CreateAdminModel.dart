@@ -13,7 +13,9 @@ class CreateAdminModel extends JsonSerialize {
   /** 登录密码 **/
   String pwd;
 
-  CreateAdminModel({required this.name, required this.pwd});
+  CreateAdminModel(
+      {      required this.name,
+      required this.pwd});
 
   /// 将model转Json
   @override

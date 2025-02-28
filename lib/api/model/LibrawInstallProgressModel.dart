@@ -28,7 +28,14 @@ class LibrawInstallProgressModel extends JsonSerialize {
   /** 安装信息 **/
   String info;
 
-  LibrawInstallProgressModel({required this.isRuning, required this.isInstalled, required this.total, required this.downloadedSize, required this.speed, required this.progress, required this.info});
+  LibrawInstallProgressModel(
+      {      required this.isRuning,
+      required this.isInstalled,
+      required this.total,
+      required this.downloadedSize,
+      required this.speed,
+      required this.progress,
+      required this.info});
 
   /// 将model转Json
   @override

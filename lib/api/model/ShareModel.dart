@@ -22,7 +22,12 @@ class ShareModel extends JsonSerialize {
   /** 缩率图 **/
   String thumb;
 
-  ShareModel({required this.name, required this.size, required this.fileFlag, required this.date, required this.thumb});
+  ShareModel(
+      {      required this.name,
+      required this.size,
+      required this.fileFlag,
+      required this.date,
+      required this.thumb});
 
   /// 将model转Json
   @override

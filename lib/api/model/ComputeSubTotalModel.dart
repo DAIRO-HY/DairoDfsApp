@@ -16,7 +16,10 @@ class ComputeSubTotalModel extends JsonSerialize {
   /** 文件夹数(文件夹属性专用) **/
   int folderCount;
 
-  ComputeSubTotalModel({required this.size, required this.fileCount, required this.folderCount});
+  ComputeSubTotalModel(
+      {      required this.size,
+      required this.fileCount,
+      required this.folderCount});
 
   /// 将model转Json
   @override

@@ -28,7 +28,14 @@ class FfprobeInstallProgressModel extends JsonSerialize {
   /** 安装信息 **/
   String info;
 
-  FfprobeInstallProgressModel({required this.isRuning, required this.isInstalled, required this.total, required this.downloadedSize, required this.speed, required this.progress, required this.info});
+  FfprobeInstallProgressModel(
+      {      required this.isRuning,
+      required this.isInstalled,
+      required this.total,
+      required this.downloadedSize,
+      required this.speed,
+      required this.progress,
+      required this.info});
 
   /// 将model转Json
   @override

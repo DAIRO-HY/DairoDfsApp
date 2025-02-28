@@ -13,7 +13,9 @@ class ModifyPwdAppModel extends JsonSerialize {
   /** 新密码 **/
   String pwd;
 
-  ModifyPwdAppModel({required this.oldPwd, required this.pwd});
+  ModifyPwdAppModel(
+      {      required this.oldPwd,
+      required this.pwd});
 
   /// 将model转Json
   @override

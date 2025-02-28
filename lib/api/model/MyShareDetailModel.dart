@@ -28,7 +28,14 @@ class MyShareDetailModel extends JsonSerialize {
   /** 创建日期 **/
   String date;
 
-  MyShareDetailModel({required this.id, required this.url, required this.pwd, required this.folder, required this.names, required this.endDate, required this.date});
+  MyShareDetailModel(
+      {      required this.id,
+      required this.url,
+      required this.pwd,
+      required this.folder,
+      required this.names,
+      required this.endDate,
+      required this.date});
 
   /// 将model转Json
   @override

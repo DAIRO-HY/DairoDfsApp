@@ -4,11 +4,11 @@ import 'package:dairo_dfs_app/extension/BuildContext++.dart';
 import '../../../uc/item/ItemSwitch.dart';
 
 ///条目分组
-class UCAcountInfoGroup extends StatelessWidget {
+class UCLoggedUserGroup extends StatelessWidget {
 
   /// 条目列表
   final List<Widget> children;
-  UCAcountInfoGroup({
+  UCLoggedUserGroup({
     super.key, required this.children,
   }){
 

@@ -4,9 +4,9 @@ import 'dart:convert';
 
 import '../../util/JsonSerialize.dart';
 import 'FilePropertyHistoryModel.dart';
-import 'FilePropertyHistoryModel.dart';
 
 class FilePropertyModel extends JsonSerialize {
+
   /** 名称 **/
   String name;
 
@@ -35,7 +35,7 @@ class FilePropertyModel extends JsonSerialize {
   List<FilePropertyHistoryModel> historyList;
 
   FilePropertyModel(
-      {required this.name,
+      {      required this.name,
       required this.path,
       required this.size,
       required this.contentType,

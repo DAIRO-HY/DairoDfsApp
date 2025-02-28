@@ -1,23 +1,24 @@
+import 'package:dairo_dfs_app/page/logged_user/uc/UCLoggedUserGroup.dart';
+import 'package:dairo_dfs_app/page/logged_user/uc/UCLoggedUserItem.dart';
+import 'package:dairo_dfs_app/page/login/LoginType.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:dairo_dfs_app/bean/AccountInfo.dart';
 import 'package:dairo_dfs_app/extension/BuildContext++.dart';
-import 'package:dairo_dfs_app/page/account/uc/UCAccountItem.dart';
-import 'package:dairo_dfs_app/page/account/uc/UCAcountInfoGroup.dart';
 import 'package:dairo_dfs_app/uc/UCButton.dart';
 import '../../uc/dialog/UCAlertDialog.dart';
 import '../../util/shared_preferences/SettingShared.dart';
 import '../login/LoginPage.dart';
 
-/// 账号列表页面
-class AccountPage extends StatefulWidget {
-  const AccountPage({super.key});
+/// 查看已经登录用户列表页面
+class LoggedUserPage extends StatefulWidget {
+  const LoggedUserPage({super.key});
 
   @override
-  State<AccountPage> createState() => _AccountPageState();
+  State<LoggedUserPage> createState() => _LoggedUserPageState();
 }
 
-class _AccountPageState extends State<AccountPage> {
+class _LoggedUserPageState extends State<LoggedUserPage> {
   @override
   void initState() {
     super.initState();
@@ -35,13 +36,13 @@ class _AccountPageState extends State<AccountPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Gap(20),
-              context.textSecondarySmall("切换账号"),
+              context.textSecondarySmall("切换账号（长按可编辑、删除）"),
               Gap(3),
-              UCAcountInfoGroup(
-                  children: SettingShared.logined.map((it) => UCAccountItem(it, onSelect: this.onSelect, onDelete: this.onDelete)).toList()),
+              UCLoggedUserGroup(
+                  children: SettingShared.loggedUserList.map((it) => UCLoggedUserItem(it, onSelect: this.onSelect, onDelete: this.onDelete)).toList()),
               Gap(30),
               UCButton("添加账号", onPressed: () {
-                context.toPage(LoginPage(isAdd: true));
+                context.toPage(LoginPage(type: LoginType.ADD));
               })
             ],
           ),
@@ -68,7 +69,7 @@ class _AccountPageState extends State<AccountPage> {
       msg += "该账户为当前登录状态，删除后需要重新登录！";
     }
     UCAlertDialog.show(super.context, msg: msg, okFun: () {
-      final logined = SettingShared.logined;
+      final logined = SettingShared.loggedUserList;
       for (var i = 0; i < logined.length; i++) {
         final it = logined[i];
         if (it.domain == account.domain && it.name == account.name) {
@@ -76,7 +77,7 @@ class _AccountPageState extends State<AccountPage> {
           break;
         }
       }
-      SettingShared.logined = logined;
+      SettingShared.loggedUserList = logined;
       if (account.isLogining) {
         SettingShared.logout();
         super.context.relaunch(LoginPage());

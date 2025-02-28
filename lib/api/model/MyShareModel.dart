@@ -28,7 +28,14 @@ class MyShareModel extends JsonSerialize {
   /** 缩略图 **/
   String thumb;
 
-  MyShareModel({required this.id, required this.title, required this.fileCount, required this.folderFlag, required this.endDate, required this.date, required this.thumb});
+  MyShareModel(
+      {      required this.id,
+      required this.title,
+      required this.fileCount,
+      required this.folderFlag,
+      required this.endDate,
+      required this.date,
+      required this.thumb});
 
   /// 将model转Json
   @override

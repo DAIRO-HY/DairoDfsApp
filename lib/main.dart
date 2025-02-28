@@ -39,7 +39,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return themeVn.build((value) {
-
       //主题模式
       var themeMode = ThemeMode.system;
       switch (value) {
@@ -72,6 +71,10 @@ class MyApp extends StatelessWidget {
     return ThemeData(
         useMaterial3: true,
         appBarTheme: AppBarTheme(backgroundColor: primary, foregroundColor: Colors.white),
+        textSelectionTheme: TextSelectionThemeData(
+          selectionColor: Color(0xFFA3A3A3),//文本选中背景颜色
+          selectionHandleColor: Colors.red,//光标拖动手柄颜色
+        ),
         dialogTheme: DialogTheme(
 
             //对话框的背景颜色。
@@ -132,6 +135,10 @@ class MyApp extends StatelessWidget {
     return ThemeData(
         useMaterial3: true,
         appBarTheme: AppBarTheme(backgroundColor: primary, foregroundColor: Colors.white),
+        textSelectionTheme: TextSelectionThemeData(
+          selectionColor: Color(0xFF00CCFF), //文本选中背景颜色
+          selectionHandleColor: Colors.red, //光标拖动手柄颜色
+        ),
         dialogTheme: DialogTheme(
 
             //对话框的背景颜色。

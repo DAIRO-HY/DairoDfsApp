@@ -4,18 +4,18 @@ import '../util/JsonSerialize.dart';
 ///登录信息
 class AccountInfo extends JsonSerialize {
   /// 服务器名
-  final String domain;
+  String domain;
 
   /// 用户名
-  final String name;
+  String name;
 
   /// 密码
-  final String pwd;
+  String pwd;
 
   /// 是否当前登录的账号
   bool isLogining = false;
 
-  AccountInfo({required this.domain,required this.name, required this.pwd, this.isLogining = false});
+  AccountInfo({this.domain = "", this.name = "", this.pwd = "", this.isLogining = false});
 
   static AccountInfo fromJson(String json) {
     Map<String, dynamic> map = jsonDecode(json);

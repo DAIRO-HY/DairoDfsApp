@@ -28,7 +28,14 @@ class SyncServerModel extends JsonSerialize {
   /** 最后一次心跳时间 **/
   String lastHeartTime;
 
-  SyncServerModel({required this.no, required this.url, required this.state, required this.msg, required this.syncCount, required this.lastTime, required this.lastHeartTime});
+  SyncServerModel(
+      {      required this.no,
+      required this.url,
+      required this.state,
+      required this.msg,
+      required this.syncCount,
+      required this.lastTime,
+      required this.lastHeartTime});
 
   /// 将model转Json
   @override

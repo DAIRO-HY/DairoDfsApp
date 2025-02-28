@@ -16,7 +16,10 @@ class FilePropertyHistoryModel extends JsonSerialize {
   /** 创建日期 **/
   String date;
 
-  FilePropertyHistoryModel({required this.id, required this.size, required this.date});
+  FilePropertyHistoryModel(
+      {      required this.id,
+      required this.size,
+      required this.date});
 
   /// 将model转Json
   @override
