@@ -1,10 +1,9 @@
+import 'package:dairo_dfs_app/page/album/vm/AlbumVM.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:dairo_dfs_app/extension/BuildContext++.dart';
 import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
 
 import '../../../uc/UCImage.dart';
-import '../../file/bean/DfsFileBean.dart';
 import 'UCAlbumItem.dart';
 
 ///表格显示视图
@@ -19,7 +18,7 @@ class UCGridAlbumItem extends StatelessWidget {
   final UCAlbumItem fi;
 
   ///文件数据
-  late final DfsFileBean dfsFile = this.fi.dfsFile;
+  late final AlbumVM dfsFile = this.fi.albumVM;
 
   UCGridAlbumItem({
     super.key,
@@ -36,8 +35,7 @@ class UCGridAlbumItem extends StatelessWidget {
           this.thumbView(context), //文件图标
           this.checkIconView(context)
         ])
-      ],
-    );
+      ]);
   }
 
   ///选择图标

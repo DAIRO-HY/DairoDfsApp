@@ -6,8 +6,6 @@ import 'package:dairo_dfs_app/page/home/uc/UCAddOption.dart';
 import 'package:dairo_dfs_app/util/even_bus/EventCode.dart';
 import 'package:dairo_dfs_app/util/even_bus/EventUtil.dart';
 
-import '../../util/shared_preferences/SettingShared.dart';
-
 /// 文件列表页面
 class AlbumPage extends StatefulWidget {
   const AlbumPage({super.key});
@@ -20,14 +18,11 @@ class AlbumPageState extends State<AlbumPage> {
   ///是选择模式值监听
   final selectModeVN = ValueNotifier(false);
 
-  ///当前文件夹改变监听器
-  final currentFolderVN = ValueNotifier("");
-
   ///顶部工具条组件
   late var ucToolBar = UCAlbumToolBar(this);
 
   ///文件列表组件
-  late var ucFileList = UCAlbumListView(this);
+  late var ucAlbumListView = UCAlbumListView(this);
 
   ///操作菜单组件
   late var ucOptionMenu = UCAlbumOptionMenu(this);
@@ -42,24 +37,14 @@ class AlbumPageState extends State<AlbumPage> {
   void initState() {
     super.initState();
 
-    //获取最后一次打开的文件夹
-    final folder = SettingShared.lastOpenFolder;
-
     //加载文件列表
-    this.ucFileList.loadSubFile(folder);
+    this.ucAlbumListView.loadSubFile();
     EventUtil.regist(this, EventCode.FILE_PAGE_RELOAD, (_) {
-      this.ucFileList.reload();
-    });
-    EventUtil.regist(this, EventCode.UPLOAD_PAGE_RELOAD, (data) {
-      if (data != this.currentFolderVN.value) {
-        //当前显示的文件夹和上传的文件夹不是同一个时,无需刷新
-        return;
-      }
-      this.ucFileList.reload();
+      this.ucAlbumListView.reload();
     });
     EventUtil.regist(this, EventCode.DFS_FILE_PAGE_GO_FOLDER, (data) {
       //打开某个文件夹
-      this.ucFileList.loadSubFile(data as String);
+      this.ucAlbumListView.loadSubFile();
     });
   }
 
@@ -69,7 +54,7 @@ class AlbumPageState extends State<AlbumPage> {
         body: Stack(children: [
       Column(
         children: [
-          this.ucFileList, //文件列表
+          this.ucAlbumListView, //文件列表
           this.ucOptionMenu, //操作功能菜单
         ],
       ),

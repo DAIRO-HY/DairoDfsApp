@@ -27,6 +27,9 @@ class Api{
   //获取文件列表
   static const APP_FILES_GET_LIST = "/app/files/get_list";
 
+  //获取相册列表
+  static const APP_FILES_GET_ALBUM_LIST = "/app/files/get_album_list";
+
   //获取扩展文件的所有key值
   //id 文件id
   static const APP_FILES_GET_EXTRA_KEYS = "/app/files/get_extra_keys";
@@ -36,6 +39,9 @@ class Api{
 
   //删除文件
   static const APP_FILES_DELETE = "/app/files/delete";
+
+  //删除文件
+  static const APP_FILES_DELETE_BY_IDS = "/app/files/delete_by_ids";
 
   //重命名
   //sourcePath 源路径

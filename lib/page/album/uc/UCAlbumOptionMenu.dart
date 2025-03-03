@@ -51,7 +51,7 @@ class UCAlbumOptionMenu extends StatelessWidget {
       // UCOptionMenuButton("全选", icon: Icons.library_add_check_outlined, onPressed: this.onCheckAllClick),
       UCOptionMenuButton("删除", icon: Icons.delete_forever_outlined, disabled: selectedCount == 0, onPressed: this.onDeleteClick),
       UCOptionMenuButton("下载", icon: Icons.download_for_offline_outlined, disabled: selectedCount == 0, onPressed: this.onDownloadClick),
-      UCOptionMenuButton("刷新", icon: Icons.refresh_outlined, onPressed: this.albumPageState.ucFileList.reload),
+      UCOptionMenuButton("刷新", icon: Icons.refresh_outlined, onPressed: this.albumPageState.ucAlbumListView.reload),
       UCOptionMenuButton("分享", icon: Icons.share, disabled: selectedCount == 0, onPressed: this.onShareClick),
       UCOptionMenuButton("退出", icon: Icons.exit_to_app, onPressed: this.onExitClick),
     ];
@@ -61,8 +61,8 @@ class UCAlbumOptionMenu extends StatelessWidget {
   ///删除
   void onDeleteClick() {
     UCAlertDialog.show(this._context, title: "删除确认", msg: "确定要删除选中的${this.albumPageState.selectedCount}个文件或文件夹吗？", okFun: () {
-      FilesApi.delete(paths: this.albumPageState.ucFileList.selectedPaths).post(() async {
-        this.albumPageState.ucFileList.reload();
+      FilesApi.deleteByIds(ids: this.albumPageState.ucAlbumListView.selectedIds).post(() async {
+        this.albumPageState.ucAlbumListView.reload();
         this._context.toast("删除成功");
       }, this._context);
     }, cancelFun: () {});
@@ -70,12 +70,12 @@ class UCAlbumOptionMenu extends StatelessWidget {
 
   ///下载按钮点击事件
   void onDownloadClick() async {
-    UCDownloadWaitDialog(this._context, this.albumPageState.ucFileList.selected).show();
+    // UCDownloadWaitDialog(this._context, this.albumPageState.ucAlbumListView.selected).show();
   }
 
   ///分享按钮点击事件
   void onShareClick(){
-    UCShare.show(this._context, this.albumPageState.ucFileList.selectedPaths);
+    // UCShare.show(this._context, this.albumPageState.ucAlbumListView.selectedPaths);
   }
 
   ///退出按钮点击事件
@@ -87,7 +87,7 @@ class UCAlbumOptionMenu extends StatelessWidget {
   void hide() {
 
     //将所有已选择取消
-    for (var it in this.albumPageState.ucFileList.dfsFileList) {
+    for (var it in this.albumPageState.ucAlbumListView.albumVMList) {
       it.isSelected = false;
     }
     this.albumPageState.selectedCount = 0;
@@ -99,6 +99,6 @@ class UCAlbumOptionMenu extends StatelessWidget {
     this.redrawVN.value = 0;
 
     //页面重新绘制
-    this.albumPageState.ucFileList.redraw();
+    this.albumPageState.ucAlbumListView.redraw();
   }
 }

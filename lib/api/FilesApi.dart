@@ -1,8 +1,9 @@
 import 'API.dart';
-import '../util/http/VoidApiHttp.dart';
 import 'model/FileModel.dart';
 import '../util/http/ReturnApiHttp.dart';
+import 'model/AlbumModel.dart';
 import 'model/FilePropertyModel.dart';
+import '../util/http/VoidApiHttp.dart';
 
 class FilesApi {
 
@@ -14,6 +15,11 @@ class FilesApi {
   //获取文件列表
   static ReturnApiHttp<List<FileModel>> getList({required String folder}){
     return ReturnApiHttp<List<FileModel>>(Api.APP_FILES_GET_LIST, FileModel.fromJsonList).add("folder",folder);
+  }
+
+  //获取相册列表
+  static ReturnApiHttp<List<AlbumModel>> getAlbumList(){
+    return ReturnApiHttp<List<AlbumModel>>(Api.APP_FILES_GET_ALBUM_LIST, AlbumModel.fromJsonList);
   }
 
   //获取扩展文件的所有key值
@@ -30,6 +36,11 @@ class FilesApi {
   //删除文件
   static VoidApiHttp delete({required List<String> paths}){
     return VoidApiHttp(Api.APP_FILES_DELETE).add("paths",paths);
+  }
+
+  //删除文件
+  static VoidApiHttp deleteByIds({required List<int> ids}){
+    return VoidApiHttp(Api.APP_FILES_DELETE_BY_IDS).add("ids",ids);
   }
 
   //重命名

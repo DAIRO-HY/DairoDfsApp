@@ -1,3 +1,5 @@
+import 'package:dairo_dfs_app/api/model/AlbumModel.dart';
+import 'package:dairo_dfs_app/page/album/vm/AlbumVM.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:dairo_dfs_app/code/FileOrderBy.dart';
@@ -8,10 +10,8 @@ import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
 import 'package:dairo_dfs_app/page/image_viewer/ImageViewerPage.dart';
 import 'package:dairo_dfs_app/page/video_player/VideoPlayerPage.dart';
 
-import '../../../api/model/FileModel.dart';
+import '../../../util/shared_preferences/AlbumShared.dart';
 import '../../../util/shared_preferences/SettingShared.dart';
-import '../../file/bean/DfsFileBean.dart';
-import '../../../util/shared_preferences/DfsFileShared.dart';
 import '../AlbumPage.dart';
 import 'UCAlbumItem.dart';
 
@@ -23,7 +23,8 @@ class UCAlbumListView extends StatelessWidget {
   ///文件页面状态对象
   final AlbumPageState albumPageState;
 
-  List<DfsFileBean> dfsFileList = [];
+  /// 相册视图模型列表
+  List<AlbumVM> albumVMList = [];
 
   late BuildContext _context;
 
@@ -45,7 +46,7 @@ class UCAlbumListView extends StatelessWidget {
           color: context.color.primaryContainer,
           child: this.fileListFlagVN.build((value) => GridView.builder(
               padding: EdgeInsets.zero,
-              itemCount: this.dfsFileList.length,
+              itemCount: this.albumVMList.length,
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: itemWidth, // 每个项的最大宽度
                 childAspectRatio: 1 / 1, // 宽高比
@@ -53,7 +54,7 @@ class UCAlbumListView extends StatelessWidget {
                 mainAxisSpacing: spacing, // 垂直间距
               ),
               itemBuilder: (context, index) {
-                final dfsFile = this.dfsFileList[index];
+                final dfsFile = this.albumVMList[index];
 
                 //文件列表条目
                 return fileItemView(dfsFile, itemWidth);
@@ -62,11 +63,11 @@ class UCAlbumListView extends StatelessWidget {
   }
 
   ///文件项目
-  Widget fileItemView(DfsFileBean dfsFile, double width) => Listener(
+  Widget fileItemView(AlbumVM dfsFile, double width) => Listener(
       onPointerDown: (PointerDownEvent event) {
         if (event.kind == PointerDeviceKind.mouse && event.buttons == kSecondaryMouseButton) {
           // 处理右键点击事件
-          for (final it in this.dfsFileList) {
+          for (final it in this.albumVMList) {
             //右键点击时，默认只选择当前文件
             it.isSelected = false;
           }
@@ -82,35 +83,28 @@ class UCAlbumListView extends StatelessWidget {
         width,
         isSelectMode: this.albumPageState.selectModeVN.value,
         onSelectChange: this.albumPageState.onCheckChange,
-        onLoadSubFile: this.loadSubFile,
-        onFileClick: this.onFileClick,
+        onClick: this.onFileClick,
       ));
 
   ///当前选中的路径列表
-  List<String> get selectedPaths => this.dfsFileList.where((it) => it.isSelected).map((it) => it.path).toList();
+  List<int> get selectedIds => this.albumVMList.where((it) => it.isSelected).map((it) => it.id).toList();
 
   ///当前选中的路径列表
-  List<DfsFileBean> get selected => this.dfsFileList.where((it) => it.isSelected).toList();
+  List<AlbumVM> get selected => this.albumVMList.where((it) => it.isSelected).toList();
 
   ///获取文件列表
-  void loadSubFile(String folderPath) {
-    DfsFileShared.getSubList(folderPath, (list) {
+  void loadSubFile() {
+    AlbumShared.list((list) {
       if (this.albumPageState.isFinish) {
         //如果页面已经关闭，那就什么也不做。防止异步操作时，页面被关闭报错
         return;
       }
-      this.sortFile(list);
-      this.dfsFileList = list.map((it) => DfsFileBean(folderPath, it)).toList();
+      this.sort(list);
+      this.albumVMList = list.map((it) => AlbumVM(it)).toList();
       this.albumPageState.selectedCount = 0;
 
       //关闭选择模式
       //this.albumPageState.selectModeVN.value = false;
-
-      //设置当前显示的文件夹路径
-      this.albumPageState.currentFolderVN.value = folderPath;
-
-      //记录当前打开的文件夹
-      SettingShared.lastOpenFolder = folderPath;
 
       //隐藏操作菜单栏
       //this.albumPageState.ucOptionMenu.hide();
@@ -121,7 +115,7 @@ class UCAlbumListView extends StatelessWidget {
   }
 
   ///文件排列
-  void sortFile(List<FileModel> dfsList) {
+  void sort(List<AlbumModel> dfsList) {
     //排序方式
     final sortType = SettingShared.sortType;
 
@@ -170,11 +164,11 @@ class UCAlbumListView extends StatelessWidget {
 
   ///重新加载文件列表
   void reload() {
-    this.loadSubFile(this.albumPageState.currentFolderVN.value);
+    this.loadSubFile();
   }
 
   ///文件点击事件
-  void onFileClick(DfsFileBean dfsFile) {
+  void onFileClick(AlbumVM dfsFile) {
     //是否图片
     isImageFun(String name) =>
         name.endsWith(".jpg") ||
@@ -192,12 +186,12 @@ class UCAlbumListView extends StatelessWidget {
       //如果是图片的话
 
       //整理所有图片列表
-      final imageList = <DfsFileBean>[];
+      final imageList = <AlbumVM>[];
 
       //当前选择的序号
       var curentIndex = -1;
-      for (var i = 0; i < this.dfsFileList.length; i++) {
-        final it = this.dfsFileList[i];
+      for (var i = 0; i < this.albumVMList.length; i++) {
+        final it = this.albumVMList[i];
         if (it == dfsFile) {
           curentIndex = imageList.length;
         }
@@ -205,17 +199,17 @@ class UCAlbumListView extends StatelessWidget {
           imageList.add(it);
         }
       }
-      this._context.toPage(ImageViewerPage(dfsFileList: imageList, currentIndex: curentIndex));
+      // this._context.toPage(ImageViewerPage(dfsFileList: imageList, currentIndex: curentIndex));
     } else if (isVedio(dfsFile.name.toLowerCase())) {
       //如果是视频的话
 
       //整理所有视频列表
-      final videoList = <DfsFileBean>[];
+      final videoList = <AlbumVM>[];
 
       //当前选择的序号
       var curentIndex = -1;
-      for (var i = 0; i < this.dfsFileList.length; i++) {
-        final it = this.dfsFileList[i];
+      for (var i = 0; i < this.albumVMList.length; i++) {
+        final it = this.albumVMList[i];
         if (it == dfsFile) {
           curentIndex = videoList.length;
         }
@@ -223,7 +217,7 @@ class UCAlbumListView extends StatelessWidget {
           videoList.add(it);
         }
       }
-      this._context.toPage(VideoPlayerPage(dfsFileList: videoList, currentIndex: curentIndex));
+      // this._context.toPage(VideoPlayerPage(dfsFileList: videoList, currentIndex: curentIndex));
     }
   }
 }

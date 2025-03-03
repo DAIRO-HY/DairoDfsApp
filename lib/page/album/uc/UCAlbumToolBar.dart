@@ -98,17 +98,6 @@ class _UCAlbumToolBarState extends State<UCAlbumToolBar> {
             child: Icon(icon, color: Colors.white, size: 24)));
   }
 
-  ///上级目录点击事件
-  void onBackClick() {
-    final folder = this.widget.albumPageState.currentFolderVN.value;
-    if (folder.isEmpty) {
-      return;
-    }
-    final lastSplitIndex = folder.lastIndexOf("/");
-    final parentFolder = folder.substring(0, lastSplitIndex);
-    this.widget.albumPageState.ucFileList.loadSubFile(parentFolder);
-  }
-
   ///选择模式切换按钮点击事件
   void onCheckModelClick() {
     this.widget.albumPageState.selectModeVN.value = !this.widget.albumPageState.selectModeVN.value;
@@ -119,7 +108,7 @@ class _UCAlbumToolBarState extends State<UCAlbumToolBar> {
       this.widget.albumPageState.ucOptionMenu.redraw();
 
       //文件列表重绘
-      this.widget.albumPageState.ucFileList.redraw();
+      this.widget.albumPageState.ucAlbumListView.redraw();
     }
   }
 

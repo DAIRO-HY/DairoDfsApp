@@ -1,7 +1,7 @@
 import 'API.dart';
+import '../util/http/ReturnApiHttp.dart';
 import '../util/http/VoidApiHttp.dart';
 import 'model/TrashModel.dart';
-import '../util/http/ReturnApiHttp.dart';
 
 class TrashApi {
 
