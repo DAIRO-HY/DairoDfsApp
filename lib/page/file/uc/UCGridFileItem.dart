@@ -5,7 +5,7 @@ import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
 
 import '../../../Const.dart';
 import '../../../uc/UCImage.dart';
-import '../../../view_model/DfsFileVM.dart';
+import '../vm/DfsFileVM.dart';
 import 'UCFileItem.dart';
 
 ///表格显示视图

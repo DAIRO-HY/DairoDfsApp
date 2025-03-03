@@ -12,7 +12,7 @@ import '../../../util/even_bus/EventCode.dart';
 import '../../../util/even_bus/EventUtil.dart';
 import '../../../util/http/ApiHttp.dart';
 import '../../../util/shared_preferences/SettingShared.dart';
-import '../../../view_model/DfsFileVM.dart';
+import '../../file/vm/DfsFileVM.dart';
 import '../../transfer/TransferPage.dart';
 
 ///等待下载弹出框

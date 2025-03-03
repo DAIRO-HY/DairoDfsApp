@@ -14,8 +14,10 @@ import 'package:dairo_dfs_app/page/video_player/VideoPlayerPage.dart';
 import '../../../api/model/FileModel.dart';
 import '../../../util/shared_preferences/SettingShared.dart';
 import '../../../util/shared_preferences/DfsFileShared.dart';
-import '../../../view_model/DfsFileVM.dart';
+import '../../image_viewer/vm/ImageViewerVM.dart';
+import '../../video_player/vm/VideoPlayerVM.dart';
 import '../FilePage.dart';
+import '../vm/DfsFileVM.dart';
 import 'UCFileItem.dart';
 
 ///文件列表组件
@@ -205,7 +207,7 @@ class UCFileListView extends StatelessWidget {
       //如果是图片的话
 
       //整理所有图片列表
-      final imageList = <DfsFileVM>[];
+      final imageList = <ImageViewerVM>[];
 
       //当前选择的序号
       var curentIndex = -1;
@@ -215,7 +217,7 @@ class UCFileListView extends StatelessWidget {
           curentIndex = imageList.length;
         }
         if (isImageFun(it.name.toLowerCase())) {
-          imageList.add(it);
+          imageList.add(ImageViewerVM(id: it.id,name: it.name,thumb: it.thumb));
         }
       }
       this._context.toPage(ImageViewerPage(dfsFileList: imageList, currentIndex: curentIndex));
@@ -223,7 +225,7 @@ class UCFileListView extends StatelessWidget {
       //如果是视频的话
 
       //整理所有视频列表
-      final videoList = <DfsFileVM>[];
+      final videoList = <VideoPlayerVM>[];
 
       //当前选择的序号
       var curentIndex = -1;
@@ -233,7 +235,7 @@ class UCFileListView extends StatelessWidget {
           curentIndex = videoList.length;
         }
         if (isVedio(it.name.toLowerCase())) {
-          videoList.add(it);
+          videoList.add(VideoPlayerVM(id: it.id,name: it.name,thumb: it.thumb));
         }
       }
       this._context.toPage(VideoPlayerPage(dfsFileList: videoList, currentIndex: curentIndex));

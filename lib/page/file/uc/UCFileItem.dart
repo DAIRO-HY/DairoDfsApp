@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dairo_dfs_app/code/FileViewType.dart';
-import '../../../view_model/DfsFileVM.dart';
+import '../vm/DfsFileVM.dart';
 import 'UCFileOptionMenu.dart';
 import 'UCGridFileItem.dart';
 import 'UCListFileItem.dart';

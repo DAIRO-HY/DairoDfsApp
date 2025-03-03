@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:dairo_dfs_app/page/video_player/vm/VideoPlayerVM.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:dairo_dfs_app/Const.dart';
@@ -20,12 +21,11 @@ import '../../uc/video_player/UCVideoPlayer.dart';
 import '../../uc/video_player/UCVideoPlayerBase.dart';
 import '../../util/download/DownloadTask.dart';
 import '../../util/http/ApiHttp.dart';
-import '../../view_model/DfsFileVM.dart';
 
 /// 视频播放页面
 class VideoPlayerPage extends StatefulWidget {
   ///当前浏览文件列表
-  final List<DfsFileVM> dfsFileList;
+  final List<VideoPlayerVM> dfsFileList;
 
   final int currentIndex;
 
@@ -77,7 +77,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   final videoController = VideoPlayerController();
 
   ///得到当前DFS文件
-  DfsFileVM get currentDfs => this.widget.dfsFileList[this.currentIndex];
+  VideoPlayerVM get currentDfs => this.widget.dfsFileList[this.currentIndex];
 
   ///用来存储视频画质列表的keys
   String get qualityLocalKey => "${this.currentDfs.id}/video_extra";

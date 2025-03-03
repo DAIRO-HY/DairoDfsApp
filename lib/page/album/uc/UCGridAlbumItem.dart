@@ -28,14 +28,12 @@ class UCGridAlbumItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Container(color: Colors.red);
-    return Column(
-      children: [
-        Stack(alignment: AlignmentDirectional.center, children: [
-          this.thumbView(context), //文件图标
-          this.checkIconView(context)
-        ])
-      ]);
+    return Column(children: [
+      Stack(alignment: AlignmentDirectional.center, children: [
+        this.thumbView(context), //文件图标
+        this.checkIconView(context)
+      ])
+    ]);
   }
 
   ///选择图标
@@ -64,31 +62,25 @@ class UCGridAlbumItem extends StatelessWidget {
 
   ///文件图标
   Widget thumbView(BuildContext context) {
-    if (this.dfsFile.fileFlag) {
-      //如果是文件
-      if (this.dfsFile.thumb != null) {
-        return Container(
-            padding: EdgeInsets.all(0),
-            width: this.width,
-            height: this.width,
-            child: UCImage(this.dfsFile.thumb!, width: 0, height: 0, radius: 0, checkedDownload: false));
-      } else {
-        return Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: context.color.onSurface.withOpacity(0.1),
-                  spreadRadius: 1,
-                  blurRadius: 10,
-                  // offset: Offset(2, 2),
-                ),
-              ],
-            ),
-            child: Icon(Icons.insert_drive_file, size: this.width, color: Colors.white));
-      }
+    if (this.dfsFile.thumb.isNotEmpty) {
+      return Container(
+          padding: EdgeInsets.all(0),
+          width: this.width,
+          height: this.width,
+          child: UCImage(this.dfsFile.thumb, width: 0, height: 0, radius: 0, checkedDownload: false));
     } else {
-      //如果是文件夹
-      return Icon(Icons.folder, size: UCGridAlbumItem.THUMB_SIZE, color: Color(0xFF6FBEEA));
+      return Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: context.color.onSurface.withOpacity(0.1),
+                spreadRadius: 1,
+                blurRadius: 10,
+                // offset: Offset(2, 2),
+              ),
+            ],
+          ),
+          child: Icon(Icons.insert_drive_file, size: this.width, color: Colors.white));
     }
   }
 }
