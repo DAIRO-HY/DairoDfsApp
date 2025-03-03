@@ -1,12 +1,12 @@
+import 'package:dairo_dfs_app/extension/Number++.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:dairo_dfs_app/extension/BuildContext++.dart';
-import 'package:dairo_dfs_app/extension/Number++.dart';
 import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
 
 import '../../../Const.dart';
 import '../../../uc/UCImage.dart';
-import '../bean/DfsFileBean.dart';
+import '../../../view_model/DfsFileVM.dart';
 import 'UCFileItem.dart';
 
 ///列表显示视图
@@ -18,7 +18,7 @@ class UCListFileItem extends StatelessWidget {
   final UCFileItem fi;
 
   ///文件数据
-  late final DfsFileBean dfsFile = this.fi.dfsFile;
+  late final DfsFileVM dfsFile = this.fi.dfsFile;
 
   UCListFileItem({
     super.key,

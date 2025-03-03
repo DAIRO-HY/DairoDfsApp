@@ -5,7 +5,7 @@ import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
 
 import '../../../Const.dart';
 import '../../../uc/UCImage.dart';
-import '../bean/DfsFileBean.dart';
+import '../../../view_model/DfsFileVM.dart';
 import 'UCFileItem.dart';
 
 ///表格显示视图
@@ -17,7 +17,7 @@ class UCGridFileItem extends StatelessWidget {
   final UCFileItem fi;
 
   ///文件数据
-  late final DfsFileBean dfsFile = this.fi.dfsFile;
+  late final DfsFileVM dfsFile = this.fi.dfsFile;
 
   UCGridFileItem({
     super.key,

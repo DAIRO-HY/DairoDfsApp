@@ -1,8 +1,8 @@
 import 'package:dairo_dfs_app/extension/String++.dart';
-import '../../../api/model/FileModel.dart';
+import '../api/model/FileModel.dart';
 
-///文件信息Bean
-class DfsFileBean {
+///文件信息试图模型
+class DfsFileVM {
   /// 文件id
   late final int id;
 
@@ -27,7 +27,7 @@ class DfsFileBean {
   /// 是否选中
   var isSelected = false;
 
-  DfsFileBean(String parent, FileModel fileModel) {
+  DfsFileVM(String parent, FileModel fileModel) {
     this.id = fileModel.id;
     this.name = fileModel.name;
     this.size = fileModel.size;

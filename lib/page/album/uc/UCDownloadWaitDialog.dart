@@ -12,14 +12,14 @@ import '../../../util/even_bus/EventCode.dart';
 import '../../../util/even_bus/EventUtil.dart';
 import '../../../util/http/ApiHttp.dart';
 import '../../../util/shared_preferences/SettingShared.dart';
-import '../../file/bean/DfsFileBean.dart';
+import '../../../view_model/DfsFileVM.dart';
 import '../../transfer/TransferPage.dart';
 
 ///等待下载弹出框
 class UCDownloadWaitDialog {
 
   ///选中要下载的文件
-  final List<DfsFileBean> selectedDownload;
+  final List<DfsFileVM> selectedDownload;
 
   ///文件下载数变化通知
   final countVN = ValueNotifier(0);
@@ -94,7 +94,7 @@ class UCDownloadWaitDialog {
   }
 
   ///循环下载文件夹下的所有的文件
-  Future<void> _loopDownload(List<DownloadDto> downloadList, DfsFileBean dfsBean) async {
+  Future<void> _loopDownload(List<DownloadDto> downloadList, DfsFileVM dfsBean) async {
     if (this.isCancel) {
       return;
     }
@@ -123,7 +123,7 @@ class UCDownloadWaitDialog {
       return true;
     }).post((list) async {
       for (var it in list) {
-        final dfs = DfsFileBean(dfsBean.path, it);
+        final dfs = DfsFileVM(dfsBean.path, it);
         await this._loopDownload(downloadList, dfs);
       }
     });

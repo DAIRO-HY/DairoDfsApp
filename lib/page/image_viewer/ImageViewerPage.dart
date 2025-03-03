@@ -3,11 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
-import 'package:dairo_dfs_app/page/file/bean/DfsFileBean.dart';
 import 'package:dairo_dfs_app/page/image_viewer/uc/UCImageOptionMenu.dart';
 import 'package:dairo_dfs_app/page/image_viewer/uc/UCImageViewer.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+
+import '../../view_model/DfsFileVM.dart';
 
 /// 图片浏览器
 class ImageViewerPage extends StatefulWidget {
@@ -18,7 +19,7 @@ class ImageViewerPage extends StatefulWidget {
   static const MIN_SCALE = 0.01;
 
   ///当前浏览文件列表
-  final List<DfsFileBean> dfsFileList;
+  final List<DfsFileVM> dfsFileList;
 
   ///当前显示的序号
   int currentIndex;
@@ -46,7 +47,7 @@ class ImageViewerPageState extends State<ImageViewerPage> {
   final controllerVN = ValueNotifier(true);
 
   ///得到当前DFS文件
-  DfsFileBean get currentDfs => this.widget.dfsFileList[this.widget.currentIndex];
+  DfsFileVM get currentDfs => this.widget.dfsFileList[this.widget.currentIndex];
 
   ///预览url
   String get previewUrl {

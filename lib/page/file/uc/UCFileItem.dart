@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dairo_dfs_app/code/FileViewType.dart';
-import '../bean/DfsFileBean.dart';
+import '../../../view_model/DfsFileVM.dart';
 import 'UCFileOptionMenu.dart';
 import 'UCGridFileItem.dart';
 import 'UCListFileItem.dart';
@@ -8,7 +8,7 @@ import 'UCListFileItem.dart';
 ///文件列表栏
 class UCFileItem extends StatelessWidget {
   ///DFS文件信息
-  final DfsFileBean dfsFile;
+  final DfsFileVM dfsFile;
 
   ///列表或者表格显示类型
   final int viewType;
@@ -26,7 +26,7 @@ class UCFileItem extends StatelessWidget {
   final void Function(String path) onLoadSubFile;
 
   ///文件点击事件
-  final void Function(DfsFileBean dfsFile) onFileClick;
+  final void Function(DfsFileVM dfsFile) onFileClick;
 
   UCFileItem(this.dfsFile, this.viewType,
       {super.key, required this.isSelectMode, required this.onSelectChange, required this.onLoadSubFile, required this.onFileClick}) {

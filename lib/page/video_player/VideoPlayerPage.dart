@@ -11,7 +11,6 @@ import 'package:dairo_dfs_app/extension/BuildContext++.dart';
 import 'package:dairo_dfs_app/extension/Number++.dart';
 import 'package:dairo_dfs_app/extension/String++.dart';
 import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
-import 'package:dairo_dfs_app/page/file/bean/DfsFileBean.dart';
 import 'package:dairo_dfs_app/util/shared_preferences/SettingShared.dart';
 import '../../code/VideoQualityCode.dart';
 import '../../db/dao/DownloadDao.dart';
@@ -21,11 +20,12 @@ import '../../uc/video_player/UCVideoPlayer.dart';
 import '../../uc/video_player/UCVideoPlayerBase.dart';
 import '../../util/download/DownloadTask.dart';
 import '../../util/http/ApiHttp.dart';
+import '../../view_model/DfsFileVM.dart';
 
 /// 视频播放页面
 class VideoPlayerPage extends StatefulWidget {
   ///当前浏览文件列表
-  final List<DfsFileBean> dfsFileList;
+  final List<DfsFileVM> dfsFileList;
 
   final int currentIndex;
 
@@ -77,7 +77,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   final videoController = VideoPlayerController();
 
   ///得到当前DFS文件
-  DfsFileBean get currentDfs => this.widget.dfsFileList[this.currentIndex];
+  DfsFileVM get currentDfs => this.widget.dfsFileList[this.currentIndex];
 
   ///用来存储视频画质列表的keys
   String get qualityLocalKey => "${this.currentDfs.id}/video_extra";

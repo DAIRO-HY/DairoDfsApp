@@ -13,8 +13,8 @@ import 'package:dairo_dfs_app/page/video_player/VideoPlayerPage.dart';
 
 import '../../../api/model/FileModel.dart';
 import '../../../util/shared_preferences/SettingShared.dart';
-import '../bean/DfsFileBean.dart';
 import '../../../util/shared_preferences/DfsFileShared.dart';
+import '../../../view_model/DfsFileVM.dart';
 import '../FilePage.dart';
 import 'UCFileItem.dart';
 
@@ -26,7 +26,7 @@ class UCFileListView extends StatelessWidget {
   ///文件页面状态对象
   final FilePageState filePageState;
 
-  List<DfsFileBean> dfsFileList = [];
+  List<DfsFileVM> dfsFileList = [];
 
   late BuildContext _context;
 
@@ -75,7 +75,7 @@ class UCFileListView extends StatelessWidget {
   }
 
   ///文件项目
-  Widget fileItemView(DfsFileBean dfsFile, int viewType) => Listener(
+  Widget fileItemView(DfsFileVM dfsFile, int viewType) => Listener(
       onPointerDown: (PointerDownEvent event) {
         if (event.kind == PointerDeviceKind.mouse && event.buttons == kSecondaryMouseButton) {
           // 处理右键点击事件
@@ -103,7 +103,7 @@ class UCFileListView extends StatelessWidget {
   List<String> get selectedPaths => this.dfsFileList.where((it) => it.isSelected).map((it) => it.path).toList();
 
   ///当前选中的路径列表
-  List<DfsFileBean> get selected => this.dfsFileList.where((it) => it.isSelected).toList();
+  List<DfsFileVM> get selected => this.dfsFileList.where((it) => it.isSelected).toList();
 
   ///获取文件列表
   void loadSubFile(String folderPath) {
@@ -113,7 +113,7 @@ class UCFileListView extends StatelessWidget {
         return;
       }
       this.sortFile(list);
-      this.dfsFileList = list.map((it) => DfsFileBean(folderPath, it)).toList();
+      this.dfsFileList = list.map((it) => DfsFileVM(folderPath, it)).toList();
       this.filePageState.selectedCount = 0;
 
       //关闭选择模式
@@ -187,7 +187,7 @@ class UCFileListView extends StatelessWidget {
   }
 
   ///文件点击事件
-  void onFileClick(DfsFileBean dfsFile) {
+  void onFileClick(DfsFileVM dfsFile) {
     //是否图片
     isImageFun(String name) =>
         name.endsWith(".jpg") ||
@@ -205,7 +205,7 @@ class UCFileListView extends StatelessWidget {
       //如果是图片的话
 
       //整理所有图片列表
-      final imageList = <DfsFileBean>[];
+      final imageList = <DfsFileVM>[];
 
       //当前选择的序号
       var curentIndex = -1;
@@ -223,7 +223,7 @@ class UCFileListView extends StatelessWidget {
       //如果是视频的话
 
       //整理所有视频列表
-      final videoList = <DfsFileBean>[];
+      final videoList = <DfsFileVM>[];
 
       //当前选择的序号
       var curentIndex = -1;
