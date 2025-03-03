@@ -247,7 +247,11 @@ class _CachePageState extends State<CachePage> {
       }
 
       //全部清除时,把DFS文件列表缓存也清除掉
-      Directory(DfsFileShared.cacheFolderPath).deleteSync(recursive: true);
+      try {
+        Directory(DfsFileShared.cacheFolderPath).deleteSync(recursive: true);
+      } catch (e) {
+        debugPrint(e.toString());
+      }
 
       //标记正在处理完成
       this.isBusy = false;

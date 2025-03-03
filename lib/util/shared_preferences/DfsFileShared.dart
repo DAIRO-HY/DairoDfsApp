@@ -4,6 +4,9 @@ import 'package:dairo_dfs_app/api/model/FileModel.dart';
 import 'package:dairo_dfs_app/extension/String++.dart';
 import 'package:dairo_dfs_app/api/FilesApi.dart';
 
+//在windows平台使用/作为文件路径分隔符时会报错，使用paths.normalize(path)将路径转换成特定操作系统的分隔符
+import 'package:path/path.dart' as paths;
+
 import '../SyncVariable.dart';
 import '../http/ApiHttp.dart';
 
@@ -15,7 +18,7 @@ class DfsFileShared {
   static const CACHE_FOLDER = "dfs_file_list";
 
   ///存储文件夹目录路径
-  static String get cacheFolderPath => "${SyncVariable.supportPath}/$CACHE_FOLDER";
+  static String get cacheFolderPath => paths.normalize("${SyncVariable.supportPath}/$CACHE_FOLDER");
 
   ///请求文件列表的http请求
   static ApiHttp? _apiHttp;

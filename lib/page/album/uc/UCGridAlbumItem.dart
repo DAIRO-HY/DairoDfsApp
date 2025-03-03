@@ -8,8 +8,6 @@ import 'UCAlbumItem.dart';
 
 ///表格显示视图
 class UCGridAlbumItem extends StatelessWidget {
-  ///缩略图高度
-  static const THUMB_SIZE = 90.0;
 
   ///DFS文件信息
   final double width;
@@ -76,7 +74,6 @@ class UCGridAlbumItem extends StatelessWidget {
                 color: context.color.onSurface.withOpacity(0.1),
                 spreadRadius: 1,
                 blurRadius: 10,
-                // offset: Offset(2, 2),
               ),
             ],
           ),

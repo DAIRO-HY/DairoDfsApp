@@ -13,7 +13,7 @@ class AlbumVM {
   late final int size;
 
   /// 创建日期
-  late final String date;
+  late final int date;
 
   /// 文件缩略图
   late final String thumb;

@@ -11,7 +11,6 @@ import 'package:dairo_dfs_app/page/image_viewer/ImageViewerPage.dart';
 import 'package:dairo_dfs_app/page/video_player/VideoPlayerPage.dart';
 
 import '../../../util/shared_preferences/AlbumShared.dart';
-import '../../../util/shared_preferences/SettingShared.dart';
 import '../../image_viewer/vm/ImageViewerVM.dart';
 import '../../video_player/vm/VideoPlayerVM.dart';
 import '../AlbumPage.dart';
@@ -30,10 +29,19 @@ class UCAlbumListView extends StatelessWidget {
 
   late BuildContext _context;
 
+  final ScrollController _scrollController = ScrollController();
+
   UCAlbumListView(this.albumPageState, {super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    //页面加载完成之后回调事件
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+
+      //将页面滚动到最底部
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+    });
     this._context = context;
     return Expanded(child: LayoutBuilder(builder: (context, constraints) {
       //要显示的列数
@@ -47,6 +55,7 @@ class UCAlbumListView extends StatelessWidget {
       return Container(
           color: context.color.primaryContainer,
           child: this.fileListFlagVN.build((value) => GridView.builder(
+              controller: _scrollController,
               padding: EdgeInsets.zero,
               itemCount: this.albumVMList.length,
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -118,44 +127,9 @@ class UCAlbumListView extends StatelessWidget {
 
   ///文件排列
   void sort(List<AlbumModel> dfsList) {
-    //排序方式
-    final sortType = SettingShared.sortType;
-
-    //升降序方式
-    final sortOrderBy = SettingShared.sortOrderBy;
-
     //排序
     dfsList.sort((p1, p2) {
-      final int compareValue;
-      if (sortType == FileSortType.NAME) {
-        compareValue = p1.name.toLowerCase().compareTo(p2.name.toLowerCase());
-      } else if (sortType == FileSortType.DATE) {
-        compareValue = p1.date.compareTo(p2.date);
-      } else if (sortType == FileSortType.SIZE) {
-        compareValue = p1.size.compareTo(p2.size);
-      } else if (sortType == FileSortType.EXT) {
-        compareValue = p1.name.fileExt.toLowerCase().compareTo(p2.name.fileExt.toLowerCase());
-      } else {
-        return 0;
-      }
-      if (sortOrderBy == FileOrderBy.UP) {
-        //升降序方式
-        return compareValue;
-      }
-      return compareValue * -1;
-    });
-
-    //使文件夹始终在最上面
-    dfsList.sort((p1, p2) {
-      if (p1.fileFlag && !p2.fileFlag) {
-        //都是文件夹
-        return 1;
-      } else if (!p1.fileFlag && p2.fileFlag) {
-        //都是文件夹
-        return -1;
-      } else {
-        return 0;
-      }
+      return p1.date > p2.date ? 1 : -1;
     });
   }
 
@@ -198,7 +172,7 @@ class UCAlbumListView extends StatelessWidget {
           curentIndex = imageList.length;
         }
         if (isImageFun(it.name.toLowerCase())) {
-          imageList.add(ImageViewerVM(id: it.id,name:it.name,thumb: it.thumb));
+          imageList.add(ImageViewerVM(id: it.id, name: it.name, thumb: it.thumb));
         }
       }
       this._context.toPage(ImageViewerPage(dfsFileList: imageList, currentIndex: curentIndex));
@@ -216,7 +190,7 @@ class UCAlbumListView extends StatelessWidget {
           curentIndex = videoList.length;
         }
         if (isVedio(it.name.toLowerCase())) {
-          videoList.add(VideoPlayerVM(id: it.id,name: it.name,thumb:it.thumb));
+          videoList.add(VideoPlayerVM(id: it.id, name: it.name, thumb: it.thumb));
         }
       }
       this._context.toPage(VideoPlayerPage(dfsFileList: videoList, currentIndex: curentIndex));

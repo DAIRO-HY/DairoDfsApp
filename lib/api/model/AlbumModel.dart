@@ -20,17 +20,16 @@ class AlbumModel extends JsonSerialize {
   bool fileFlag;
 
   /** 创建日期 **/
-  String date;
+  int date;
 
   /** 缩率图 **/
   String thumb;
 
   /** 属性 **/
 //Property string `json:"property"`
-/** 拍摄时间 **/
-  int cameraDate;
-
-  /** 相机名 **/
+///** 拍摄时间 **/
+//CameraDate int64 `json:"cameraDate"`
+/** 相机名 **/
   String cameraName;
 
   AlbumModel(
@@ -40,7 +39,6 @@ class AlbumModel extends JsonSerialize {
       required this.fileFlag,
       required this.date,
       required this.thumb,
-      required this.cameraDate,
       required this.cameraName});
 
   /// 将model转Json
@@ -52,7 +50,6 @@ class AlbumModel extends JsonSerialize {
         "fileFlag": this.fileFlag,
         "date": this.date,
         "thumb": this.thumb,
-        "cameraDate": this.cameraDate,
         "cameraName": this.cameraName,
       };
 
@@ -71,7 +68,6 @@ class AlbumModel extends JsonSerialize {
         fileFlag: map["fileFlag"],
         date: map["date"],
         thumb: map["thumb"],
-        cameraDate: map["cameraDate"],
         cameraName: map["cameraName"]);
   }
 

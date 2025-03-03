@@ -1,6 +1,10 @@
 import 'dart:collection';
 import 'dart:io';
 import 'package:dairo_dfs_app/extension/String++.dart';
+import 'package:flutter/cupertino.dart';
+
+//在windows平台使用/作为文件路径分隔符时会报错，使用paths.normalize(path)将路径转换成特定操作系统的分隔符
+import 'package:path/path.dart' as paths;
 import 'package:dairo_dfs_app/util/shared_preferences/SettingShared.dart';
 import 'package:synchronized/synchronized.dart';
 import '../../db/dao/DownloadDao.dart';
@@ -28,9 +32,9 @@ class AppCacheManager {
 
   ///[checkedDownload]是否检查已经下载
   AppCacheManager(this.url, {String? key, required this.onSuccess, bool checkedDownload = true}) {
-    if(checkedDownload){
+    if (checkedDownload) {
       final download = DownloadDao.selectOneByUrlAndFinish(this.url);
-      if(download != null){
+      if (download != null) {
         final file = File(download.path);
         if (file.existsSync()) {
           //如果该文件已经被下载
@@ -71,13 +75,13 @@ class AppCacheManager {
     final key = url.md5;
 
     //得到文件保存路径
-    String path = "$cacheFolder/$key";
+    String path = paths.normalize("$cacheFolder/$key");
     final cacheFile = File(path);
     return cacheFile;
   }
 
   ///缓存目录
-  static String get cacheFolder => "${SyncVariable.supportPath}/cache";
+  static String get cacheFolder => paths.normalize("${SyncVariable.supportPath}/cache");
 
   ///启动下载
   static void _download() {
@@ -182,7 +186,7 @@ class AppCacheManagerBridge {
 
   ///下载完成回调
   void onError(String error) {
-    print("图片下载出错:$error");
+    debugPrint("图片下载出错:$error");
     AppCacheManager.url2cacheManagerLock.synchronized(() {
       AppCacheManager.url2cacheManager.remove(this.url);
     });

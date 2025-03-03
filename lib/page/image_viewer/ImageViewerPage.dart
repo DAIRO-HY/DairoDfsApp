@@ -59,11 +59,7 @@ class ImageViewerPageState extends State<ImageViewerPage> {
         lowerName.endsWith("cr2") ||
         lowerName.endsWith("cr3") ||
         lowerName.endsWith("cr2")) {
-      if (url.contains("?")) {
-        return "$url&extra=preview";
-      } else {
-        return "$url?extra=preview";
-      }
+      return "$url?extra=preview";
     }
     return url;
   }
