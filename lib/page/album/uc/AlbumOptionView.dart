@@ -88,7 +88,6 @@ class AlbumOptionView extends StatelessWidget {
 
   ///上传按钮点击事件
   void onAddClick() async {
-    Navigator.of(this._context).pop();
 
     //文件选择时可能需要从ICloud下载,需要花费时间,所以这里最好显示等待框
     WaitDialog.show(this._context);
