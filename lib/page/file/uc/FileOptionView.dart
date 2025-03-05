@@ -11,13 +11,13 @@ import '../../../uc/UCOptionMenuButton.dart';
 import '../../../uc/dialog/UCAlertDialog.dart';
 import '../../../uc/dialog/UCInputDialog.dart';
 import '../../../util/shared_preferences/SettingShared.dart';
+import '../../album/uc/DownloadWaitDialogView.dart';
 import '../FilePage.dart';
-import 'UCDownloadWaitDialog.dart';
-import 'UCProperty.dart';
-import 'UCShare.dart';
+import 'PropertyDialogView.dart';
+import 'ShareView.dart';
 
 ///操作菜单自定义组件
-class UCFileOptionMenu extends StatelessWidget {
+class FileOptionView extends StatelessWidget {
   ///排序按钮高度
   static const _SORT_BTN_HEIGHT = 40.0;
 
@@ -41,7 +41,7 @@ class UCFileOptionMenu extends StatelessWidget {
 
   late BuildContext _context;
 
-  UCFileOptionMenu(this.filePageState, {super.key});
+  FileOptionView(this.filePageState, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -79,11 +79,11 @@ class UCFileOptionMenu extends StatelessWidget {
         onTap: () {
           SettingShared.viewType = SettingShared.viewType == FileViewType.LIST ? FileViewType.GRID : FileViewType.LIST;
           this.sortVN.value++;
-          this.filePageState.ucFileList.reload();
+          this.filePageState.filesView.reload();
         },
         child: SizedBox(
-            width: UCFileOptionMenu._SORT_BTN_HEIGHT,
-            height: UCFileOptionMenu._SORT_BTN_HEIGHT,
+            width: FileOptionView._SORT_BTN_HEIGHT,
+            height: FileOptionView._SORT_BTN_HEIGHT,
             child: Icon(SettingShared.viewType == FileViewType.LIST ? Icons.grid_view : Icons.list_alt, size: 20))));
     return Row(children: children);
   }
@@ -102,15 +102,15 @@ class UCFileOptionMenu extends StatelessWidget {
             //如果已经是选中状态
             SettingShared.sortOrderBy = orderBy == FileOrderBy.UP ? FileOrderBy.DOWN : FileOrderBy.UP;
             this.sortVN.value++;
-            this.filePageState.ucFileList.reload();
+            this.filePageState.filesView.reload();
             return;
           }
           SettingShared.sortType = sortType;
           this.sortVN.value++;
-          this.filePageState.ucFileList.reload();
+          this.filePageState.filesView.reload();
         },
         child: SizedBox(
-            height: UCFileOptionMenu._SORT_BTN_HEIGHT,
+            height: FileOptionView._SORT_BTN_HEIGHT,
             child: Row(children: [
               Gap(10),
               icon,
@@ -131,13 +131,13 @@ class UCFileOptionMenu extends StatelessWidget {
       UCOptionMenuButton("剪切", icon: Icons.cut, disabled: selectedCount == 0, onPressed: () {
         this.toClipboard(1);
       }),
-      UCOptionMenuButton("粘贴", icon: Icons.paste_outlined, disabled: UCFileOptionMenu.clipboardType == null, onPressed: this.onClipboardClick),
+      UCOptionMenuButton("粘贴", icon: Icons.paste_outlined, disabled: FileOptionView.clipboardType == null, onPressed: this.onClipboardClick),
       UCOptionMenuButton("分享", icon: Icons.share, disabled: selectedCount == 0, onPressed: this.onShareClick)
     ];
     this.menus2 = [
       UCOptionMenuButton("删除", icon: Icons.delete_forever_outlined, disabled: selectedCount == 0, onPressed: this.onDeleteClick),
       UCOptionMenuButton("下载", icon: Icons.download_for_offline_outlined, disabled: selectedCount == 0, onPressed: this.onDownloadClick),
-      UCOptionMenuButton("刷新", icon: Icons.refresh_outlined, onPressed: this.filePageState.ucFileList.reload),
+      UCOptionMenuButton("刷新", icon: Icons.refresh_outlined, onPressed: this.filePageState.filesView.reload),
       UCOptionMenuButton("重命名", icon: Icons.drive_file_rename_outline, disabled: selectedCount != 1, onPressed: this.onRenameClick),
       UCOptionMenuButton("属性", icon: Icons.info_outlined, disabled: selectedCount == 0, onPressed: this.onPropertyClick),
     ];
@@ -146,34 +146,34 @@ class UCFileOptionMenu extends StatelessWidget {
 
   ///全选
   void onCheckAllClick() {
-    for (var it in this.filePageState.ucFileList.dfsFileList) {
+    for (var it in this.filePageState.filesView.dfsFileList) {
       it.isSelected = true;
     }
-    this.filePageState.selectedCount = this.filePageState.ucFileList.dfsFileList.length;
+    this.filePageState.selectedCount = this.filePageState.filesView.dfsFileList.length;
     this.redraw();
-    this.filePageState.ucFileList.redraw();
+    this.filePageState.filesView.redraw();
   }
 
   ///全取消
   void onUncheckAllClick() {
-    for (var it in this.filePageState.ucFileList.dfsFileList) {
+    for (var it in this.filePageState.filesView.dfsFileList) {
       it.isSelected = false;
     }
     this.filePageState.selectedCount = 0;
     this.redraw();
-    this.filePageState.ucFileList.redraw();
+    this.filePageState.filesView.redraw();
   }
 
   ///重命名
   void onRenameClick() {
-    final dfsFile = this.filePageState.ucFileList.dfsFileList.firstWhere((it) => it.isSelected);
+    final dfsFile = this.filePageState.filesView.dfsFileList.firstWhere((it) => it.isSelected);
     UCInputDialog.show(this._context, title: "重命名", value: dfsFile.name, okFun: (value) {
       if (value == dfsFile.name) {
         //没有修改
         return;
       }
       FilesApi.rename(sourcePath: dfsFile.path, name: value).post(() async {
-        this.filePageState.ucFileList.reload();
+        this.filePageState.filesView.reload();
       }, this._context);
     });
   }
@@ -181,8 +181,8 @@ class UCFileOptionMenu extends StatelessWidget {
   ///删除
   void onDeleteClick() {
     UCAlertDialog.show(this._context, title: "删除确认", msg: "确定要删除选中的${this.filePageState.selectedCount}个文件或文件夹吗？", okFun: () {
-      FilesApi.delete(paths: this.filePageState.ucFileList.selectedPaths).post(() async {
-        this.filePageState.ucFileList.reload();
+      FilesApi.delete(paths: this.filePageState.filesView.selectedPaths).post(() async {
+        this.filePageState.filesView.reload();
         this._context.toast("删除成功");
       }, this._context);
     }, cancelFun: () {});
@@ -190,19 +190,19 @@ class UCFileOptionMenu extends StatelessWidget {
 
   ///下载按钮点击事件
   void onDownloadClick() async {
-    UCDownloadWaitDialog(this._context, this.filePageState.ucFileList.selected).show();
+    DownloadWaitDialogView(this._context, this.filePageState.filesView.selected).show();
   }
 
   /// 放到剪贴板
   /// [clipboardType] 剪贴板类型,1:剪切  2:复制
   void toClipboard(int clipboardType) {
     final clipboardPaths = <String>{};
-    clipboardPaths.addAll(this.filePageState.ucFileList.selectedPaths);
+    clipboardPaths.addAll(this.filePageState.filesView.selectedPaths);
     if (clipboardPaths.isEmpty) {
       return;
     }
-    UCFileOptionMenu.clipboardType = clipboardType;
-    UCFileOptionMenu.clipboardPaths = clipboardPaths;
+    FileOptionView.clipboardType = clipboardType;
+    FileOptionView.clipboardPaths = clipboardPaths;
 
     //隐藏底部操作菜单
     this.hide();
@@ -211,11 +211,11 @@ class UCFileOptionMenu extends StatelessWidget {
 
   ///粘贴
   void onClipboardClick() {
-    if(UCFileOptionMenu.clipboardPaths == null){
+    if(FileOptionView.clipboardPaths == null){
       return;
     }
     final clipboardPaths = <String>[];
-    clipboardPaths.addAll(UCFileOptionMenu.clipboardPaths as Iterable<String>);
+    clipboardPaths.addAll(FileOptionView.clipboardPaths as Iterable<String>);
 
     final folder = this.filePageState.currentFolderVN.value;
 
@@ -248,11 +248,11 @@ class UCFileOptionMenu extends StatelessWidget {
 
     successFun() async {
       //清空剪切板
-      UCFileOptionMenu.clipboardType = null;
-      UCFileOptionMenu.clipboardPaths = null;
+      FileOptionView.clipboardType = null;
+      FileOptionView.clipboardPaths = null;
       this.hide();
     }
-    if (UCFileOptionMenu.clipboardType == 1) {
+    if (FileOptionView.clipboardType == 1) {
       FilesApi.move(sourcePaths: clipboardPaths, targetFolder: folder, isOverWrite: false).post(successFun, this._context);
     } else {
       FilesApi.copy(sourcePaths: clipboardPaths, targetFolder: folder, isOverWrite: false).post(successFun, this._context);
@@ -261,19 +261,19 @@ class UCFileOptionMenu extends StatelessWidget {
 
   ///属性点击事件
   void onPropertyClick() {
-    UCProperty.show(this._context, this.filePageState.ucFileList.selectedPaths);
+    PropertyDialogView.show(this._context, this.filePageState.filesView.selectedPaths);
   }
 
   ///分享按钮点击事件
   void onShareClick(){
-    UCShare.show(this._context, this.filePageState.ucFileList.selectedPaths);
+    ShareView.show(this._context, this.filePageState.filesView.selectedPaths);
   }
 
   ///隐藏底部操作菜单
   void hide() {
 
     //将所有已选择取消
-    for (var it in this.filePageState.ucFileList.dfsFileList) {
+    for (var it in this.filePageState.filesView.dfsFileList) {
       it.isSelected = false;
     }
     this.filePageState.selectedCount = 0;
@@ -285,6 +285,6 @@ class UCFileOptionMenu extends StatelessWidget {
     this.redrawVN.value = 0;
 
     //页面重新绘制
-    this.filePageState.ucFileList.redraw();
+    this.filePageState.filesView.redraw();
   }
 }

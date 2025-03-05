@@ -4,13 +4,11 @@ import 'package:dairo_dfs_app/extension/BuildContext++.dart';
 import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
 import '../../../uc/UCOptionMenuButton.dart';
 import '../../../uc/dialog/UCAlertDialog.dart';
-import '../../file/uc/UCShare.dart';
 import '../../home/HomePage.dart';
 import '../AlbumPage.dart';
-import 'UCDownloadWaitDialog.dart';
 
 ///操作菜单自定义组件
-class UCAlbumOptionMenu extends StatelessWidget {
+class AlbumOptionView extends StatelessWidget {
 
   ///重新绘制操作菜单标记
   final redrawVN = ValueNotifier(0);
@@ -23,7 +21,7 @@ class UCAlbumOptionMenu extends StatelessWidget {
 
   late BuildContext _context;
 
-  UCAlbumOptionMenu(this.albumPageState, {super.key});
+  AlbumOptionView(this.albumPageState, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +49,7 @@ class UCAlbumOptionMenu extends StatelessWidget {
       // UCOptionMenuButton("全选", icon: Icons.library_add_check_outlined, onPressed: this.onCheckAllClick),
       UCOptionMenuButton("删除", icon: Icons.delete_forever_outlined, disabled: selectedCount == 0, onPressed: this.onDeleteClick),
       UCOptionMenuButton("下载", icon: Icons.download_for_offline_outlined, disabled: selectedCount == 0, onPressed: this.onDownloadClick),
-      UCOptionMenuButton("刷新", icon: Icons.refresh_outlined, onPressed: this.albumPageState.ucAlbumListView.reload),
+      UCOptionMenuButton("刷新", icon: Icons.refresh_outlined, onPressed: this.albumPageState.albumGrid.reload),
       UCOptionMenuButton("分享", icon: Icons.share, disabled: selectedCount == 0, onPressed: this.onShareClick),
       UCOptionMenuButton("退出", icon: Icons.exit_to_app, onPressed: this.onExitClick),
     ];
@@ -61,8 +59,8 @@ class UCAlbumOptionMenu extends StatelessWidget {
   ///删除
   void onDeleteClick() {
     UCAlertDialog.show(this._context, title: "删除确认", msg: "确定要删除选中的${this.albumPageState.selectedCount}个文件或文件夹吗？", okFun: () {
-      FilesApi.deleteByIds(ids: this.albumPageState.ucAlbumListView.selectedIds).post(() async {
-        this.albumPageState.ucAlbumListView.reload();
+      FilesApi.deleteByIds(ids: this.albumPageState.albumGrid.selectedIds).post(() async {
+        this.albumPageState.albumGrid.reload();
         this._context.toast("删除成功");
       }, this._context);
     }, cancelFun: () {});
@@ -87,7 +85,7 @@ class UCAlbumOptionMenu extends StatelessWidget {
   void hide() {
 
     //将所有已选择取消
-    for (var it in this.albumPageState.ucAlbumListView.albumVMList) {
+    for (var it in this.albumPageState.albumGrid.albumVMList) {
       it.isSelected = false;
     }
     this.albumPageState.selectedCount = 0;
@@ -99,6 +97,6 @@ class UCAlbumOptionMenu extends StatelessWidget {
     this.redrawVN.value = 0;
 
     //页面重新绘制
-    this.albumPageState.ucAlbumListView.redraw();
+    this.albumPageState.albumGrid.redraw();
   }
 }

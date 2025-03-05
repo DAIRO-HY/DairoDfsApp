@@ -5,7 +5,7 @@ import '../../../Const.dart';
 import '../../../api/model/FilePropertyModel.dart';
 import '../../../uc/item/ItemLabel.dart';
 
-class UCProperty {
+class PropertyDialogView {
   static void show(BuildContext context, List<String> paths) {
     FilesApi.getProperty(paths: paths).post((property) async{
       _showDetail(context, property);

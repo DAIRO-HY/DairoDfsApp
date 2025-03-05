@@ -1,25 +1,25 @@
+import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:dairo_dfs_app/extension/BuildContext++.dart';
-import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
 
 import '../../../Const.dart';
 import '../../../uc/UCImage.dart';
 import '../vm/DfsFileVM.dart';
-import 'UCFileItem.dart';
+import 'FileViewItem.dart';
 
 ///表格显示视图
-class UCGridFileItem extends StatelessWidget {
+class FileGridViewItem extends StatelessWidget {
   ///缩略图高度
   static const THUMB_SIZE = 90.0;
 
   ///文件列表项目共通部分
-  final UCFileItem fi;
+  final FileViewItem fi;
 
   ///文件数据
   late final DfsFileVM dfsFile = this.fi.dfsFile;
 
-  UCGridFileItem({
+  FileGridViewItem({
     super.key,
     required this.fi,
   });
@@ -68,8 +68,8 @@ class UCGridFileItem extends StatelessWidget {
       if (this.dfsFile.thumb != null) {
         return Container(
             padding: EdgeInsets.all(8),
-            width: UCGridFileItem.THUMB_SIZE,
-            height: UCGridFileItem.THUMB_SIZE,
+            width: FileGridViewItem.THUMB_SIZE,
+            height: FileGridViewItem.THUMB_SIZE,
             child: UCImage(this.dfsFile.thumb!, width: 0, height: 0, radius: Const.RADIUS, checkedDownload: false));
       } else {
         return Container(
@@ -87,7 +87,7 @@ class UCGridFileItem extends StatelessWidget {
       }
     } else {
       //如果是文件夹
-      return Icon(Icons.folder, size: UCGridFileItem.THUMB_SIZE, color: Color(0xFF6FBEEA));
+      return Icon(Icons.folder, size: FileGridViewItem.THUMB_SIZE, color: Color(0xFF6FBEEA));
     }
   }
 }

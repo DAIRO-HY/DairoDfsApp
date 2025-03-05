@@ -12,11 +12,11 @@ import '../../../util/even_bus/EventCode.dart';
 import '../../../util/even_bus/EventUtil.dart';
 import '../../../util/http/ApiHttp.dart';
 import '../../../util/shared_preferences/SettingShared.dart';
-import '../../file/vm/DfsFileVM.dart';
 import '../../transfer/TransferPage.dart';
+import '../vm/DfsFileVM.dart';
 
 ///等待下载弹出框
-class UCDownloadWaitDialog {
+class DownloadWaitDialogView {
 
   ///选中要下载的文件
   final List<DfsFileVM> selectedDownload;
@@ -38,7 +38,7 @@ class UCDownloadWaitDialog {
 
   BuildContext context;
 
-  UCDownloadWaitDialog(this.context, this.selectedDownload);
+  DownloadWaitDialogView(this.context, this.selectedDownload);
 
   void show() async {
     this._showWaitDialog();

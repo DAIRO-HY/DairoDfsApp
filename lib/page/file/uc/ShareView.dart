@@ -19,7 +19,7 @@ import '../../../uc/item/ItemInput.dart';
 import '../../my_share/uc/UCShareDetailDialog.dart';
 
 ///分享设置
-class UCShare {
+class ShareView {
   static void show(BuildContext pageContext, List<String> paths) {
     showDialog(
         context: pageContext,

@@ -8,20 +8,20 @@ import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
 import '../../../util/even_bus/EventCode.dart';
 import '../../../util/even_bus/EventUtil.dart';
 import '../../transfer/TransferPage.dart';
-import '../AlbumPage.dart';
+import '../FilePage.dart';
 
 ///文件列表页面顶部工具条
-class UCAlbumToolBar extends StatefulWidget {
+class FileOptionBarView extends StatefulWidget {
   ///文件页面状态对象
-  final AlbumPageState albumPageState;
+  final FilePageState filePageState;
 
-  const UCAlbumToolBar(this.albumPageState, {super.key});
+  const FileOptionBarView(this.filePageState, {super.key});
 
   @override
-  State<UCAlbumToolBar> createState() => _UCAlbumToolBarState();
+  State<FileOptionBarView> createState() => _FileOptionBarViewState();
 }
 
-class _UCAlbumToolBarState extends State<UCAlbumToolBar> {
+class _FileOptionBarViewState extends State<FileOptionBarView> {
   ///工具条高度
   static const _HEIGHT = 40.0;
 
@@ -54,17 +54,55 @@ class _UCAlbumToolBarState extends State<UCAlbumToolBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
+        color: context.color.primary,
+        // color: Colors.red,
         padding: EdgeInsets.only(bottom: 5, top: 5),
         child: SafeArea(
             bottom: false,
             child: Row(children: [
+              Gap(5),
+              //上级目录按钮
+              this.widget.filePageState.currentFolderVN.build((value) {
+                if (value.isEmpty) {
+                  return SizedBox();
+                }
+                return this.barBtnView(Icons.arrow_back, onPressed: this.onBackClick);
+              }),
+
+              Gap(5),
+
+              //根目录按钮
+              this.widget.filePageState.currentFolderVN.build((value) {
+                if (value.isEmpty) {
+                  return SizedBox();
+                }
+                return this.barBtnView(Icons.home, onPressed: () {
+                  this.widget.filePageState.filesView.loadSubFile("");
+                });
+              }),
+              Gap(10),
+              Expanded(
+                  child: Container(
+                // margin: EdgeInsets.only(left: 10, right: 10),
+                // padding: EdgeInsets.only(left: 10, right: 10),
+                height: _HEIGHT,
+                // decoration: BoxDecoration(borderRadius: BorderRadius.circular(Const.RADIUS), color: context.color.primaryContainer),
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: this.widget.filePageState.currentFolderVN.build((value) {
+                      //当前文件夹
+                      return Text(value.isEmpty ? "根目录" : value, style: TextStyle(color: Colors.white, fontSize: 18));
+                      // context.textBody(value.isEmpty ? "根目录" : value, color: Colors.white, size: 18);
+                    })),
+              )),
+              Gap(5),
 
               ///文件传输中标志
               this._transferVN.build((value) {
                 return value ? UCTransferBtn() : SizedBox();
               }),
               Gap(5),
-              this.widget.albumPageState.selectModeVN.build((value) {
+              this.widget.filePageState.selectModeVN.build((value) {
                 //图标
                 IconData icon = value ? Icons.close : Icons.more_vert;
                 return this.barBtnView(icon, onPressed: this.onCheckModelClick, me: 5);
@@ -98,17 +136,28 @@ class _UCAlbumToolBarState extends State<UCAlbumToolBar> {
             child: Icon(icon, color: Colors.white, size: 24)));
   }
 
+  ///上级目录点击事件
+  void onBackClick() {
+    final folder = this.widget.filePageState.currentFolderVN.value;
+    if (folder.isEmpty) {
+      return;
+    }
+    final lastSplitIndex = folder.lastIndexOf("/");
+    final parentFolder = folder.substring(0, lastSplitIndex);
+    this.widget.filePageState.filesView.loadSubFile(parentFolder);
+  }
+
   ///选择模式切换按钮点击事件
   void onCheckModelClick() {
-    this.widget.albumPageState.selectModeVN.value = !this.widget.albumPageState.selectModeVN.value;
-    if (!this.widget.albumPageState.selectModeVN.value) {
+    this.widget.filePageState.selectModeVN.value = !this.widget.filePageState.selectModeVN.value;
+    if (!this.widget.filePageState.selectModeVN.value) {
       //选择模式关闭的情况
-      this.widget.albumPageState.ucOptionMenu.hide();
+      this.widget.filePageState.optionView.hide();
     } else {
-      this.widget.albumPageState.ucOptionMenu.redraw();
+      this.widget.filePageState.optionView.redraw();
 
       //文件列表重绘
-      this.widget.albumPageState.ucAlbumListView.redraw();
+      this.widget.filePageState.filesView.redraw();
     }
   }
 
@@ -166,8 +215,8 @@ class _UCTransferBtnState extends State<UCTransferBtn> with SingleTickerProvider
         ),
         child: SizedBox(
           // margin: EdgeInsets.only(right: 10),
-          height: _UCAlbumToolBarState._HEIGHT,
-          width: _UCAlbumToolBarState._HEIGHT,
+          height: _FileOptionBarViewState._HEIGHT,
+          width: _FileOptionBarViewState._HEIGHT,
           // decoration: BoxDecoration(borderRadius: BorderRadius.circular(Const.RADIUS), color: context.color.primaryContainer),
           child: RotationTransition(
             turns: this._controller,

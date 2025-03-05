@@ -2,10 +2,7 @@ import 'package:dairo_dfs_app/api/model/AlbumModel.dart';
 import 'package:dairo_dfs_app/page/album/vm/AlbumVM.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:dairo_dfs_app/code/FileOrderBy.dart';
-import 'package:dairo_dfs_app/code/FileSortType.dart';
 import 'package:dairo_dfs_app/extension/BuildContext++.dart';
-import 'package:dairo_dfs_app/extension/String++.dart';
 import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
 import 'package:dairo_dfs_app/page/image_viewer/ImageViewerPage.dart';
 import 'package:dairo_dfs_app/page/video_player/VideoPlayerPage.dart';
@@ -14,10 +11,10 @@ import '../../../util/shared_preferences/AlbumShared.dart';
 import '../../image_viewer/vm/ImageViewerVM.dart';
 import '../../video_player/vm/VideoPlayerVM.dart';
 import '../AlbumPage.dart';
-import 'UCAlbumItem.dart';
+import 'AlbumGridViewItem.dart';
 
 ///文件列表组件
-class UCAlbumListView extends StatelessWidget {
+class AlbumGridView extends StatelessWidget {
   ///文件列表改变监听器
   final fileListFlagVN = ValueNotifier(0);
 
@@ -29,19 +26,10 @@ class UCAlbumListView extends StatelessWidget {
 
   late BuildContext _context;
 
-  final ScrollController _scrollController = ScrollController();
-
-  UCAlbumListView(this.albumPageState, {super.key});
+  AlbumGridView(this.albumPageState, {super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    //页面加载完成之后回调事件
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-
-      //将页面滚动到最底部
-      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-    });
     this._context = context;
     return Expanded(child: LayoutBuilder(builder: (context, constraints) {
       //要显示的列数
@@ -55,7 +43,8 @@ class UCAlbumListView extends StatelessWidget {
       return Container(
           color: context.color.primaryContainer,
           child: this.fileListFlagVN.build((value) => GridView.builder(
-              controller: _scrollController,
+              //显示倒置
+              reverse: true,
               padding: EdgeInsets.zero,
               itemCount: this.albumVMList.length,
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -85,11 +74,11 @@ class UCAlbumListView extends StatelessWidget {
           this.albumPageState.selectModeVN.value = true;
           dfsFile.isSelected = true;
           this.albumPageState.selectedCount = 1;
-          this.albumPageState.ucOptionMenu.redraw();
+          this.albumPageState.albumOption.redraw();
           this.redraw();
         }
       },
-      child: UCAlbumItem(
+      child: AlbumGridViewItem(
         dfsFile,
         width,
         isSelectMode: this.albumPageState.selectModeVN.value,
@@ -129,7 +118,7 @@ class UCAlbumListView extends StatelessWidget {
   void sort(List<AlbumModel> dfsList) {
     //排序
     dfsList.sort((p1, p2) {
-      return p1.date > p2.date ? 1 : -1;
+      return p1.date > p2.date ? -1 : 1;
     });
   }
 

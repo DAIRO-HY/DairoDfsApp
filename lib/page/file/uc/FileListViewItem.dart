@@ -7,20 +7,20 @@ import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
 import '../../../Const.dart';
 import '../../../uc/UCImage.dart';
 import '../vm/DfsFileVM.dart';
-import 'UCFileItem.dart';
+import 'FileViewItem.dart';
 
 ///列表显示视图
-class UCListFileItem extends StatelessWidget {
+class FileListViewItem extends StatelessWidget {
   ///缩略图高度
   static const THUMB_SIZE = 40.0;
 
   ///文件列表项目共通部分
-  final UCFileItem fi;
+  final FileViewItem fi;
 
   ///文件数据
   late final DfsFileVM dfsFile = this.fi.dfsFile;
 
-  UCListFileItem({
+  FileListViewItem({
     super.key,
     required this.fi,
   });

@@ -1,12 +1,12 @@
+import 'package:dairo_dfs_app/page/file/uc/FileGridViewItem.dart';
+import 'package:dairo_dfs_app/page/file/uc/FileListViewItem.dart';
+import 'package:dairo_dfs_app/page/file/uc/FileOptionView.dart';
 import 'package:flutter/material.dart';
 import 'package:dairo_dfs_app/code/FileViewType.dart';
 import '../vm/DfsFileVM.dart';
-import 'UCFileOptionMenu.dart';
-import 'UCGridFileItem.dart';
-import 'UCListFileItem.dart';
 
 ///文件列表栏
-class UCFileItem extends StatelessWidget {
+class FileViewItem extends StatelessWidget {
   ///DFS文件信息
   final DfsFileVM dfsFile;
 
@@ -28,7 +28,7 @@ class UCFileItem extends StatelessWidget {
   ///文件点击事件
   final void Function(DfsFileVM dfsFile) onFileClick;
 
-  UCFileItem(this.dfsFile, this.viewType,
+  FileViewItem(this.dfsFile, this.viewType,
       {super.key, required this.isSelectMode, required this.onSelectChange, required this.onLoadSubFile, required this.onFileClick}) {
     this.selectedVN = ValueNotifier(this.dfsFile.isSelected);
   }
@@ -36,9 +36,9 @@ class UCFileItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double opacity = 1;
-    if (UCFileOptionMenu.clipboardType == 1) {
+    if (FileOptionView.clipboardType == 1) {
       //剪切板有数据时,则将被剪切的文件标记为半透明
-      if (UCFileOptionMenu.clipboardPaths!.contains(this.dfsFile.path)) {
+      if (FileOptionView.clipboardPaths!.contains(this.dfsFile.path)) {
         opacity = 0.5;
       }
     }
@@ -55,7 +55,7 @@ class UCFileItem extends StatelessWidget {
               minimumSize: Size(0, 0), // 设置宽度和高度
             ),
             onPressed: onItemClick,
-            child: this.viewType == FileViewType.LIST ? UCListFileItem(fi: this) : UCGridFileItem(fi: this)));
+            child: this.viewType == FileViewType.LIST ? FileListViewItem(fi: this) : FileGridViewItem(fi: this)));
   }
 
   ///文件条目点击事件

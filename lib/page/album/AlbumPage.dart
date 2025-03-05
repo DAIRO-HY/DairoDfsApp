@@ -1,8 +1,7 @@
-import 'package:dairo_dfs_app/page/album/uc/UCAlbumListView.dart';
-import 'package:dairo_dfs_app/page/album/uc/UCAlbumOptionMenu.dart';
-import 'package:dairo_dfs_app/page/album/uc/UCAlbumToolBar.dart';
+import 'package:dairo_dfs_app/page/album/uc/AlbumGridView.dart';
+import 'package:dairo_dfs_app/page/album/uc/AlbumOptionBarView.dart';
+import 'package:dairo_dfs_app/page/album/uc/AlbumOptionView.dart';
 import 'package:flutter/material.dart';
-import 'package:dairo_dfs_app/page/home/uc/UCAddOption.dart';
 import 'package:dairo_dfs_app/util/even_bus/EventCode.dart';
 import 'package:dairo_dfs_app/util/even_bus/EventUtil.dart';
 
@@ -19,13 +18,13 @@ class AlbumPageState extends State<AlbumPage> {
   final selectModeVN = ValueNotifier(false);
 
   ///顶部工具条组件
-  late var ucToolBar = UCAlbumToolBar(this);
+  late var optionBar = AlbumOptionBarView(this);
 
   ///文件列表组件
-  late var ucAlbumListView = UCAlbumListView(this);
+  late var albumGrid = AlbumGridView(this);
 
   ///操作菜单组件
-  late var ucOptionMenu = UCAlbumOptionMenu(this);
+  late var albumOption = AlbumOptionView(this);
 
   ///标记页面是否被关闭
   var isFinish = false;
@@ -38,13 +37,13 @@ class AlbumPageState extends State<AlbumPage> {
     super.initState();
 
     //加载文件列表
-    this.ucAlbumListView.loadSubFile();
+    this.albumGrid.loadSubFile();
     EventUtil.regist(this, EventCode.FILE_PAGE_RELOAD, (_) {
-      this.ucAlbumListView.reload();
+      this.albumGrid.reload();
     });
     EventUtil.regist(this, EventCode.DFS_FILE_PAGE_GO_FOLDER, (data) {
       //打开某个文件夹
-      this.ucAlbumListView.loadSubFile();
+      this.albumGrid.loadSubFile();
     });
   }
 
@@ -54,13 +53,13 @@ class AlbumPageState extends State<AlbumPage> {
         body: Stack(children: [
       Column(
         children: [
-          this.ucAlbumListView, //文件列表
-          this.ucOptionMenu, //操作功能菜单
+          this.albumGrid, //文件列表
+          this.albumOption, //操作功能菜单
         ],
       ),
 
       //操作按钮
-      Positioned(right: 0, child: this.ucToolBar),
+      Positioned(right: 0, child: this.optionBar),
     ]));
   }
 
@@ -70,7 +69,7 @@ class AlbumPageState extends State<AlbumPage> {
     if (this.selectedCount == 1) {
       //设置为选择模式
       this.selectModeVN.value = true;
-      this.ucOptionMenu.redraw();
+      this.albumOption.redraw();
     }
     // else if (this.selectedCount == 0) {
     //
@@ -79,10 +78,6 @@ class AlbumPageState extends State<AlbumPage> {
     // } else {
     //   ;
     // }
-  }
-
-  void showAddDialog() {
-    UCAddOption.show(this.context);
   }
 
   ///页面被销毁时

@@ -18,10 +18,10 @@ import '../../image_viewer/vm/ImageViewerVM.dart';
 import '../../video_player/vm/VideoPlayerVM.dart';
 import '../FilePage.dart';
 import '../vm/DfsFileVM.dart';
-import 'UCFileItem.dart';
+import 'FileViewItem.dart';
 
-///文件列表组件
-class UCFileListView extends StatelessWidget {
+///文件浏览组件组件
+class FilesView extends StatelessWidget {
   ///文件列表改变监听器
   final fileListFlagVN = ValueNotifier(0);
 
@@ -32,7 +32,7 @@ class UCFileListView extends StatelessWidget {
 
   late BuildContext _context;
 
-  UCFileListView(this.filePageState, {super.key});
+  FilesView(this.filePageState, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -88,11 +88,11 @@ class UCFileListView extends StatelessWidget {
           this.filePageState.selectModeVN.value = true;
           dfsFile.isSelected = true;
           this.filePageState.selectedCount = 1;
-          this.filePageState.ucOptionMenu.redraw();
+          this.filePageState.optionView.redraw();
           this.redraw();
         }
       },
-      child: UCFileItem(
+      child: FileViewItem(
         dfsFile,
         viewType,
         isSelectMode: this.filePageState.selectModeVN.value,
