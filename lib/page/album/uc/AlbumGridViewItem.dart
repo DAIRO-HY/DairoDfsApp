@@ -1,6 +1,7 @@
 import 'package:dairo_dfs_app/extension/BuildContext++.dart';
 import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
 import 'package:flutter/material.dart';
+import '../../../Const.dart';
 import '../../../uc/UCImage.dart';
 import '../vm/AlbumVM.dart';
 
@@ -25,7 +26,10 @@ class AlbumGridViewItem extends StatelessWidget {
   final void Function(AlbumVM) onClick;
 
   AlbumGridViewItem(this.albumVM, this.width,
-      {super.key, required this.isSelectMode, required this.onSelectChange, required this.onClick}) {
+      {super.key,
+      required this.isSelectMode,
+      required this.onSelectChange,
+      required this.onClick}) {
     this.selectedVN = ValueNotifier(this.albumVM.isSelected);
   }
 
@@ -42,14 +46,13 @@ class AlbumGridViewItem extends StatelessWidget {
           minimumSize: Size(0, 0), // 设置宽度和高度
         ),
         onPressed: onItemClick,
-        child:
-        Column(children: [
+        child: Column(children: [
           Stack(alignment: AlignmentDirectional.center, children: [
             this.thumbView(context), //文件图标
-            this.checkIconView(context)
+            this.checkIconView(context),
+            this.durationView(context)
           ])
-        ])
-    );
+        ]));
   }
 
   ///文件条目点击事件
@@ -93,11 +96,31 @@ class AlbumGridViewItem extends StatelessWidget {
           child: this.selectedVN.build((value) {
             if (this.isSelectMode) {
               //选择模式
-              Icon icon = Icon(this.albumVM.isSelected ? Icons.check_circle : null, color: context.color.onSurface);
+              Icon icon = Icon(
+                  this.albumVM.isSelected ? Icons.check_circle : null,
+                  color: context.color.onSurface);
               return icon;
             }
             return SizedBox();
           })));
+
+  ///视频时间
+  Widget durationView(BuildContext context) => Positioned(
+      right: 8,
+      bottom: 8,
+      child: this.albumVM.duration == null
+          ? SizedBox()
+          : Text(this.albumVM.duration!,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: Const.TEXT_SMALL,
+                  shadows: const [
+                    Shadow(
+                        color: Colors.black, //阴影颜色
+                        offset: Offset(1, 1), //偏移量
+                        blurRadius: 7 //模糊半径
+                        )
+                  ])));
 
   ///文件图标
   Widget thumbView(BuildContext context) {
@@ -106,7 +129,8 @@ class AlbumGridViewItem extends StatelessWidget {
           padding: EdgeInsets.all(0),
           width: this.width,
           height: this.width,
-          child: UCImage(this.albumVM.thumb, width: 0, height: 0, radius: 0, checkedDownload: false));
+          child: UCImage(this.albumVM.thumb,
+              width: 0, height: 0, radius: 0, checkedDownload: false));
     } else {
       return Container(
           decoration: BoxDecoration(
@@ -118,7 +142,8 @@ class AlbumGridViewItem extends StatelessWidget {
               ),
             ],
           ),
-          child: Icon(Icons.insert_drive_file, size: this.width, color: Colors.white));
+          child: Icon(Icons.insert_drive_file,
+              size: this.width, color: Colors.white));
     }
   }
 }

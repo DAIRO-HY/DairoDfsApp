@@ -37,13 +37,13 @@ class AlbumPageState extends State<AlbumPage> {
     super.initState();
 
     //加载文件列表
-    this.albumGrid.loadSubFile();
+    this.albumGrid.loadList();
     EventUtil.regist(this, EventCode.FILE_PAGE_RELOAD, (_) {
       this.albumGrid.reload();
     });
     EventUtil.regist(this, EventCode.DFS_FILE_PAGE_GO_FOLDER, (data) {
       //打开某个文件夹
-      this.albumGrid.loadSubFile();
+      this.albumGrid.loadList();
     });
   }
 

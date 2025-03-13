@@ -44,7 +44,7 @@ class AlbumGridView extends StatelessWidget {
           color: context.color.primaryContainer,
           child: this.fileListFlagVN.build((value) => GridView.builder(
               //显示倒置
-              reverse: true,
+              //reverse: true,
               padding: EdgeInsets.zero,
               itemCount: this.albumVMList.length,
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -93,7 +93,7 @@ class AlbumGridView extends StatelessWidget {
   List<AlbumVM> get selected => this.albumVMList.where((it) => it.isSelected).toList();
 
   ///获取文件列表
-  void loadSubFile() {
+  void loadList() {
     AlbumShared.list((list) {
       if (this.albumPageState.isFinish) {
         //如果页面已经关闭，那就什么也不做。防止异步操作时，页面被关闭报错
@@ -129,7 +129,7 @@ class AlbumGridView extends StatelessWidget {
 
   ///重新加载文件列表
   void reload() {
-    this.loadSubFile();
+    this.loadList();
   }
 
   ///文件点击事件

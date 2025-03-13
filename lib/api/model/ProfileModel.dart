@@ -31,6 +31,9 @@ class ProfileModel extends JsonSerialize {
   // 删除没有被使用的文件超时设置(单位：天)
   int deleteStorageTimeout;
 
+  /** 缩略图最大边尺寸 **/
+  int thumbMaxSize;
+
   ProfileModel(
       {      required this.openSqlLog,
       required this.hasReadOnly,
@@ -39,7 +42,8 @@ class ProfileModel extends JsonSerialize {
       required this.syncDomains,
       required this.token,
       required this.trashTimeout,
-      required this.deleteStorageTimeout});
+      required this.deleteStorageTimeout,
+      required this.thumbMaxSize});
 
   /// 将model转Json
   @override
@@ -52,6 +56,7 @@ class ProfileModel extends JsonSerialize {
         "token": this.token,
         "trashTimeout": this.trashTimeout,
         "deleteStorageTimeout": this.deleteStorageTimeout,
+        "thumbMaxSize": this.thumbMaxSize,
       };
 
   /// 将json字符串转ProfileModel对象
@@ -70,7 +75,8 @@ class ProfileModel extends JsonSerialize {
         syncDomains: map["syncDomains"],
         token: map["token"],
         trashTimeout: map["trashTimeout"],
-        deleteStorageTimeout: map["deleteStorageTimeout"]);
+        deleteStorageTimeout: map["deleteStorageTimeout"],
+        thumbMaxSize: map["thumbMaxSize"]);
   }
 
   /// 将Json字符串转ProfileModel对象列表

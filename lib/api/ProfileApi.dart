@@ -17,8 +17,8 @@ class ProfileApi {
   }
 
   //页面初始化
-  static VoidApiHttp update({required bool openSqlLog,required bool hasReadOnly,required int uploadMaxSize,required String folders,required String syncDomains,required String token,required int trashTimeout,required int deleteStorageTimeout}){
-    return VoidApiHttp(Api.APP_PROFILE_UPDATE).add("openSqlLog",openSqlLog).add("hasReadOnly",hasReadOnly).add("uploadMaxSize",uploadMaxSize).add("folders",folders).add("syncDomains",syncDomains).add("token",token).add("trashTimeout",trashTimeout).add("deleteStorageTimeout",deleteStorageTimeout);
+  static VoidApiHttp update({required bool openSqlLog,required bool hasReadOnly,required int uploadMaxSize,required String folders,required String syncDomains,required String token,required int trashTimeout,required int deleteStorageTimeout,required int thumbMaxSize}){
+    return VoidApiHttp(Api.APP_PROFILE_UPDATE).add("openSqlLog",openSqlLog).add("hasReadOnly",hasReadOnly).add("uploadMaxSize",uploadMaxSize).add("folders",folders).add("syncDomains",syncDomains).add("token",token).add("trashTimeout",trashTimeout).add("deleteStorageTimeout",deleteStorageTimeout).add("thumbMaxSize",thumbMaxSize);
   }
 
   //切换token

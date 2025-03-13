@@ -1,7 +1,7 @@
 import 'API.dart';
+import 'model/SyncServerModel.dart';
 import '../util/http/ReturnApiHttp.dart';
 import '../util/http/VoidApiHttp.dart';
-import 'model/SyncServerModel.dart';
 
 class SyncApi {
 

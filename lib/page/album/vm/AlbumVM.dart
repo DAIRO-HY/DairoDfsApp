@@ -18,6 +18,9 @@ class AlbumVM {
   /// 文件缩略图
   late final String thumb;
 
+  /// 视频时长
+  late final String? duration;
+
   /// 是否选中
   var isSelected = false;
 
@@ -27,5 +30,10 @@ class AlbumVM {
     this.size = album.size;
     this.date = album.date;
     this.thumb = album.thumb;
+    if (album.duration.isNotEmpty){
+      this.duration = album.duration;
+    }else{
+      this.duration = null;
+    }
   }
 }

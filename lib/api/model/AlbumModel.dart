@@ -32,6 +32,9 @@ class AlbumModel extends JsonSerialize {
 /** 相机名 **/
   String cameraName;
 
+  /** 视频时长 **/
+  String duration;
+
   AlbumModel(
       {      required this.id,
       required this.name,
@@ -39,7 +42,8 @@ class AlbumModel extends JsonSerialize {
       required this.fileFlag,
       required this.date,
       required this.thumb,
-      required this.cameraName});
+      required this.cameraName,
+      required this.duration});
 
   /// 将model转Json
   @override
@@ -51,6 +55,7 @@ class AlbumModel extends JsonSerialize {
         "date": this.date,
         "thumb": this.thumb,
         "cameraName": this.cameraName,
+        "duration": this.duration,
       };
 
   /// 将json字符串转AlbumModel对象
@@ -68,7 +73,8 @@ class AlbumModel extends JsonSerialize {
         fileFlag: map["fileFlag"],
         date: map["date"],
         thumb: map["thumb"],
-        cameraName: map["cameraName"]);
+        cameraName: map["cameraName"],
+        duration: map["duration"]);
   }
 
   /// 将Json字符串转AlbumModel对象列表
