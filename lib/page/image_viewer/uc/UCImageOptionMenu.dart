@@ -57,12 +57,15 @@ class UCImageOptionMenu extends StatelessWidget {
     } else {
       saveToImageGallery = 0;
     }
-    final String url;
-    if(saveToImageGallery == 1){//保存到相册时要下载预览图
-      url = this.state.previewUrl;
-    }else{
-      url = dfsFile.preview;
-    }
+    // final String url;
+    // if(saveToImageGallery == 1){//保存到相册时要下载预览图
+    //   url = this.state.previewUrl;
+    // }else{
+    //   url = dfsFile.preview;
+    // }
+
+    //下载原文件
+    final url = dfsFile.preview;
 
     //添加到下载列表
     final dto = DownloadDto(

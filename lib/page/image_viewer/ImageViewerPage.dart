@@ -58,7 +58,8 @@ class ImageViewerPageState extends State<ImageViewerPage> {
         lowerName.endsWith("cr3") ||
         lowerName.endsWith("cr2") ||
         lowerName.endsWith("cr3") ||
-        lowerName.endsWith("cr2")) {
+        lowerName.endsWith("cr2") ||
+        lowerName.endsWith("heic")) {
       return "$url?extra=preview";
     }
     return url;
@@ -159,7 +160,6 @@ class ImageViewerPageState extends State<ImageViewerPage> {
       itemCount: this.widget.dfsFileList.length,
       onPageChanged: this.onImageChange,
       builder: (BuildContext context, int index) {
-        // print("-->index$index");
         this.widget.currentIndex = index;
         final dfs = this.currentDfs;
 

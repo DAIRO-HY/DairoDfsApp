@@ -39,7 +39,8 @@ class AlbumGridView extends StatelessWidget {
       var spacing = 2.0;
 
       //单元格宽度
-      var itemWidth = (constraints.maxWidth - spacing * (columnNum - 1)) / columnNum;
+      var itemWidth =
+          (constraints.maxWidth - spacing * (columnNum - 1)) / columnNum;
       return Container(
           color: context.color.primaryContainer,
           child: this.fileListFlagVN.build((value) => GridView.builder(
@@ -65,7 +66,8 @@ class AlbumGridView extends StatelessWidget {
   ///文件项目
   Widget fileItemView(AlbumVM dfsFile, double width) => Listener(
       onPointerDown: (PointerDownEvent event) {
-        if (event.kind == PointerDeviceKind.mouse && event.buttons == kSecondaryMouseButton) {
+        if (event.kind == PointerDeviceKind.mouse &&
+            event.buttons == kSecondaryMouseButton) {
           // 处理右键点击事件
           for (final it in this.albumVMList) {
             //右键点击时，默认只选择当前文件
@@ -87,10 +89,12 @@ class AlbumGridView extends StatelessWidget {
       ));
 
   ///当前选中的路径列表
-  List<int> get selectedIds => this.albumVMList.where((it) => it.isSelected).map((it) => it.id).toList();
+  List<int> get selectedIds =>
+      this.albumVMList.where((it) => it.isSelected).map((it) => it.id).toList();
 
   ///当前选中的路径列表
-  List<AlbumVM> get selected => this.albumVMList.where((it) => it.isSelected).toList();
+  List<AlbumVM> get selected =>
+      this.albumVMList.where((it) => it.isSelected).toList();
 
   ///获取文件列表
   void loadList() {
@@ -143,7 +147,8 @@ class AlbumGridView extends StatelessWidget {
         name.endsWith(".psd") ||
         name.endsWith(".psb") ||
         name.endsWith(".cr3") ||
-        name.endsWith(".cr2");
+        name.endsWith(".cr2") ||
+        name.endsWith(".heic");
 
     //是否视频
     isVedio(String name) => name.endsWith(".mp4") || name.endsWith(".mov");
@@ -161,10 +166,12 @@ class AlbumGridView extends StatelessWidget {
           curentIndex = imageList.length;
         }
         if (isImageFun(it.name.toLowerCase())) {
-          imageList.add(ImageViewerVM(id: it.id, name: it.name, thumb: it.thumb));
+          imageList
+              .add(ImageViewerVM(id: it.id, name: it.name, thumb: it.thumb));
         }
       }
-      this._context.toPage(ImageViewerPage(dfsFileList: imageList, currentIndex: curentIndex));
+      this._context.toPage(
+          ImageViewerPage(dfsFileList: imageList, currentIndex: curentIndex));
     } else if (isVedio(dfsFile.name.toLowerCase())) {
       //如果是视频的话
 
@@ -179,10 +186,12 @@ class AlbumGridView extends StatelessWidget {
           curentIndex = videoList.length;
         }
         if (isVedio(it.name.toLowerCase())) {
-          videoList.add(VideoPlayerVM(id: it.id, name: it.name, thumb: it.thumb));
+          videoList
+              .add(VideoPlayerVM(id: it.id, name: it.name, thumb: it.thumb));
         }
       }
-      this._context.toPage(VideoPlayerPage(dfsFileList: videoList, currentIndex: curentIndex));
+      this._context.toPage(
+          VideoPlayerPage(dfsFileList: videoList, currentIndex: curentIndex));
     }
   }
 }
