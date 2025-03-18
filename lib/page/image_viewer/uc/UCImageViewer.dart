@@ -53,7 +53,7 @@ class _UCImageViewerState extends State<UCImageViewer> {
         if (!thumbCacheFile.existsSync()) {
           return wait;
         }
-        return Stack(children: [Positioned.fill(child: Image.file(thumbCacheFile, fit: BoxFit.contain)), wait]);
+        return Image.file(thumbCacheFile, fit: BoxFit.contain);
       }
       return PhotoView(
           initialScale: PhotoViewComputedScale.contained * 1,

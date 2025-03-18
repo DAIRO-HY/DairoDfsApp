@@ -19,7 +19,6 @@ import '../AlbumPage.dart';
 
 ///操作菜单自定义组件
 class AlbumOptionView extends StatelessWidget {
-
   ///重新绘制操作菜单标记
   final redrawVN = ValueNotifier(0);
 
@@ -42,12 +41,14 @@ class AlbumOptionView extends StatelessWidget {
       }
       return Container(
           decoration: BoxDecoration(color: context.color.primaryContainer),
-          child: Column(children: [
-            // Divider(height: .7, color: context.color.outline), // 加一条线
-            // this.sortVN.build((value) => this.sortView),
-            // Divider(height: .7, color: context.color.outline), // 加一条线
-            Row(children: this.optionMenu),
-          ]));
+          child: SafeArea(
+              top: false,
+              child: Column(children: [
+                // Divider(height: .7, color: context.color.outline), // 加一条线
+                // this.sortVN.build((value) => this.sortView),
+                // Divider(height: .7, color: context.color.outline), // 加一条线
+                Row(children: this.optionMenu),
+              ])));
     });
   }
 
@@ -57,19 +58,35 @@ class AlbumOptionView extends StatelessWidget {
     int selectedCount = this.albumPageState.selectedCount;
     this.optionMenu = [
       UCOptionMenuButton("上传", icon: Icons.add, onPressed: this.onAddClick),
-      UCOptionMenuButton("删除", icon: Icons.delete_forever_outlined, disabled: selectedCount == 0, onPressed: this.onDeleteClick),
-      UCOptionMenuButton("下载", icon: Icons.download_for_offline_outlined, disabled: selectedCount == 0, onPressed: this.onDownloadClick),
-      UCOptionMenuButton("刷新", icon: Icons.refresh_outlined, onPressed: this.albumPageState.albumGrid.reload),
-      UCOptionMenuButton("分享", icon: Icons.share, disabled: selectedCount == 0, onPressed: this.onShareClick),
-      UCOptionMenuButton("退出", icon: Icons.exit_to_app, onPressed: this.onExitClick),
+      UCOptionMenuButton("删除",
+          icon: Icons.delete_forever_outlined,
+          disabled: selectedCount == 0,
+          onPressed: this.onDeleteClick),
+      UCOptionMenuButton("下载",
+          icon: Icons.download_for_offline_outlined,
+          disabled: selectedCount == 0,
+          onPressed: this.onDownloadClick),
+      UCOptionMenuButton("刷新",
+          icon: Icons.refresh_outlined,
+          onPressed: this.albumPageState.albumGrid.reload),
+      UCOptionMenuButton("分享",
+          icon: Icons.share,
+          disabled: selectedCount == 0,
+          onPressed: this.onShareClick),
+      UCOptionMenuButton("退出",
+          icon: Icons.exit_to_app, onPressed: this.onExitClick),
     ];
     this.redrawVN.value++;
   }
 
   ///删除
   void onDeleteClick() {
-    UCAlertDialog.show(this._context, title: "删除确认", msg: "确定要删除选中的${this.albumPageState.selectedCount}个文件或文件夹吗？", okFun: () {
-      FilesApi.deleteByIds(ids: this.albumPageState.albumGrid.selectedIds).post(() async {
+    UCAlertDialog.show(this._context,
+        title: "删除确认",
+        msg: "确定要删除选中的${this.albumPageState.selectedCount}个文件或文件夹吗？",
+        okFun: () {
+      FilesApi.deleteByIds(ids: this.albumPageState.albumGrid.selectedIds).post(
+          () async {
         this.albumPageState.albumGrid.reload();
         this._context.toast("删除成功");
       }, this._context);
@@ -82,13 +99,12 @@ class AlbumOptionView extends StatelessWidget {
   }
 
   ///分享按钮点击事件
-  void onShareClick(){
+  void onShareClick() {
     // UCShare.show(this._context, this.albumPageState.ucAlbumListView.selectedPaths);
   }
 
   ///上传按钮点击事件
   void onAddClick() async {
-
     //文件选择时可能需要从ICloud下载,需要花费时间,所以这里最好显示等待框
     WaitDialog.show(this._context);
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -112,7 +128,11 @@ class AlbumOptionView extends StatelessWidget {
       //获取最后一次打开的文件夹
       const uploadFolder = "/相册";
       final uploadDtoList = result.paths.map((it) {
-        final dto = UploadDto(name: it!.fileName, size: File(it).lengthSync(), path: it, dfsFolder: uploadFolder);
+        final dto = UploadDto(
+            name: it!.fileName,
+            size: File(it).lengthSync(),
+            path: it,
+            dfsFolder: uploadFolder);
         return dto;
       }).toList();
 
@@ -125,13 +145,12 @@ class AlbumOptionView extends StatelessWidget {
   }
 
   ///退出按钮点击事件
-  void onExitClick(){
+  void onExitClick() {
     this._context.relaunch(HomePage());
   }
 
   ///隐藏底部操作菜单
   void hide() {
-
     //将所有已选择取消
     for (var it in this.albumPageState.albumGrid.albumVMList) {
       it.isSelected = false;

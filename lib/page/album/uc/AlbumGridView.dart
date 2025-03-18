@@ -26,10 +26,15 @@ class AlbumGridView extends StatelessWidget {
 
   late BuildContext _context;
 
+  final ScrollController _scrollController = ScrollController();
+
   AlbumGridView(this.albumPageState, {super.key});
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      this._scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+    });
     this._context = context;
     return Expanded(child: LayoutBuilder(builder: (context, constraints) {
       //要显示的列数
@@ -46,6 +51,7 @@ class AlbumGridView extends StatelessWidget {
           child: this.fileListFlagVN.build((value) => GridView.builder(
               //显示倒置
               //reverse: true,
+            controller: this._scrollController,
               padding: EdgeInsets.zero,
               itemCount: this.albumVMList.length,
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -122,7 +128,7 @@ class AlbumGridView extends StatelessWidget {
   void sort(List<AlbumModel> dfsList) {
     //排序
     dfsList.sort((p1, p2) {
-      return p1.date > p2.date ? -1 : 1;
+      return p1.date > p2.date ? 1 : -1;
     });
   }
 
