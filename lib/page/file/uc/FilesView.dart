@@ -79,7 +79,8 @@ class FilesView extends StatelessWidget {
   ///文件项目
   Widget fileItemView(DfsFileVM dfsFile, int viewType) => Listener(
       onPointerDown: (PointerDownEvent event) {
-        if (event.kind == PointerDeviceKind.mouse && event.buttons == kSecondaryMouseButton) {
+        if (event.kind == PointerDeviceKind.mouse &&
+            event.buttons == kSecondaryMouseButton) {
           // 处理右键点击事件
           for (final it in this.dfsFileList) {
             //右键点击时，默认只选择当前文件
@@ -102,10 +103,15 @@ class FilesView extends StatelessWidget {
       ));
 
   ///当前选中的路径列表
-  List<String> get selectedPaths => this.dfsFileList.where((it) => it.isSelected).map((it) => it.path).toList();
+  List<String> get selectedPaths => this
+      .dfsFileList
+      .where((it) => it.isSelected)
+      .map((it) => it.path)
+      .toList();
 
   ///当前选中的路径列表
-  List<DfsFileVM> get selected => this.dfsFileList.where((it) => it.isSelected).toList();
+  List<DfsFileVM> get selected =>
+      this.dfsFileList.where((it) => it.isSelected).toList();
 
   ///获取文件列表
   void loadSubFile(String folderPath) {
@@ -153,7 +159,9 @@ class FilesView extends StatelessWidget {
       } else if (sortType == FileSortType.SIZE) {
         compareValue = p1.size.compareTo(p2.size);
       } else if (sortType == FileSortType.EXT) {
-        compareValue = p1.name.fileExt.toLowerCase().compareTo(p2.name.fileExt.toLowerCase());
+        compareValue = p1.name.fileExt
+            .toLowerCase()
+            .compareTo(p2.name.fileExt.toLowerCase());
       } else {
         return 0;
       }
@@ -199,7 +207,8 @@ class FilesView extends StatelessWidget {
         name.endsWith(".psd") ||
         name.endsWith(".psb") ||
         name.endsWith(".cr3") ||
-        name.endsWith(".cr2");
+        name.endsWith(".cr2") ||
+        name.endsWith(".heic");
 
     //是否视频
     isVedio(String name) => name.endsWith(".mp4") || name.endsWith(".mov");
@@ -217,10 +226,12 @@ class FilesView extends StatelessWidget {
           curentIndex = imageList.length;
         }
         if (isImageFun(it.name.toLowerCase())) {
-          imageList.add(ImageViewerVM(id: it.id,name: it.name,thumb: it.thumb));
+          imageList
+              .add(ImageViewerVM(id: it.id, name: it.name, thumb: it.thumb));
         }
       }
-      this._context.toPage(ImageViewerPage(dfsFileList: imageList, currentIndex: curentIndex));
+      this._context.toPage(
+          ImageViewerPage(dfsFileList: imageList, currentIndex: curentIndex));
     } else if (isVedio(dfsFile.name.toLowerCase())) {
       //如果是视频的话
 
@@ -235,10 +246,12 @@ class FilesView extends StatelessWidget {
           curentIndex = videoList.length;
         }
         if (isVedio(it.name.toLowerCase())) {
-          videoList.add(VideoPlayerVM(id: it.id,name: it.name,thumb: it.thumb));
+          videoList
+              .add(VideoPlayerVM(id: it.id, name: it.name, thumb: it.thumb));
         }
       }
-      this._context.toPage(VideoPlayerPage(dfsFileList: videoList, currentIndex: curentIndex));
+      this._context.toPage(
+          VideoPlayerPage(dfsFileList: videoList, currentIndex: curentIndex));
     }
   }
 }
