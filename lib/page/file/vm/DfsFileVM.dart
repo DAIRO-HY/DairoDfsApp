@@ -22,7 +22,7 @@ class DfsFileVM {
   late final String path;
 
   /// 文件缩略图
-  late final String? thumb;
+  late final String thumb;
 
   /// 是否选中
   var isSelected = false;

@@ -1,4 +1,5 @@
 import 'package:dairo_dfs_app/extension/BuildContext++.dart';
+import 'package:dairo_dfs_app/extension/String++.dart';
 import 'package:dairo_dfs_app/extension/ValueNotifier++.dart';
 import 'package:flutter/material.dart';
 import '../../../Const.dart';
@@ -130,7 +131,12 @@ class AlbumGridViewItem extends StatelessWidget {
           width: this.width,
           height: this.width,
           child: UCImage(this.albumVM.thumb,
-              width: 0, height: 0, radius: 0, checkedDownload: false));
+              //这里的key一定要设置，否则可能导致表格列表对象移除时页面不更新
+              key: ValueKey(this.albumVM.id),
+              width: this.width,
+              height: this.width,
+              radius: 0,
+              checkedDownload: false));
     } else {
       return Container(
           decoration: BoxDecoration(

@@ -55,7 +55,11 @@ class FileGridViewItem extends StatelessWidget {
           child: this.fi.selectedVN.build((value) {
             if (this.fi.isSelectMode) {
               //选择模式
-              Icon icon = Icon(this.dfsFile.isSelected ? Icons.check_circle : Icons.circle_outlined, color: context.color.onSurface);
+              Icon icon = Icon(
+                  this.dfsFile.isSelected
+                      ? Icons.check_circle
+                      : Icons.circle_outlined,
+                  color: context.color.onSurface);
               return icon;
             }
             return SizedBox();
@@ -65,12 +69,18 @@ class FileGridViewItem extends StatelessWidget {
   Widget thumbView(BuildContext context) {
     if (this.dfsFile.fileFlag) {
       //如果是文件
-      if (this.dfsFile.thumb != null) {
+      if (this.dfsFile.thumb.isNotEmpty) {
         return Container(
             padding: EdgeInsets.all(8),
             width: FileGridViewItem.THUMB_SIZE,
             height: FileGridViewItem.THUMB_SIZE,
-            child: UCImage(this.dfsFile.thumb!, width: 0, height: 0, radius: Const.RADIUS, checkedDownload: false));
+            child: UCImage(this.dfsFile.thumb,
+                //这里的key一定要设置，否则可能导致表格列表对象移除时页面不更新
+                key: ValueKey(this.dfsFile.id),
+                width: 0,
+                height: 0,
+                radius: Const.RADIUS,
+                checkedDownload: false));
       } else {
         return Container(
             decoration: BoxDecoration(
@@ -83,11 +93,13 @@ class FileGridViewItem extends StatelessWidget {
                 ),
               ],
             ),
-            child: Icon(Icons.insert_drive_file, size: THUMB_SIZE, color: Colors.white));
+            child: Icon(Icons.insert_drive_file,
+                size: THUMB_SIZE, color: Colors.white));
       }
     } else {
       //如果是文件夹
-      return Icon(Icons.folder, size: FileGridViewItem.THUMB_SIZE, color: Color(0xFF6FBEEA));
+      return Icon(Icons.folder,
+          size: FileGridViewItem.THUMB_SIZE, color: Color(0xFF6FBEEA));
     }
   }
 }

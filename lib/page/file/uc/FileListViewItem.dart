@@ -35,14 +35,18 @@ class FileListViewItem extends StatelessWidget {
         Expanded(
             child: Container(
                 padding: EdgeInsets.only(top: 8, bottom: 8),
-                decoration: BoxDecoration(border: Border(bottom: BorderSide(color: context.color.outline, width: 1))),
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            color: context.color.outline, width: 1))),
                 child: Row(children: [
                   Expanded(
                       child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       context.textBody(this.dfsFile.name),
-                      context.textSecondarySmall("${this.dfsFile.date}  ${this.dfsFile.size.dataSize}")
+                      context.textSecondarySmall(
+                          "${this.dfsFile.date}  ${this.dfsFile.size.dataSize}")
                     ],
                   )),
                   this.checkIconView(context),
@@ -53,14 +57,20 @@ class FileListViewItem extends StatelessWidget {
   }
 
   ///选择图标
-  Widget checkIconView(BuildContext context) => this.fi.selectedVN.build((value) {
+  Widget checkIconView(BuildContext context) =>
+      this.fi.selectedVN.build((value) {
         if (this.fi.isSelectMode) {
           //选择模式
-          return Icon(this.dfsFile.isSelected ? Icons.check_circle : Icons.circle_outlined, color: context.color.onSurface);
+          return Icon(
+              this.dfsFile.isSelected
+                  ? Icons.check_circle
+                  : Icons.circle_outlined,
+              color: context.color.onSurface);
         }
         if (!this.dfsFile.fileFlag) {
           //这是一个文件夹的时候
-          return Icon(Icons.chevron_right, color: context.color.onSurface, size: 30);
+          return Icon(Icons.chevron_right,
+              color: context.color.onSurface, size: 30);
         }
         //这是一个文件的时候
         return SizedBox();
@@ -70,8 +80,15 @@ class FileListViewItem extends StatelessWidget {
   Widget thumbView(BuildContext context) {
     if (this.dfsFile.fileFlag) {
       //如果是文件
-      if (this.dfsFile.thumb != null) {
-        return UCImage(this.dfsFile.thumb!, width: THUMB_SIZE, height: THUMB_SIZE, radius: Const.RADIUS, checkedDownload: false);
+      if (this.dfsFile.thumb.isNotEmpty) {
+        return UCImage(this.dfsFile.thumb,
+
+            //这里的key一定要设置，否则可能导致表格列表对象移除时页面不更新
+            key: ValueKey(this.dfsFile.id),
+            width: THUMB_SIZE,
+            height: THUMB_SIZE,
+            radius: Const.RADIUS,
+            checkedDownload: false);
       } else {
         return Container(
             decoration: BoxDecoration(
@@ -84,7 +101,8 @@ class FileListViewItem extends StatelessWidget {
                 ),
               ],
             ),
-            child: Icon(Icons.insert_drive_file, size: THUMB_SIZE, color: Colors.white));
+            child: Icon(Icons.insert_drive_file,
+                size: THUMB_SIZE, color: Colors.white));
       }
     } else {
       //如果是文件夹
