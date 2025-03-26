@@ -8,16 +8,16 @@ extension IntExtension on int? {
       return "0B";
     }
     if (value >= 1024 * 1024 * 1024 * 1024) {
-      return "${(value / (1024 * 1024 * 1024 * 1024)).truncateTo(2)}TB";
+      return "${(value / (1024 * 1024 * 1024 * 1024)).truncateTo(2)}T";
     }
     if (value >= 1024 * 1024 * 1024) {
-      return "${(value / (1024 * 1024 * 1024)).truncateTo(2)}GB";
+      return "${(value / (1024 * 1024 * 1024)).truncateTo(2)}G";
     }
     if (value >= 1024 * 1024) {
-      return "${(value / (1024 * 1024)).truncateTo(2)}MB";
+      return "${(value / (1024 * 1024)).truncateTo(2)}M";
     }
     if (value >= 1024) {
-      return "${(value / (1024)).truncateTo(2)}KB";
+      return "${(value / (1024)).truncateTo(2)}K";
     }
     return "${value}B";
   }
